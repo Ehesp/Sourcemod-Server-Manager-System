@@ -14,6 +14,7 @@
     src: url('../fonts/chunk-webfont.svg') format('svg');
   }
 }
+html { overflow-y: scroll; }
 body { background: #d9e3ec; }
 .row { margin: 0; }
 #page-wrapper { padding-left: 70px; transition: all .4s ease 0s; height: 100% }
@@ -77,8 +78,14 @@ ul.sidebar .sidebar-list a:hover {
   border-left: 3px solid #e99d1a;
   text-indent: 22px;
 }
+ul.sidebar .sidebar-list a:hover .menu-icon {
+  text-indent: 25px;
+}
 #page-wrapper:not(.active) ul.sidebar .sidebar-list a:hover span {
   border-left: 3px solid #e99d1a;
+}
+#page-wrapper:not(.active) ul.sidebar .sidebar-title {
+  display: none;
 }
 #content-wrapper {
   padding-left: 0;
@@ -89,7 +96,3 @@ ul.sidebar .sidebar-list a:hover {
 #page-wrapper.active { padding-left: 250px; }
 #page-wrapper.active #sidebar-wrapper { left: 150px; }
 #content-wrapper { width: 100%; }
-.row .header {
-  min-height: 60px;
-  background: #fff;
-}
