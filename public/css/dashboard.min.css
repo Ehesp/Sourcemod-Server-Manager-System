@@ -11,12 +11,12 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'Montserrat';
-    src: url('../fonts/chunk-webfont.svg') format('svg');
+    src: url('../fonts/montserrat-regular-webfont.svg') format('svg');
   }
 }
 html { overflow-y: scroll; }
-body { background: #d9e3ec; }
-.row { margin: 0; }
+body { background: #E3E9EE; }
+.row { margin: 0 0 15px 0; }
 #page-wrapper { padding-left: 70px; transition: all .4s ease 0s; height: 100% }
 #sidebar-wrapper { margin-left: -150px; left: -30px; width: 250px; background: #30426a; position: fixed; height: 100%; z-index: 10000; transition: all .4s ease 0s; }
 ul.sidebar {

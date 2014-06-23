@@ -21,7 +21,7 @@
 
 </head>
 <body ng-controller="MasterCtrl">
-  <div id="page-wrapper" ng-init="toggle" ng-class="{'active': toggle}">
+  <div id="page-wrapper" ng-class="{'active': toggle}">
 
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -54,37 +54,48 @@
       </ul>
     </div>
           
-      <!-- Page content -->
-      <div id="content-wrapper">
-        <!-- Keep all page content within the page-content inset div! -->
-        <div class="page-content">
-          <div class="row">
-              <div class="header col-xs-12">
-                <div class="meta pull-left">
-                  <div class="page">
-                    Toggle = {{toggle}}
-                  </div>
-                  <div class="breadcrumb-links">
-                    Home / Dashboard {{window_width}}
-                  </div>
-                </div>
-                <div class="user pull-right">
-                  <ul>
-                    <li> {{old}} = 
-              {{new}}</li>
-                    <li>B</li>
-                    <li>
-                      <a href="#">
-                        <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/2b/2b645d34509714b08352da02f13d8db7f0b5c1d5_full.jpg">
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+    <!-- Page content -->
+    <div id="content-wrapper">
+      <div class="page-content">
+        <div class="row header">
+          <div class="col-xs-12">
+            <div class="meta pull-left">
+              <div class="page">
+                Dashboard
               </div>
-             
+              <div class="breadcrumb-links">
+                Home / Dashboard {{window_width}}
+              </div>
+            </div>
+            <div class="user pull-right">
+              <ul>
+                <li>A</li>
+                <li>B</li>
+                <li>
+                  <a href="#">
+                    <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/2b/2b645d34509714b08352da02f13d8db7f0b5c1d5_full.jpg">
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3">Content</div>
+          <div class="col-lg-3">Content</div>
+          <div class="col-lg-3">Content</div>
+          <div class="col-lg-3">Content</div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="widget">
+              <div class="widget-title">Header</div>
+              <div class="widget-body">Body</div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
       
     </div>
 </body>
