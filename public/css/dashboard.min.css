@@ -83,6 +83,7 @@ ul.sidebar .sidebar-list a:hover .menu-icon {
 }
 #page-wrapper:not(.active) ul.sidebar .sidebar-list a:hover span {
   border-left: 3px solid #e99d1a;
+  text-indent: 22px;
 }
 #page-wrapper:not(.active) ul.sidebar .sidebar-title {
   display: none;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="SSMS">
 <head>
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,18 +12,23 @@
   [[ HTML::style('css/content.min.css') ]]
 
   [[ HTML::script('js/angular.min.js') ]]
-  [[ HTML::script('js/ng-bootstrap.min.js') ]]
+  [[ HTML::script('js/ng-bootstrap-tpls.min.js') ]]
+  [[ HTML::script('js/angular-cookies.js') ]]
+
+  [[ HTML::script('js/angular/bootstrap.js') ]]
+
+
 
 </head>
-<body>
-  <div id="page-wrapper" ng-class="{'active': toggle}">
+<body ng-controller="MasterCtrl">
+  <div id="page-wrapper" ng-init="toggle" ng-class="{'active': toggle}">
 
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
       <ul class="sidebar">
         <li class="sidebar-main">
-          <a href="#" ng-init="toggle = true" ng-click="toggle = !toggle">
-            SSMS
+          <a href="#" ng-click="toggleSidebar()">
+            SSMS 
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
@@ -31,7 +36,7 @@
           <span>NAVIGATION</span>
         </li>
         <li class="sidebar-list">
-          <a href="#">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+          <a href="http://127.0.0.1/git/Sourcemod-Server-Manager-System/public/">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
         </li>
         <li class="sidebar-list">
           <a href="#">Servers <span class="menu-icon fa fa-tasks"></span></a>
@@ -57,15 +62,16 @@
               <div class="header col-xs-12">
                 <div class="meta pull-left">
                   <div class="page">
-                    Dashboard
+                    Toggle = {{toggle}}
                   </div>
                   <div class="breadcrumb-links">
-                    Home / Dashboard
+                    Home / Dashboard {{window_width}}
                   </div>
                 </div>
                 <div class="user pull-right">
                   <ul>
-                    <li>A</li>
+                    <li> {{old}} = 
+              {{new}}</li>
                     <li>B</li>
                     <li>
                       <a href="#">
@@ -75,6 +81,7 @@
                   </ul>
                 </div>
               </div>
+             
           </div>
         </div>
       </div>
