@@ -47,7 +47,7 @@
 }
 
 .widget {
-  background-color: #ffffff;
+  background: #ffffff;
   border: 1px solid transparent;
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -59,9 +59,7 @@
   color: #767676;
   background-color: #f6f6f6;
   padding: 10px 15px;
-  border-bottom: 1px solid transparent;
-  border-top-right-radius: 1px;
-  border-top-left-radius: 1px;
+  border-bottom: 1px solid #e9e9e9;
 }
 
 .widget .widget-body {
