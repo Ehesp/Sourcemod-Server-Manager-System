@@ -9,7 +9,6 @@
   [[ HTML::style('css/bootstrap.min.css') ]]
   [[ HTML::style('css/font-awesome.min.css') ]]
   [[ HTML::style('css/dashboard.min.css') ]]
-  [[ HTML::style('css/content.min.css') ]]
 
   [[ HTML::script('js/angular.min.js') ]]
   [[ HTML::script('js/ng-bootstrap-tpls.min.js') ]]
@@ -104,7 +103,7 @@
           <div class="col-lg-4">
             <div class="widget">
               <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
-              <div class="widget-body">
+              <div class="widget-body no-padding">
 
                 <table class="table">
                   <tbody>
