@@ -69,8 +69,6 @@
             </div>
             <div class="user pull-right">
               <ul>
-                <li>A</li>
-                <li>B</li>
                 <li>
                   <a href="#">
                     <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/2b/2b645d34509714b08352da02f13d8db7f0b5c1d5_full.jpg">
@@ -81,15 +79,64 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-3">Content</div>
-          <div class="col-lg-3">Content</div>
-          <div class="col-lg-3">Content</div>
-          <div class="col-lg-3">Content</div>
+          <div class="col-lg-3">
+            <div class="widget">
+              <div class="widget-body">Body</div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget">
+              <div class="widget-body">Body</div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget">
+              <div class="widget-body">Body</div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="widget">
+              <div class="widget-body">Body</div>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-4">
             <div class="widget">
-              <div class="widget-title">Header</div>
+              <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
+              <div class="widget-body">
+
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>Server Name</td>
+                      <td>0/32</td>
+                    </tr>                    <tr>
+                      <td>Server Name</td>
+                      <td>0/32</td>
+                    </tr>                    <tr>
+                      <td>Server Name</td>
+                      <td>0/32</td>
+                    </tr>                    <tr>
+                      <td>Server Name</td>
+                      <td>0/32</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="widget">
+              <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
+              <div class="widget-body">Body</div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="widget">
+              <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
               <div class="widget-body">Body</div>
             </div>
           </div>
