@@ -1,6 +1,6 @@
 var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies']);
 
-app.controller('MasterCtrl', function($scope, $rootScope, $cookieStore)
+app.controller('MasterCtrl', function($scope, $cookieStore)
 {
 	var mobileView = 992;
 
@@ -13,28 +13,28 @@ app.controller('MasterCtrl', function($scope, $rootScope, $cookieStore)
 			if(angular.isDefined($cookieStore.get('toggle')))
 			{
 				if($cookieStore.get('toggle') == false)
-					$rootScope.toggle = false;
+					$scope.toggle = false;
 
 				else
-					$rootScope.toggle = true;
+					$scope.toggle = true;
 			}
 			else 
 			{
-				$rootScope.toggle = true;
+				$scope.toggle = true;
 			}
 		}
 		else
 		{
-			$rootScope.toggle = false;
+			$scope.toggle = false;
 		}
 
 	});
 
 	$scope.toggleSidebar = function() 
 	{
-		$rootScope.toggle = ! $scope.toggle;
+		$scope.toggle = ! $scope.toggle;
 
-		$cookieStore.put('toggle', $rootScope.toggle);
+		$cookieStore.put('toggle', $scope.toggle);
 	};
 
 	window.onresize = function() { $scope.$apply(); };
