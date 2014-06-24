@@ -13,7 +13,14 @@
 
 App::before(function($request)
 {
-	//
+	if (Auth::guest())
+	{
+		View::share('SteamLoginUrl',
+			Ssms\Steam\Login::genUrl(
+				Config::get('steam.returnTo'), true
+			)
+		);
+	}
 });
 
 
