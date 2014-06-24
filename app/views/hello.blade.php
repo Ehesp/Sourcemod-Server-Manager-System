@@ -117,6 +117,13 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-warning">
+              <strong>Warning!</strong> Better check yourself, you're not looking too good.
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-3 col-xs-6">
             <div class="widget">
               <div class="widget-body">

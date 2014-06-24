@@ -37,6 +37,9 @@
   .row > div {
     margin-bottom: 15px;
   }
+  .alert {
+    margin-bottom: 0;
+  }
   #page-wrapper {
     padding-left: 70px;
     transition: all .4s ease 0s;
