@@ -50,7 +50,9 @@
 
 /* Sidebar */
   ul.sidebar {
-    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 45px;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -118,6 +120,29 @@
   ul.sidebar .sidebar-list a:hover .menu-icon {
     text-indent: 25px;
   }
+  .sidebar-footer {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Montserrat';
+    background: #273759;
+  }
+  #page-wrapper:not(.active) .sidebar-footer {
+    display: none;
+  }
+  .sidebar-footer div a {
+    color: #b2bfdc;
+    font-size: 12px;
+    line-height: 43px;
+  }
+  .sidebar-footer div a:hover {
+    color: #ffffff;
+    text-decoration: none;
+  }
 
 /* Main Content */
   #content-wrapper {
@@ -139,8 +164,10 @@
   .row.header {
     height: 60px;
     background: #fff;
-    padding-right: 0;
     font-family: "Montserrat";
+  }
+  .row.header > div:last-child {
+    padding-right: 0;
   }
   .row.header .meta .page {
     font-size: 17px;
