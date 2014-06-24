@@ -28,9 +28,14 @@
   }
   body {
     background: #f3f3f3;
+    font-family: "Montserrat";
   }
   .row {
-    margin: 0 0 15px 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .row > div {
+    margin-bottom: 15px;
   }
   #page-wrapper {
     padding-left: 70px;
@@ -47,6 +52,19 @@
     z-index: 10000;
     transition: all .4s ease 0s;
   }
+  .green {
+    background: #23ae89 !important;
+  }
+  .blue {
+    background: #2361ae !important;
+  }
+  .orange {
+    background: #d3a938 !important;
+  }
+  .red {
+    background: #ae2323 !important;
+  }
+
 
 /* Sidebar */
   ul.sidebar {
@@ -56,7 +74,6 @@
     padding: 0;
     margin: 0;
     list-style: none;
-    font-family: 'Montserrat';
     text-indent: 20px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -128,7 +145,6 @@
     padding: 0;
     margin: 0;
     text-align: center;
-    font-family: 'Montserrat';
     background: #273759;
   }
   #page-wrapper:not(.active) .sidebar-footer {
@@ -164,7 +180,6 @@
   .row.header {
     height: 60px;
     background: #fff;
-    font-family: "Montserrat";
   }
   .row.header > div:last-child {
     padding-right: 0;
@@ -189,26 +204,30 @@
   .row.header .meta .breadcrumb-links {
     font-size: 10px;
   }
-  .row.header .user ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .row.header .user > .item {
+    width: 65px;
     height: 60px;
-  }
-  .row.header .user ul li {
+    float: right;
     display: inline-block;
-    height: 60px;
-    min-width: 60px;
-    border-left: 1px solid #dedede;
+    text-align: center;
+    vertical-align: middle;
   }
-  .row.header .user ul li a {
+
+  .row.header .user > .item a {
+    color: #919191;
     display: block;
   }
-  .row.header .user ul li a img, .row.header .user ul li a i {
+  .row.header .user > .item i {
+    font-size: 20px;
+    line-height: 55px;
+  }
+  .row.header .user > .item img {
     width: 40px;
     height: 40px;
-    margin: 10px;
+    margin-top: 10px;
+    border-radius: 2px;
   }
+
   /* Widgets */
   .widget {
     background: #ffffff;
@@ -229,4 +248,25 @@
   }
   .widget .widget-body.no-padding {
     padding: 0;
+  }
+  .widget .widget-icon {
+    background: #30426a;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+  }
+  .widget .widget-icon i {
+    line-height: 66px;
+    color: #ffffff;
+    font-size: 30px;
+  }
+  .widget .widget-content {
+
+  }
+  .widget .widget-content .title {
+    font-size: 28px;
+    display: block;
   }
