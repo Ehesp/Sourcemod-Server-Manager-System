@@ -87,9 +87,13 @@
                   <img src="http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/2b/2b645d34509714b08352da02f13d8db7f0b5c1d5_full.jpg">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li>
-                    <a href>Image</a>
-                  </li>
+                  <li class="dropdown-header">|LZ| Alias</li>
+                  <li class="divider"></li>
+                  <li class="link"><a href="#">Steam Profile</a></li>
+                  <li class="link"><a href="#">Steam Rep</a></li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a href="#">Logout</a></li>
                 </ul>               
               </div>
               <div class="item dropdown">
@@ -97,8 +101,9 @@
                   <i class="fa fa-bell-o"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">Dropdown header</li>
                   <li>
-                    <a href>Bell</a>
+                    <a href="#">Bell</a>
                   </li>
                 </ul>
               </div>
