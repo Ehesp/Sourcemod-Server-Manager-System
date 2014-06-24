@@ -10,8 +10,12 @@ class AuthController extends BaseController {
 		{
 			dd("An error occured (null)");
 		}
+		else
+		{
+			$steamObject = new SteamId($validate);
 
-		dd($validate);
+			dd($steamObject->getNickname());
+		}
 	}
 
 }
