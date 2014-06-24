@@ -79,6 +79,7 @@
                 Home / Dashboard
               </div>
             </div>
+            @if(Auth::check())
             <div class="user pull-right">
               <div class="item dropdown">
                 <a href="#" class="dropdown-toggle">
@@ -106,6 +107,13 @@
                 </ul>
               </div>
             </div>
+            @else
+            <div class="login pull-right">
+              <a href="[[ $SteamLoginUrl ]]">
+                [[ HTML::image('img/steam/login-sm.png', 'Steam Login') ]]
+              </a>
+            </div>
+            @endif
           </div>
         </div>
         <div class="row">
@@ -196,7 +204,7 @@
           <div class="col-lg-6">
             <div class="widget">
               <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
-              <div class="widget-body">[[ $SteamLoginUrl ]]</div>
+              <div class="widget-body">Body</div>
             </div>
           </div>
         </div>

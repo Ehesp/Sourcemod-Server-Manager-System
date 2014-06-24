@@ -180,6 +180,7 @@
   .row.header {
     height: 60px;
     background: #fff;
+    margin-bottom: 15px;
   }
   .row.header > div:last-child {
     padding-right: 0;
@@ -203,6 +204,10 @@
   }
   .row.header .meta .breadcrumb-links {
     font-size: 10px;
+  }
+  .row.header .login a {
+    padding: 18px;
+    display: block;
   }
   .row.header .user > .item {
     width: 65px;
