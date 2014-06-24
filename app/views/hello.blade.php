@@ -16,8 +16,6 @@
 
   [[ HTML::script('js/angular/bootstrap.js') ]]
 
-
-
 </head>
 <body ng-controller="MasterCtrl">
   <div id="page-wrapper" ng-class="{'active': toggle}">
@@ -75,7 +73,7 @@
           <div class="col-xs-12">
             <div class="meta pull-left">
               <div class="page">
-                Dashboard
+                Dashboard 
               </div>
               <div class="breadcrumb-links">
                 Home / Dashboard
@@ -198,7 +196,7 @@
           <div class="col-lg-6">
             <div class="widget">
               <div class="widget-title"><i class="fa fa-cubes"></i> Game Servers</div>
-              <div class="widget-body">Body</div>
+              <div class="widget-body">[[ $SteamLoginUrl ]]</div>
             </div>
           </div>
         </div>
