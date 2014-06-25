@@ -23,9 +23,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'ssms',
-			'username'  => 'root',
-			'password'  => '',
+			'database'  => $_ENV['database.name'],
+			'username'  => $_ENV['database.user'],
+			'password'  => $_ENV['database.password'],
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
