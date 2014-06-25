@@ -27,7 +27,7 @@
   <li class="sidebar-list">
     <a href="#">Settings <span class="menu-icon fa fa-cogs"></span></a>
   </li>
-  <li class="sidebar-title"><span>QUICK LINKS</span></li>
+  <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
   <li class="sidebar-list">
     <a href="#">
       Forums <span class="menu-icon fa fa-external-link"></span>
