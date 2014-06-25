@@ -17,3 +17,5 @@ Route::get('/', function()
 });
 
 Route::get('login', 'AuthController@validateSteamLogin');
+
+Route::get('logout', 'AuthController@logout');
