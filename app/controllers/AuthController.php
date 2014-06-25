@@ -46,7 +46,9 @@ class AuthController extends BaseController {
 
 				Auth::login($user);
 
-				return Redirect::to('/');
+				return Redirect::to('/')
+					->withFlashNotification('Thanks for using SSMS! Please update any settings below.')
+					->withFlashNotificationLevel('success');
 			}
 			else
 			{
@@ -70,7 +72,9 @@ class AuthController extends BaseController {
 
 						Auth::login($user);
 
-						return Redirect::to('/');
+						return Redirect::to('/')
+							->withFlashNotification('You have successfully logged in!')
+							->withFlashNotificationLevel('success');
 					}
 				}
 			}
