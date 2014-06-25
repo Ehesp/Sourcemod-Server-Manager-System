@@ -25,7 +25,7 @@
     <a href="#">Game Types <span class="menu-icon fa fa-gamepad"></span></a>
   </li>
   <li class="sidebar-list">
-    <a href="#">Settings <span class="menu-icon fa fa-cogs"></span></a>
+    <a href="[[ URL::route('settings') ]]">Settings <span class="menu-icon fa fa-cogs"></span></a>
   </li>
   <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
   <li class="sidebar-list">
