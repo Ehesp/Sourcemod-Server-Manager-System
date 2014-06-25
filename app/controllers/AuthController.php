@@ -3,10 +3,10 @@
 class AuthController extends BaseController {
 
 	/**
-     * Returns an array of user details with a given SteamId object
-     *
-     * @return array
-     */
+	* Returns an array of user details with a given SteamId object
+	*
+	* @return array
+	*/
 
 	protected function userDetails($steamObject, $enabled = 1)
 	{
@@ -21,10 +21,10 @@ class AuthController extends BaseController {
 	}
 
 	/**
-     * Validates an incoming response from Steam against the database
-     *
-     * @return Redirect
-     */
+	* Validates an incoming response from Steam against the database
+	*
+	* @return Redirect
+	*/
 
 	public function validateSteamLogin()
 	{
@@ -78,10 +78,10 @@ class AuthController extends BaseController {
 	}
 
 	/**
-     * Logs the user out of the application
-     *
-     * @return Redirect
-     */
+	* Logs the user out of the application
+	*
+	* @return Redirect
+	*/
 
 	public function logout()
 	{
