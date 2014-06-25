@@ -20,6 +20,11 @@
           </li>
           <li class="divider"></li>
           <li class="link">
+            <a href="#">
+              @lang('header.yourProfile')
+            </a>
+          </li>
+          <li class="link">
             <a href="http://steamcommunity.com/profiles/[[ Auth::user()->community_id ]]" target="_blank">
               @lang('header.steamProfile')
             </a>
