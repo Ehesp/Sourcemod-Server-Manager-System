@@ -32,7 +32,7 @@ class AuthController extends BaseController {
 
 		if (is_null($validate))
 		{
-			throw new Exception("The response from Steam was invalid");
+			throw new Exception(Lang::get('auth.invalidResponse'));
 		}
 		else
 		{
@@ -47,7 +47,7 @@ class AuthController extends BaseController {
 				Auth::login($user);
 
 				return Redirect::to('/')
-					->withFlashNotification('Thanks for using SSMS! Please update any settings below.')
+					->withFlashNotification(Lang::get('auth.firstLogin'))
 					->withFlashNotificationLevel('success');
 			}
 			else
@@ -56,13 +56,13 @@ class AuthController extends BaseController {
 
 				if (is_null($user))
 				{
-					throw new Exception("Steam user doesn't have access");
+					throw new Exception(Lang::get('auth.noAccess'));
 				}
 				else
 				{
 					if ($user->enabled == 0)
 					{
-						throw new Exception("Steam user has their access disabled");
+						throw new Exception(Lang::get('auth.accountDisabled'));
 					}
 					else
 					{
@@ -73,7 +73,7 @@ class AuthController extends BaseController {
 						Auth::login($user);
 
 						return Redirect::to('/')
-							->withFlashNotification('You have successfully logged in!')
+							->withFlashNotification(Lang::get('auth.successfulLogin'))
 							->withFlashNotificationLevel('success');
 					}
 				}
