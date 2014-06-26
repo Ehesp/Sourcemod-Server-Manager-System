@@ -37,15 +37,26 @@ class InstallCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->info("\n Running installer script... \n\n");
+		$this->info("\nRunning installer script on " . App::environment() . " environment... \n");
 
-		if ($this->confirm("   This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: \n\n"))
+		if ($this->confirm("This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: "))
 		{
-		    $this->comment("\n Said yes!");
+		    try
+		    {
+		    	$this->call("migrate:reset");
+				$this->call('migrate', ['--package' => 'machuga/authority-l4']);
+				$this->call('migrate');
+
+		    }
+		    catch (Exception $e) 
+		    {
+		    	$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
+		    	$this->question("\nHave you updated your " . App::environment() . " database configuration?");
+		    }
 		}
 		else
 		{
-			$this->error("\n   *** Installer aborted. ***");
+			$this->error("\n*** Installer aborted. ***");
 		}
 	}
 
