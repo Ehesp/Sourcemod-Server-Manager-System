@@ -44,8 +44,8 @@ class AuthController extends BaseController {
 					$this->userDetails($steamObject)
 				);
 
-				$user->assignRole(
-					Role::whereName('super_admin')->first()
+				$user->assignRoles(
+					Role::get()
 				);
 
 				Auth::login($user);
