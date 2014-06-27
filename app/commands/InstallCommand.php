@@ -43,15 +43,19 @@ class InstallCommand extends Command {
 		{
 		    try
 		    {
-		    	$this->call("migrate:reset");
-				$this->call('migrate', ['--package' => 'machuga/authority-l4']);
+		    	if (! Schema::hasTable('migrations')) {
+		    		$this->call("migrate:install");
+		    	}
+				
+				$this->call("migrate:reset");
 				$this->call('migrate');
+				$this->call('db:seed');
 
 		    }
 		    catch (Exception $e) 
 		    {
-		    	$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
-		    	$this->question("\nHave you updated your " . App::environment() . " database configuration?");
+				$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
+				$this->question("\nHave you updated your " . App::environment() . " database configuration?");
 		    }
 		}
 		else
