@@ -44,6 +44,10 @@ class AuthController extends BaseController {
 					$this->userDetails($steamObject)
 				);
 
+				$user->assignRole(
+					Role::whereName('super_admin')->first()
+				);
+
 				Auth::login($user);
 
 				return Redirect::to('/')
