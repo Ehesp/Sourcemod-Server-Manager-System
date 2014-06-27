@@ -2,8 +2,6 @@
 
 class BaseController extends Controller {
 
-	use Efficiently\AuthorityController\ControllerAdditions;
-
 	/**
 	 * Setup the layout used by the controller.
 	 *
