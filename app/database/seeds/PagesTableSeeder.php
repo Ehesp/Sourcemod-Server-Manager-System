@@ -4,7 +4,10 @@ class PagesTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('pages')->truncate();
+        /**
+        * Dashboard
+        *
+        */
 
         $page = Page::create([
         	'name' => 'dashboard',
@@ -13,9 +16,14 @@ class PagesTableSeeder extends Seeder {
         	'slug' => 'dashboard',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::all()
         );
+
+        /**
+        * Servers
+        *
+        */
 
         $page = Page::create([
             'name' => 'servers',
@@ -24,9 +32,14 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'servers',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::all()
         );
+
+        /**
+        * Active Plugins
+        *
+        */
 
         $page = Page::create([
             'name' => 'active_plugins',
@@ -36,8 +49,13 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRole(
-            Role::whereName('super_admin')->first()
+            Role::whereName('user')->first()
         );
+
+        /**
+        * Multi Console
+        *
+        */
 
         $page = Page::create([
             'name' => 'multi_console',
@@ -46,9 +64,14 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'multi-console',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::whereName('super_admin')->whereName('admin')->get()
         );
+
+        /**
+        * Admin Activity
+        *
+        */
 
         $page = Page::create([
             'name' => 'admin_activity',
@@ -57,9 +80,14 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'admin-activity',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::whereName('super_admin')->whereName('admin')->get()
         );
+
+        /**
+        * Game Types
+        *
+        */
 
         $page = Page::create([
             'name' => 'game_types',
@@ -68,9 +96,14 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'game-types',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::all()
         );
+
+        /**
+        * Settings
+        *
+        */
 
         $page = Page::create([
             'name' => 'settings',
