@@ -4,18 +4,11 @@ The Sourcemod Server Management System is a PHP based web application designed t
 
 This tool is based on Snelvuurs original [SSMS](https://github.com/Snelvuur/SSMS).
 
-*This tool is still in development*
+> *This tool is still in development*
 
 ### Installation
 
 #### Server Requirements
-
-Your server/environment must have the following installed:
-
-- [Git](http://git-scm.com/)
-- [Composer](https://getcomposer.org/download/)
-
-> If you do not have CLI access, please look at the packaged installation method.
 
 Your web server must have the following minimum requirements:
 
@@ -26,7 +19,14 @@ Your web server must have the following minimum requirements:
 - Apache mod_rewrite installed/enabled
 - Database (SQL, SQLite)
 
-##### CLI Installation via Git
+##### CLI Installation via Git (prefered method)
+
+Installation via the command line requires a few tools to be installed on your environment:
+
+- [Git](http://git-scm.com/)
+- [Composer](https://getcomposer.org/)
+- [Node JS](http://nodejs.org/download/)
+- [Bower](http://nodejs.org/download/) (requires Node JS' package manager [NPM](https://www.npmjs.org/))
 
 Start off by cloning the repository into your web directory:
 
@@ -35,6 +35,8 @@ Start off by cloning the repository into your web directory:
 In the root of your cloned directory, run the following Composer command to install the tools dependancies:
 
 `composer install`
+
+Once this command has completed, a `bower install` command will automatically fire to download the applications assets.
 
 Ensure your storage directory is readable, writeable and executable:
 > This applies to Unix/Linux based machines only.
@@ -49,7 +51,7 @@ TO DO: Instructions on FTP zip upload
 
 ##### Environment Setup
 
-This tool provides a simple way to setup different working environments. By default the application is set to `local` development, and thus any configuration options within `app/config/local` override the defaults within `app/config`.
+This tool provides a simple way to setup different working environments. By default the application is set to `local` development, and thus any configuration options within `app/config/local` override the defaults within `app/config`. *Feel free to set the environment to another name such as `development` with your own config overrides in `app/config/development`. N.B. `testing` is already in use by the Laravel Framework*.
 
 To set the environment into `production` mode (if on a live webserver), you need to set a PHP environment variable named `ENV` to `production`. This can either be done via the virtual host or in the `public/.htaccess` <- TO DO: instructions on .htaccess env vars
 
@@ -78,11 +80,13 @@ There are two ways to configure this file; the advised way by running the `php a
 
 ###### Database Migrations via CLI
 
-The application allows for a quick installer using the command line. In the root of the application, input the command:
+The application has a quick installer using the command line. In the root of the application, input the command:
 
 `php artisan ssms:install`
 
 Follow the instructions to setup your database migrations and seed data.
+
+> This file requires a database config file for the current environment!
 
 ###### Database Migrations via SQL
 
