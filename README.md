@@ -43,21 +43,25 @@ Ensure your storage directory is readable, writeable and executable:
 
 ##### Packaged Installation
 
-Upload via FTP
+TO DO: Instructions on FTP zip upload
 
 #### Environment & Database Configuration
 
 ##### Environment Setup
 
-This tool provides a simple way to setup different working environments. By default the application is set to `local` development, and thus any configuration options within `app/config/local` override the defaults within `app/confg`.
+This tool provides a simple way to setup different working environments. By default the application is set to `local` development, and thus any configuration options within `app/config/local` override the defaults within `app/config`.
 
-To set the environment into `production` mode (if on a live webserver), you need to set a PHP environment variable named `ENV` to `production`. This can either be done via the virtual host or in the `public/.htaccess` ???
+To set the environment into `production` mode (if on a live webserver), you need to set a PHP environment variable named `ENV` to `production`. This can either be done via the virtual host or in the `public/.htaccess` <- TO DO: instructions on .htaccess env vars
 
 ##### Database Setup
 
 First, ensure you have a database setup with connected user privilages and details to hand.
 
-To prevent your database details from being hardcoded into the application, the application looks for a file named `.env.*.php` based on the current environment. For example, to setup your database in `local` a local environment, create a file named `.env.local.php` in the root of your install, with the following:
+To keep your sensitive details out of the application (incase you push your own version to a git based service), the database details are loaded from an environment file, which git ignores. These files are located in the root of your application, with the naming convention of `.env.*.php`. For example in local environment, the file will be named `.env.local.php`.
+
+> In production, the file is named `.env.php`.
+
+There are two ways to configure this file; the advised way by running the `php artisan ssms:dbconfig` command, or manually creating the file yourself with the following content:
 
 ~~~
 <?php
@@ -72,21 +76,19 @@ To prevent your database details from being hardcoded into the application, the 
 ?>
 ~~~
 
-For production environment, this file will be called `.env.production.php` using the same format.
-
 ###### Database Migrations via CLI
 
 The application allows for a quick installer using the command line. In the root of the application, input the command:
 
 `php artisan ssms:install`
 
-Follow the instructions to setup your database.
+Follow the instructions to setup your database migrations and seed data.
 
 ###### Database Migrations via SQL
 
 If you're unable to setup your database via the artisan CLI, run the following SQL file in your database to create the tables needed for the application:
 
-TO DO: Setup raw SQL
+TO DO: Setup raw SQL commands
 
 ### Credits
 
