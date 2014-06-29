@@ -20,26 +20,19 @@ App::before(function($request)
 
 	if (Auth::guest())
 	{
-		// Share the steam login URL
+		$pages = Role::whereName('guest')->first()->pages;
+
+		App::instance('pages', $pages);
+
+		View::share('sidebarPages',
+			$pages
+		);
+
 		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
 				Config::get('steam.returnTo'), true
 			)
 		);
-
-		// Load pages guest is allowed to access
-		$pages = Role::whereName('guest')->first()->pages;
-
-		if (count($pages) == 0)
-		{
-			// dd("Guest has no pages they can access");
-		}
-		else
-		{
-			View::share('sidebarPages',
-				$pages
-			);
-		}
 	}
 
 	/**
@@ -49,8 +42,12 @@ App::before(function($request)
 
 	else
 	{
+		$pages = Auth::user()->pages;
+
+		App::instance('pages', $pages);
+	
 		View::share('sidebarPages',
-			Auth::user()->pages
+			$pages
 		);
 	}
 
@@ -85,25 +82,13 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
+Route::filter('access', function()
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
-		}
-	}
-});
+	$auth = new Ssms\PageMngt\Access;
 
+	$pages = App::make('pages');
 
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+	$auth->checkPageAccess($pages, Request::segment(1));
 });
 
 /*
