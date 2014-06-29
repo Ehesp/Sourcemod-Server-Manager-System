@@ -7,14 +7,14 @@
 	<title>@yield('page_meta_title', 'SSMS')</title>
 
   @section('scripts')
-    [[ HTML::style('css/bootstrap.min.css') ]]
-    [[ HTML::style('css/font-awesome.min.css') ]]
+    [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
+    [[ HTML::style('assets/vendor/font-awesome/css/font-awesome.min.css') ]]
     [[ HTML::style('css/dashboard.min.css') ]]
 
-    [[ HTML::script('js/angular.min.js') ]]
-    [[ HTML::script('js/ng-bootstrap-tpls.min.js') ]]
-    [[ HTML::script('js/angular-cookies.js') ]]
+    [[ HTML::script('assets/vendor/angular/angular.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') ]]
 
+    [[ HTML::script('assets/vendor/angular-cookies/angular-cookies.min.js') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
   @show
 
