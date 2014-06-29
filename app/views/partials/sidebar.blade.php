@@ -11,26 +11,23 @@
       <a href="[[ URL::to($page->slug) ]]">[[ $page->friendly_name ]] <span class="menu-icon [[ $page->icon ]]"></span></a>
     </li>
   @endforeach
-  <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
-  <li class="sidebar-list">
-    <a href="#">
-      Forums <span class="menu-icon fa fa-external-link"></span>
-    </a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">
-      IRC <span class="menu-icon fa fa-comment"></span>
-    </a>
-  </li>
+  @if(count($quickLinks) != 0)
+    <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
+    @foreach($quickLinks as $link)
+      <li class="sidebar-list">
+        <a href="[[ $link->url ]]" target="_blank">[[ $link->name ]] <span class="menu-icon [[ $link->icon ]]"></span></a>
+      </li>
+    @endforeach
+  @endif
 </ul>
 <div class="sidebar-footer">
   <div class="col-xs-4">
-    <a href="https://github.com/Ehesp/Sourcemod-Server-Manager-System">
+    <a href="https://github.com/Ehesp/Sourcemod-Server-Manager-System" target="_blank">
       Github
     </a>
   </div>
   <div class="col-xs-4">
-    <a href="#">
+    <a href="http://lethal-zone.eu/donate" target="_blank">
       Donate
     </a>
   </div>

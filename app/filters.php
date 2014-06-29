@@ -59,7 +59,11 @@ App::before(function($request)
 	*
 	*/
 
-	
+	View::share('quickLinks',
+		DB::table('quick_links')->get([
+			'name', 'url', 'icon'
+		])
+	);
 
 
 });
