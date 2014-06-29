@@ -49,7 +49,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRole(
-            Role::whereName('user')->first()
+            Role::where('name', '!=', 'guest')->first()
         );
 
         /**
