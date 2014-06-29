@@ -1,8 +1,10 @@
 /bootstrap/compiled.php
 /vendor
+/app/config/local/database.php
 composer.phar
 composer.lock
 .env.*.php
 .env.php
 .DS_Store
+.idea
 Thumbs.db
