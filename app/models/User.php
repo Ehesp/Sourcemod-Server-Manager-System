@@ -64,7 +64,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	* Assign a user a role by ID or Object
+	* Assign a user multiple roles by Object
 	*
 	*/
 	public function assignRoles($roles)
@@ -81,5 +81,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function removeRole($role)
 	{
 		$this->roles()->detach($role);
+	}
+
+	/**
+	* The 'pages' accessor
+	*
+	*/
+	public function getPagesAttribute()
+	{
+	    if ( ! array_key_exists('pages', $this->relations)) $this->loadPages();
+
+	    return $this->getRelation('pages');
+	}
+
+	/**
+	* Load pages user is allowed to access and set the collection as 'pages' relation
+	*
+	*/
+	protected function loadPages()
+	{
+	    $pages = Page::join('page_role as pr', 'pr.page_id', '=', 'pages.id')
+	           ->join('role_user as ru', 'ru.role_id', '=', 'pr.role_id')
+	           ->where('ru.user_id', $this->id)
+	           ->distinct()
+	           ->get(['pages.*', 'user_id']);
+
+	    $hasMany = new Illuminate\Database\Eloquent\Relations\HasMany(Page::query(), $this, 'user_id', 'id');
+
+	    $hasMany->matchMany([$this], $pages, 'pages');
+
+	    return $this;
 	}
 }
