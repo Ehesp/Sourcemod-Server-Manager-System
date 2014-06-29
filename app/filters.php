@@ -20,15 +20,26 @@ App::before(function($request)
 
 	if (Auth::guest())
 	{
+		// Share the steam login URL
 		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
 				Config::get('steam.returnTo'), true
 			)
 		);
 
-		View::share('sidebarPages',
-			Role::whereName('admin')->first()->pages
-		);
+		// Load pages guest is allowed to access
+		$pages = Role::whereName('admin')->first()->pages;
+
+		if (count($pages) == 0)
+		{
+			// dd("Guest has no pages they can access");
+		}
+		else
+		{
+			View::share('sidebarPages',
+				Role::whereName('admin')->first()->pages
+			);
+		}
 	}
 
 	/**
@@ -42,6 +53,13 @@ App::before(function($request)
 			Auth::user()->pages
 		);
 	}
+
+	/**
+	* When any user visits
+	*
+	*/
+
+	
 
 
 });

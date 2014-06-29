@@ -6,27 +6,11 @@
     </a>
   </li>
   <li class="sidebar-title"><span>NAVIGATION</span></li>
-  <li class="sidebar-list">
-    <a href="http://127.0.0.1/git/Sourcemod-Server-Manager-System/public/">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">Servers <span class="menu-icon fa fa-tasks"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">Active Plugins <span class="menu-icon fa fa-sitemap"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">Multi-Console <span class="menu-icon fa fa-terminal"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">Admin Activity <span class="menu-icon fa fa-comments"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="#">Game Types <span class="menu-icon fa fa-gamepad"></span></a>
-  </li>
-  <li class="sidebar-list">
-    <a href="[[ URL::route('settings') ]]">Settings <span class="menu-icon fa fa-cogs"></span></a>
-  </li>
+  @foreach($sidebarPages as $page)
+    <li class="sidebar-list">
+      <a href="[[ URL::to($page->slug) ]]">[[ $page->friendly_name ]] <span class="menu-icon [[ $page->icon ]]"></span></a>
+    </li>
+  @endforeach
   <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
   <li class="sidebar-list">
     <a href="#">
