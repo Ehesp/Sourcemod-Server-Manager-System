@@ -65,7 +65,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRoles(
-            Role::whereName('super_admin')->whereName('admin')->get()
+            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
         );
 
         /**
@@ -81,7 +81,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRoles(
-            Role::whereName('super_admin')->whereName('admin')->get()
+            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
         );
 
         /**
