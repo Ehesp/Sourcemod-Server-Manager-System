@@ -26,7 +26,8 @@
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan clear-compiled",
-			"php artisan optimize"
+			"php artisan optimize",
+			"bower install"
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
