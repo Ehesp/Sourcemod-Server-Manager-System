@@ -12,3 +12,4 @@
 */
 
 	Artisan::add(new InstallCommand);
+	Artisan::add(new MakeDbConfigFileCommand);

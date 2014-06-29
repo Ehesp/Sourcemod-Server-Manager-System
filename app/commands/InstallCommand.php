@@ -18,7 +18,7 @@ class InstallCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Installer script for SSMS setup.';
+	protected $description = 'Installer script for SSMS setup';
 
 	/**
 	 * Create a new command instance.
@@ -50,33 +50,6 @@ class InstallCommand extends Command {
 
 		if ($this->confirm($question))
 		{
-			$this->line("\nChecking if database config file is present...");
-
-			$dbConfigFile = $this->fileName(App::environment());
-
-			if ($this->checkFile($dbConfigFile))
-			{
-				$this->line("Config file exists, updating the database.");
-			}
-			else
-			{
-				$this->error("No database config file exists, please provide your database details:");
-
-				$host = $this->ask('What is your database hostname?');
-				$name = $this->ask('What is your database name?');
-				$user = $this->ask('Who is your database user?');
-				$password = $this->ask('What is the database user password?');
-
-				try
-				{
-					$this->makeFile($dbConfigFile, $this->makeFileTemplate($host, $name, $user, $password));
-				}
-				catch (Exception $e)
-				{
-					$this->error("\nUnable to create config file, please check the FAQs: " . $e->getMessage());
-				}
-			}
-
 		    try
 		    {
 		    	if (! Schema::hasTable('migrations'))
@@ -92,7 +65,7 @@ class InstallCommand extends Command {
 		    catch (Exception $e) 
 		    {
 				$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
-				$this->question("\nHave you updated your " . App::environment() . " database configuration?");
+				$this->info("\nHave you updated your " . App::environment() . " database configuration?");
 		    }
 		}
 		else
@@ -123,39 +96,6 @@ class InstallCommand extends Command {
 		];
 	}
 
-	protected function fileName($environment)
-	{
-        if($environment == 'production')
-        {
-        	return '.env.php';
-        }
 
-        return '.env.' . $environment . '.php';
-	}
-
-	protected function makeFile($file, $content)
-	{
-        return file_put_contents($file, $content);
-	}
-
-	protected function checkFile($file)
-	{
-		return file_exists($file);
-	}
-
-	protected function makeFileTemplate($host, $name, $user, $password)
-	{
-		return
-		"<?php
-			\n
-			return array(
-				\n
-				'database.host' => $host,
-				'database.name' => $name,
-				'database.user' => $user,
-				'database.password' => $password,
-			\n
-			);";
-	}
 
 }
