@@ -13,14 +13,37 @@
 
 App::before(function($request)
 {
+	/**
+	* When user is not logged in
+	*
+	*/
+
 	if (Auth::guest())
 	{
-		View::share('SteamLoginUrl',
+		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
 				Config::get('steam.returnTo'), true
 			)
 		);
+
+		View::share('sidebarPages',
+			Role::whereName('admin')->first()->pages
+		);
 	}
+
+	/**
+	* When user is logged in
+	*
+	*/
+
+	else
+	{
+		View::share('sidebarPages',
+			Auth::user()->pages
+		);
+	}
+
+
 });
 
 
