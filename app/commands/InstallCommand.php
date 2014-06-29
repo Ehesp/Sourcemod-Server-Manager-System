@@ -1,5 +1,6 @@
 <?php
 
+use Ssms\Artisan\FileSystem\Files;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,6 +29,8 @@ class InstallCommand extends Command {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->filesystem = new Files();
 	}
 
 	/**
@@ -37,40 +40,50 @@ class InstallCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->info("\nRunning installer script on " . App::environment() . " environment... \n");
+		$configFile = $this->filesystem->getEnvDbConfigFileName(App::environment());
 
-		if ($this->option('mode') == 'install')
+		if (! $this->filesystem->checkFileExists($configFile))
 		{
-			$question = "This installer will attempt to create a config file, create & seed database tables. Do you wish to continue? [yes|no]: ";
+			$this->error("\nNo database configuration found.\nPlease create a $configFile file in your root directory with your database details.\n-> Alternativly run the `php artisan ssms:dbconfig` helper command.");
 		}
 		else
 		{
-			$question = "This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: ";
-		}
+			$this->line("\nRunning installer script on " . App::environment() . " environment... \n");
 
-		if ($this->confirm($question))
-		{
-		    try
-		    {
-		    	if (! Schema::hasTable('migrations'))
-				{
-					$this->call("migrate:install");
-				}
-				
-				$this->call("migrate:reset");
-				$this->call('migrate');
-				$this->call('db:seed');
+			if ($this->option('mode') == 'install')
+			{
+				$question = "This installer will attempt to create a config file, create & seed database tables. Do you wish to continue? [yes|no]: ";
+			}
+			else
+			{
+				$question = "This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: ";
+			}
 
-		    }
-		    catch (Exception $e) 
-		    {
-				$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
-				$this->info("\nHave you updated your " . App::environment() . " database configuration?");
-		    }
-		}
-		else
-		{
-			$this->error("\n*** Installer aborted. ***");
+			if ($this->confirm($question))
+			{
+			    try
+			    {
+			    	if (! Schema::hasTable('migrations'))
+					{
+						$this->call("migrate:install");
+					}
+					
+					$this->call("migrate:reset");
+					$this->call("migrate");
+					$this->call("db:seed");
+					$this->info("Installer complete!")
+
+			    }
+			    catch (Exception $e) 
+			    {
+					$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
+					$this->info("\nCheck your $configFile database credentials!");
+			    }
+			}
+			else
+			{
+				$this->error("\n*** Installer aborted. ***");
+			}
 		}
 	}
 

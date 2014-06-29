@@ -1,6 +1,6 @@
 <?php namespace Ssms\Artisan\FileSystem;
 
-class MakeFile {
+class Files {
 
 	public function makeFile($file, $path = '', $content)
 	{
@@ -10,5 +10,17 @@ class MakeFile {
 	public function checkFileExists($file, $path = '')
 	{
 		return file_exists($path.$file);
+	}
+
+	public function getEnvDbConfigFileName($environment)
+	{
+		if ($environment == 'production')
+		{
+			return '.env.php';
+		}
+		else
+		{
+			return '.env.' . $environment . '.php';
+		}
 	}
 }

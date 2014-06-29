@@ -1,6 +1,6 @@
 <?php
 
-use Ssms\Artisan\FileSystem\MakeFile;
+use Ssms\Artisan\FileSystem\Files;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,7 +30,7 @@ class MakeDbConfigFileCommand extends Command {
 	{
 		parent::__construct();
 
-		$this->filesystem = new MakeFile();
+		$this->filesystem = new Files();
 	}
 
 	/**
@@ -40,9 +40,9 @@ class MakeDbConfigFileCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->line('Checking for existing config file');
+		$this->line("\nChecking for existing config file...");
 
-		$fileName = $this->getFileName();
+		$fileName = $this->filesystem->getEnvDbConfigFileName(App::environment());
 
 		if ($this->filesystem->checkFileExists($fileName))
 		{
@@ -50,7 +50,7 @@ class MakeDbConfigFileCommand extends Command {
 		}
 		else
 		{
-			$this->error('No config file exists!');
+			$this->error("No config file exists! Enter database details to create your file:\n");
 
 			$host = $this->ask('Your database hostname:');
 			$name = $this->ask('Your database name:');
@@ -87,18 +87,6 @@ class MakeDbConfigFileCommand extends Command {
 	protected function getOptions()
 	{
 		return [];
-	}
-
-	protected function getFileName()
-	{
-		if (App::environment() == 'production')
-		{
-			return '.env.php';
-		}
-		else
-		{
-			return '.env.' . App::environment() . '.php';
-		}
 	}
 
 	protected function getTemplate($host, $name, $user, $pass)
