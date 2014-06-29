@@ -18,7 +18,6 @@ class CreateQuickLinksTable extends Migration {
 			$table->string('name');
 			$table->text('url');
 			$table->string('icon');
-			$table->timestamps();
 		});
 	}
 
