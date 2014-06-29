@@ -60,9 +60,16 @@ class InstallCommand extends Command {
 			}
 			else
 			{
+				$this->error("No database config file exists, please provide your database details:");
+
+				$host = $this->ask('What is your database hostname?');
+				$name = $this->ask('What is your database name?');
+				$user = $this->ask('Who is your database user?');
+				$password = $this->ask('What is the database user password?');
+
 				try
 				{
-					$this->makeFile('hello.php', 'some content');
+					$this->makeFile($dbConfigFile, $this->makeFileTemplate($host, $name, $user, $password));
 				}
 				catch (Exception $e)
 				{
@@ -134,6 +141,21 @@ class InstallCommand extends Command {
 	protected function checkFile($file)
 	{
 		return file_exists($file);
+	}
+
+	protected function makeFileTemplate($host, $name, $user, $password)
+	{
+		return
+		"<?php
+			\n
+			return array(
+				\n
+				'database.host' => $host,
+				'database.name' => $name,
+				'database.user' => $user,
+				'database.password' => $password,
+			\n
+			);";
 	}
 
 }
