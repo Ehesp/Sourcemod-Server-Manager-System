@@ -48,10 +48,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '',
-			'database'  => '',
-			'username'  => '',
-			'password'  => '',
+			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
+			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
+			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
+			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
