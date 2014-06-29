@@ -92,7 +92,7 @@ class PagesTableSeeder extends Seeder {
         $page = Page::create([
             'name' => 'game_types',
             'friendly_name' => 'Game Types',
-            'icon' => 'fa fa-comments',
+            'icon' => 'fa fa-gamepad',
             'slug' => 'game-types',
         ]);
 
