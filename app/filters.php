@@ -28,7 +28,7 @@ App::before(function($request)
 		);
 
 		// Load pages guest is allowed to access
-		$pages = Role::whereName('admin')->first()->pages;
+		$pages = Role::whereName('guest')->first()->pages;
 
 		if (count($pages) == 0)
 		{
@@ -37,7 +37,7 @@ App::before(function($request)
 		else
 		{
 			View::share('sidebarPages',
-				Role::whereName('admin')->first()->pages
+				$pages
 			);
 		}
 	}

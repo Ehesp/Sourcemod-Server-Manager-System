@@ -65,7 +65,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRoles(
-            Role::whereName('super_admin')->whereName('admin')->get()
+            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
         );
 
         /**
@@ -81,7 +81,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRoles(
-            Role::whereName('super_admin')->whereName('admin')->get()
+            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
         );
 
         /**
@@ -92,7 +92,7 @@ class PagesTableSeeder extends Seeder {
         $page = Page::create([
             'name' => 'game_types',
             'friendly_name' => 'Game Types',
-            'icon' => 'fa fa-comments',
+            'icon' => 'fa fa-gamepad',
             'slug' => 'game-types',
         ]);
 
