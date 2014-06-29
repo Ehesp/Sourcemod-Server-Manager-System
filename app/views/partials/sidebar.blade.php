@@ -31,7 +31,7 @@
   </div>
   <div class="col-xs-4">
     <a href="#">
-      Support
+      Donate
     </a>
   </div>
   <div class="col-xs-4">
