@@ -11,13 +11,18 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('pages.dashboard');
-});
+Route::get('/', ['as' => 'dashboard', 'uses' => 'DashboardController@getView']);
 
-Route::get('settings', ['as' => 'settings', 'uses' => 'SettingController@getView']);
+Route::get('dashboard', ['as' => '/', 'uses' => 'DashboardController@getView']);
 
-Route::get('login', 'AuthController@validateSteamLogin');
 
-Route::get('logout', 'AuthController@logout');
+	Route::get('settings', ['as' => 'settings', 'uses' => 'SettingController@getView']);
+
+	Route::get('login', 'AuthController@validateSteamLogin');
+
+	Route::get('logout', 'AuthController@logout');
+
+
+
+
+
