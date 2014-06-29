@@ -17,13 +17,23 @@ class Role extends Eloquent {
 	protected $fillable = ['name', 'friendly_name'];
 
 	/**
-	* Attach user table to many-to-many relationship with "users" table via the "role_user" pivot table.
+	* Attach role table to many-to-many relationship with "users" table via the "role_user" pivot table.
 	*
 	*/
 	public function users()
 	{
 		return $this->belongsToMany('User', 'role_user')->withTimestamps();
 	}
+
+	/**
+	* Attach role table to many-to-many relationship with "pages" table via the "page_role" pivot table.
+	*
+	*/
+	public function pages()
+	{
+		return $this->belongsToMany('Page', 'page_role')->withTimestamps();
+	}
+
 
 	/**
 	* Return value based on whether the current user has a role, based on their community ID
