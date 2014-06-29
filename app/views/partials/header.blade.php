@@ -58,7 +58,7 @@
     </div>
     @else
     <div class="login pull-right">
-      <a href="[[ $SteamLoginUrl ]]">
+      <a href="[[ $steamLoginUrl ]]">
         [[ HTML::image('img/steam/login-sm.png', 'Steam Login') ]]
       </a>
     </div>
