@@ -14,7 +14,7 @@ return array(
 
 	'invalidResponse' => 'The response from Steam was invalid.',
 
-	'firstLogin' => 'Thanks for using SSMS! Please update any settings below.',
+	'firstLogin' => 'Thanks for using SSMS! As this is your first install, please update your settings below.',
 
 	'noAccess' => 'Your Steam account does not have access to this application.',
 
