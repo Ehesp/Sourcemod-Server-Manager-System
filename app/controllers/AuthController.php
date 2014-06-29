@@ -95,6 +95,6 @@ class AuthController extends BaseController {
 	{
 		Auth::logout();
 
-		return Redirect::to('/');
+		return Redirect::route('dashboard');
 	}
 }
