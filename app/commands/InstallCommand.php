@@ -39,13 +39,43 @@ class InstallCommand extends Command {
 	{
 		$this->info("\nRunning installer script on " . App::environment() . " environment... \n");
 
-		if ($this->confirm("This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: "))
+		if ($this->option('mode') == 'install')
 		{
+			$question = "This installer will attempt to create a config file, create & seed database tables. Do you wish to continue? [yes|no]: ";
+		}
+		else
+		{
+			$question = "This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: ";
+		}
+
+		if ($this->confirm($question))
+		{
+			$this->line("\nChecking if database config file is present...");
+
+			$dbConfigFile = $this->fileName(App::environment());
+
+			if ($this->checkFile($dbConfigFile))
+			{
+				$this->line("Config file exists, updating the database.");
+			}
+			else
+			{
+				try
+				{
+					$this->makeFile('hello.php', 'some content');
+				}
+				catch (Exception $e)
+				{
+					$this->error("\nUnable to create config file, please check the FAQs: " . $e->getMessage());
+				}
+			}
+
 		    try
 		    {
-		    	if (! Schema::hasTable('migrations')) {
-		    		$this->call("migrate:install");
-		    	}
+		    	if (! Schema::hasTable('migrations'))
+				{
+					$this->call("migrate:install");
+				}
 				
 				$this->call("migrate:reset");
 				$this->call('migrate');
@@ -81,7 +111,29 @@ class InstallCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return [];
+		return [
+			['mode', 'm', InputOption::VALUE_REQUIRED, 'The mode in which the installer script will run as.', null]
+		];
+	}
+
+	protected function fileName($environment)
+	{
+        if($environment == 'production')
+        {
+        	return '.env.php';
+        }
+
+        return '.env.' . $environment . '.php';
+	}
+
+	protected function makeFile($file, $content)
+	{
+        return file_put_contents($file, $content);
+	}
+
+	protected function checkFile($file)
+	{
+		return file_exists($file);
 	}
 
 }
