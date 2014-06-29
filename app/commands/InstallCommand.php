@@ -49,36 +49,38 @@ class InstallCommand extends Command {
 		else
 		{
 			$this->line("\nRunning installer script on " . App::environment() . " environment... \n");
+		
+			if ($this->confirm("This installer will attempt to create a config file, create & seed database tables. Do you wish to continue? [yes|no]: "))
+			{
+				if (Schema::hasTable('migrations'))
+				{
+					$continue = $this->confirm("Previous migrations detected. This installer will reset all tables and settings, are you sure you want to continue? [yes|no] :");
+				}
 
-			if ($this->option('mode') == 'install')
-			{
-				$question = "This installer will attempt to create a config file, create & seed database tables. Do you wish to continue? [yes|no]: ";
-			}
-			else
-			{
-				$question = "This installer will wipe all database entries & settings, do you wish to continue? [yes|no]: ";
-			}
-
-			if ($this->confirm($question))
-			{
-			    try
-			    {
-			    	if (! Schema::hasTable('migrations'))
+				if ($continue)
+				{
+					try
+			   		{
+						if (! Schema::hasTable('migrations'))
+						{
+							$this->call("migrate:install");
+						}
+						
+						$this->call("migrate:reset");
+						$this->call("migrate");
+						$this->call("db:seed");
+						$this->info("Installer complete!");
+			   		}
+					catch (Exception $e)
 					{
-						$this->call("migrate:install");
+						$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
+						$this->info("\nCheck your $configFile database credentials!");
 					}
-					
-					$this->call("migrate:reset");
-					$this->call("migrate");
-					$this->call("db:seed");
-					$this->info("Installer complete!")
-
-			    }
-			    catch (Exception $e) 
-			    {
-					$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
-					$this->info("\nCheck your $configFile database credentials!");
-			    }
+				}
+				else
+				{
+					$this->error("\n*** Installer aborted. ***");
+				}
 			}
 			else
 			{
@@ -104,9 +106,7 @@ class InstallCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return [
-			['mode', 'm', InputOption::VALUE_REQUIRED, 'The mode in which the installer script will run as.', null]
-		];
+		return [];
 	}
 
 
