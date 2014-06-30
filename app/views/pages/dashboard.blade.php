@@ -17,8 +17,8 @@
             <i class="fa fa-users"></i>
           </div>
           <div class="widget-content pull-left">
-            <div class="title">145</div>
-            <div class="comment">SSMS Users</div>
+            <div class="title">[[ $stats['users'] ]]</div>
+            <div class="comment">SSMS User(s)</div>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -31,7 +31,7 @@
             <i class="fa fa-tasks"></i>
           </div>
           <div class="widget-content pull-left">
-            <div class="title">30</div>
+            <div class="title">[[ $stats['servers'] ]]</div>
             <div class="comment">Servers</div>
           </div>
           <div class="clearfix"></div>
@@ -45,7 +45,7 @@
             <i class="fa fa-sitemap"></i>
           </div>
           <div class="widget-content pull-left">
-            <div class="title">150</div>
+            <div class="title">[[ $stats['active_plugins'] ]]</div>
             <div class="comment">Active Plugins</div>
           </div>
           <div class="clearfix"></div>
@@ -60,7 +60,7 @@
             <i class="fa fa-gamepad"></i>
           </div>
           <div class="widget-content pull-left">
-            <div class="title">4</div>
+            <div class="title">[[ $stats['game_types'] ]]</div>
             <div class="comment">Game Types</div>
           </div>
           <div class="clearfix"></div>
