@@ -19,6 +19,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.view',
+            'description' => 'View server list',
             'page_id' => $servers,
         ]);
 
@@ -30,6 +31,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.new',
+            'description' => 'Add a new server',
             'page_id' => $servers,
         ]);
 
@@ -41,6 +43,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.edit',
+            'description' => 'Edit a server',
             'page_id' => $servers,
         ]);
 
@@ -52,6 +55,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.delete',
+            'description' => 'Delete a server',
             'page_id' => $servers,
         ]);
 
@@ -63,6 +67,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.refresh',
+            'description' => 'Refresh a server or servers',
             'page_id' => $servers,
         ]);
 
@@ -74,6 +79,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.restart',
+            'description' => 'Restart a server',
             'page_id' => $servers,
         ]);
 
@@ -85,6 +91,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.viewRestarts',
+            'description' => 'View server restarts',
             'page_id' => $servers,
         ]);
 
@@ -96,6 +103,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'servers.rcon',
+            'description' => 'Perform RCON commands',
             'page_id' => $servers,
         ]);
 
@@ -114,6 +122,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'active_plugins.view',
+            'description' => 'View plugins list',
             'page_id' => $plugins,
         ]);
 
@@ -125,6 +134,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'active_plugins.update',
+            'description' => 'Update plugins function',
             'page_id' => $plugins,
         ]);
 
@@ -136,6 +146,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'active_plugins.check',
+            'description' => 'Use plugin checker',
             'page_id' => $plugins,
         ]);
 
@@ -155,6 +166,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'multi_console.execute',
+            'description' => 'Execute commands via multi-console',
             'page_id' => $console,
         ]);
 
@@ -174,6 +186,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'admin_activity.view',
+            'description' => 'View admin activity',
             'page_id' => $activity,
         ]);
 
@@ -190,6 +203,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.users.manage',
+            'description' => 'View user management page',
             'page_id' => $settings,
         ]);
 
@@ -201,6 +215,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.users.add',
+            'description' => 'Add a new user',
             'page_id' => $settings,
         ]);
 
@@ -212,6 +227,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.users.edit',
+            'description' => 'Edit existing user',
             'page_id' => $settings,
         ]);
 
@@ -223,6 +239,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.users.delete',
+            'description' => 'Delete existing user',
             'page_id' => $settings,
         ]);
 
@@ -234,6 +251,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.options',
+            'description' => 'Manage application options',
             'page_id' => $settings,
         ]);
 
@@ -245,6 +263,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.quicklinks',
+            'description' => 'Manage application quick links',
             'page_id' => $settings,
         ]);
 
@@ -256,6 +275,7 @@ class PermissionsTableSeeder extends Seeder {
 
         $permission = Permission::create([
             'name' => 'settings.access',
+            'description' => 'Manage application page access',
             'page_id' => $settings,
         ]);
 
