@@ -37,7 +37,13 @@ Route::group(['before' => 'access'], function()
 
 	Route::get('game-types', ['as' => 'game-types', 'uses' => 'GameTypeController@getView']);
 
-	Route::get('settings', ['as' => 'settings', 'uses' => 'SettingController@getView']);
+	Route::group(['prefix' => 'settings'], function()
+	{
+		Route::get('/', ['as' => 'settings', 'uses' => 'SettingController@getView']);
+
+		Route::get('users', ['as' => 'settings.users', 'uses' => 'SettingController@getUsersView']);
+	});
+	
 
 });
 

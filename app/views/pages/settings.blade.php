@@ -22,43 +22,21 @@
           <table class="table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th class="text-center">ID</th>
                 <th>Nickname</th>
                 <th>Community ID</th>
-                <th>Group</th>
+                <th>Enabled</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>|LZ| Alias</td>
-                <td>123456789</td>
-                <td>Admin</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>|LZ| Alias</td>
-                <td>123456789</td>
-                <td>Admin</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>|LZ| Alias</td>
-                <td>123456789</td>
-                <td>Admin</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>|LZ| Alias</td>
-                <td>123456789</td>
-                <td>Admin</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>|LZ| Alias</td>
-                <td>123456789</td>
-                <td>Admin</td>
-              </tr>
+              @foreach($users as $user)
+                <tr>
+                  <td class="text-center">[[ $user->id ]]</td>
+                  <td>[[ $user->nickname ]]</td>
+                  <td>[[ $user->community_id ]]</td>
+                  <td>[[ $user->enabled ]]</td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
@@ -81,14 +59,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Default Language</td>
-                <td>English</td>
-              </tr>
-              <tr>
-                <td>Site Title</td>
-                <td>SSMS</td>
-              </tr>
+              @foreach($options as $option)
+                <tr>
+                  <td>[[ $option->friendly_name ]]</td>
+                  <td>[[ $option->value ]]</td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
@@ -96,7 +72,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-6">
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-external-link-square"></i> Quick Links
@@ -109,22 +85,22 @@
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Link</th>
-                <th>Icon</th>
+                <th>URL</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Forums</td>
-                <td>http://lethal-zone.eu/forum</td>
-                <td>fa-external-link</td>
-              </tr>
+              @foreach($quick_links as $link)
+                <tr>
+                  <td>[[ $link->name ]]</td>
+                  <td>[[ $link->url ]]</td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-6">
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-unlock-alt"></i> Access Control
@@ -142,11 +118,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Forums</td>
-                <td>http://lethal-zone.eu/forum</td>
-                <td>fa-external-link</td>
-              </tr>
             </tbody>
           </table>
         </div>
