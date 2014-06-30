@@ -269,6 +269,9 @@
     border-left: 6px solid transparent;
     content: '';
   }
+  .row.header .user > .item ul.dropdown-menu .dropdown-header {
+    text-align: center;
+  }
   .row.header .user > .item ul.dropdown-menu li.link {
     text-align: left;
   }
