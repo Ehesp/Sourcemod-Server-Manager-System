@@ -50,7 +50,7 @@ class AuthController extends BaseController {
 
 				Auth::login($user);
 
-				return Redirect::to('settings')
+				return Redirect::route('settings')
 					->withFlashNotification(Lang::get('auth.firstLogin'))
 					->withFlashNotificationLevel('success');
 			}
@@ -76,7 +76,7 @@ class AuthController extends BaseController {
 
 						Auth::login($user);
 
-						return Redirect::to('/')
+						return Redirect::route('dashboard')
 							->withFlashNotification(Lang::get('auth.successfulLogin'))
 							->withFlashNotificationLevel('success');
 					}
