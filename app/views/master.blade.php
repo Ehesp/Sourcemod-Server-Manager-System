@@ -9,9 +9,14 @@
   @section('scripts')
     [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
     [[ HTML::style('assets/vendor/font-awesome/css/font-awesome.min.css') ]]
+    [[ HTML::style('assets/vendor/angular-dialog-service/dialogs.min.css') ]]
+
     [[ HTML::script('assets/vendor/angular/angular.min.js') ]]
     [[ HTML::script('assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') ]]
     [[ HTML::script('assets/vendor/angular-cookies/angular-cookies.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-dialog-service/dialogs.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-sanitize/angular-sanitize.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-translate/angular-translate.min.js') ]]
     
     [[ HTML::style('css/dashboard.min.css') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
