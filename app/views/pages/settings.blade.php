@@ -14,7 +14,7 @@
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-users"></i> SSMS Users
-          <a href="#" class="pull-right">
+          <a href="[[ URL::route('settings.users') ]]" class="pull-right">
             Manage
           </a>
         </div>
