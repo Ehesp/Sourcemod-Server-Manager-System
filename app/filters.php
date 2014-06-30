@@ -106,14 +106,15 @@ Route::filter('access', function()
 
 /*
 |--------------------------------------------------------------------------
-| Guest Filter
+| Auth Filters
 |--------------------------------------------------------------------------
 |
-| The "guest" filter is the counterpart of the authentication filters as
-| it simply checks that the current user is not logged in. A redirect
-| response will be issued if they are, which you may freely change.
-|
 */
+
+Route::filter('auth', function()
+{
+	if (! Auth::check()) return App::abort(401, 'Authentication required');
+});
 
 Route::filter('guest', function()
 {
