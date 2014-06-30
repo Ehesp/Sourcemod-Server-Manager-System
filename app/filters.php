@@ -71,7 +71,7 @@ App::before(function($request)
 
 	// Share the quick links with the views
 	View::share('quickLinks',
-		DB::table('quick_links')->get([
+		QuickLink::get([
 			'name', 'url', 'icon'
 		])
 	);
