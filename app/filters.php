@@ -20,14 +20,21 @@ App::before(function($request)
 
 	if (Auth::guest())
 	{
+		// Bind guest permissions to the IoC container
+		App::instance('permissions', Role::whereName('guest')->first()->permissions);
+
+		// Get pages guest is allowed to access
 		$pages = Role::whereName('guest')->first()->pages;
 
+		// Bind pages to the IoC container
 		App::instance('pages', $pages);
 
+		// Share the pages with the views
 		View::share('sidebarPages',
 			$pages
 		);
 
+		// Share the steam login URL with the view
 		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
 				Config::get('steam.returnTo'), true
@@ -42,10 +49,16 @@ App::before(function($request)
 
 	else
 	{
+		// Bind the user permissions to the IoC container
+		App::instance('permissions', Auth::user()->permissions);
+
+		// Get pages the user is allowed to access
 		$pages = Auth::user()->pages;
 
+		// Bind the pages to the IoC container
 		App::instance('pages', $pages);
 	
+		// Share the pages with the views
 		View::share('sidebarPages',
 			$pages
 		);
@@ -56,6 +69,7 @@ App::before(function($request)
 	*
 	*/
 
+	// Share the quick links with the views
 	View::share('quickLinks',
 		DB::table('quick_links')->get([
 			'name', 'url', 'icon'
@@ -73,12 +87,11 @@ App::after(function($request, $response)
 
 /*
 |--------------------------------------------------------------------------
-| Authentication Filters
+| Access Filter
 |--------------------------------------------------------------------------
 |
-| The following filters are used to verify that the user of the current
-| session is logged into this application. The "basic" filter easily
-| integrates HTTP Basic authentication for quick, simple checking.
+| Checks the current root page with the pages data from the IoC container
+| and checks whether the user can access that page.
 |
 */
 
