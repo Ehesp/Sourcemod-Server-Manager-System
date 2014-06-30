@@ -26,12 +26,12 @@ class Page extends Eloquent {
 	}
 
 	/**
-	* Assign a page a role by ID or Object
+	* Each page can have many permissions attached to it (many-to-one).
 	*
 	*/
-	public function assignRole($role)
+	public function permissions()
 	{
-		$this->roles()->attach($role);
+		return $this->hasMany('Permission');
 	}
 
 	/**
