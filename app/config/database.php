@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => isset($_ENV['database.type']) ? $_ENV['database.type'] : 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -46,6 +46,12 @@ return array(
 
 	'connections' => array(
 
+		'sqlite' => array(
+			'driver'   => 'sqlite',
+			'database' => isset($_ENV['database.host']) ? base_path() . '/' . isset($_ENV['database.file']) : __DIR__.'/database/production.sqlite',
+			'prefix'   => '',
+		),
+
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
@@ -55,6 +61,26 @@ return array(
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
+		),
+
+		'pgsql' => array(
+			'driver'   => 'pgsql',
+			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
+			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
+			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
+			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
+			'charset'  => 'utf8',
+			'prefix'   => '',
+			'schema'   => 'public',
+		),
+
+		'sqlsrv' => array(
+			'driver'   => 'sqlsrv',
+			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
+			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
+			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
+			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
+			'prefix'   => '',
 		),
 
 	),

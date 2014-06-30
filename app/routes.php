@@ -51,4 +51,3 @@ Route::group(['before' => 'access'], function()
 Route::get('login', 'AuthController@validateSteamLogin');
 
 Route::get('logout', 'AuthController@logout');
-

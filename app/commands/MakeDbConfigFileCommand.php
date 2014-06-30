@@ -52,20 +52,47 @@ class MakeDbConfigFileCommand extends Command {
 		{
 			$this->error("No config file exists! Enter database details to create your file:\n");
 
-			$host = $this->ask('Your database hostname:');
-			$name = $this->ask('Your database name:');
-			$user = $this->ask('Your database user:');
-			$pass = $this->secret('Your database user password:');
+			$type = $this->ask("What database driver type are you using? [mysql|sqlite|pgsql|sqlsrv]: ");
 
-			try
+			$valid = false;
+
+			$file = null;
+			$host = '';
+			$name = '';
+			$user = '';
+			$pass = '';
+
+			if($type == 'sqlite')
 			{
-				$this->filesystem->makeFile($fileName, null, $this->getTemplate($host, $name, $user, $pass));
-				$this->info("Config file $fileName successfully created!");
+				$file = $this->ask('Where is your sqlite database file located (from base root)? Leave blank for the default app/database/production.sqlite file: ');
+				$file == '' ? $file = null : $file = $file;
+				$valid = true;
 			}
-			catch (Exception $e)
+			elseif($type == 'mysql' || $type == 'pgsql' || $type == 'sqlsrv')
 			{
-				$this->error("An error occured creating the file: " . $e->getMessage());
+				$host = $this->ask('Your database hostname:');
+				$name = $this->ask('Your database name:');
+				$user = $this->ask('Your database user:');
+				$pass = $this->secret('Your database user password:');
+				$valid = true;
 			}
+			else
+			{
+				$this->error("Invalid database driver type.");
+			}
+
+			if ($valid)
+			{
+				try
+				{
+					$this->filesystem->makeFile($fileName, null, $this->getTemplate($type, $host, $name, $user, $pass, $file));
+					$this->info("Config file $fileName successfully created!");
+				}
+				catch (Exception $e)
+				{
+					$this->error("An error occured creating the file: " . $e->getMessage());
+				}
+			}			
 		}
 	}
 
@@ -89,15 +116,21 @@ class MakeDbConfigFileCommand extends Command {
 		return [];
 	}
 
-	protected function getTemplate($host, $name, $user, $pass)
+	protected function getTemplate($type, $host, $name, $user, $pass, $file)
 	{
-		return
+		$template =
 		"<?php
 			return array(
+				'database.type' => '$type',
 				'database.host' => '$host',
 				'database.name' => '$name',
 				'database.user' => '$user',
-				'database.password' => '$pass',
-			);";
+				'database.password' => '$pass',";
+
+		! is_null($file) ? $template .= "\n'database.file' => '$file',\n" : '';
+
+		$template .= ");";
+
+		return $template;
 	}
 }
