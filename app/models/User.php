@@ -55,15 +55,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	* Assign a user a role by ID or Object
-	*
-	*/
-	public function assignRole($role)
-	{
-		$this->roles()->attach($role);
-	}
-
-	/**
 	* Assign a user multiple roles by Object
 	*
 	*/
@@ -109,6 +100,37 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    $hasMany = new Illuminate\Database\Eloquent\Relations\HasMany(Page::query(), $this, 'user_id', 'id');
 
 	    $hasMany->matchMany([$this], $pages, 'pages');
+
+	    return $this;
+	}
+
+
+	/**
+	* The 'permissions' accessor
+	*
+	*/
+	public function getPermissionsAttribute()
+	{
+	    if ( ! array_key_exists('permissions', $this->relations)) $this->loadPermissions();
+
+	    return $this->getRelation('permissions');
+	}
+
+	/**
+	* Load pages user is allowed to access and set the collection as 'pages' relation
+	*
+	*/
+	protected function loadPermissions()
+	{
+	    $permissions = Permission::join('permission_role as pr', 'pr.permission_id', '=', 'permissions.id')
+	           ->join('role_user as ru', 'ru.role_id', '=', 'pr.role_id')
+	           ->where('ru.user_id', $this->id)
+	           ->distinct()
+	           ->get(['permissions.*', 'user_id']);
+
+	    $hasMany = new Illuminate\Database\Eloquent\Relations\HasMany(Page::query(), $this, 'user_id', 'id');
+
+	    $hasMany->matchMany([$this], $permissions, 'permissions');
 
 	    return $this;
 	}
