@@ -5,7 +5,7 @@
 @stop
 
 @section('page_breadcrumb')
-  [[ HTML::link('/', 'SSMS') ]] / [[ HTML::link('settings', 'Settings') ]]
+  [[ HTML::link('/', 'SSMS') ]] / [[ HTML::link(URL::route('settings'), 'Settings') ]]
 @stop
 
 @section('content')

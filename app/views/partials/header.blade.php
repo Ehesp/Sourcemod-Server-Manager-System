@@ -20,7 +20,7 @@
           </li>
           <li class="divider"></li>
           <li class="link">
-            <a href="#">
+            <a href="[[ URL::route('profile') ]]">
               @lang('header.yourProfile')
             </a>
           </li>
