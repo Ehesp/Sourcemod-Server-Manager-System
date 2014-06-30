@@ -34,6 +34,15 @@ class Role extends Eloquent {
 		return $this->belongsToMany('Page', 'page_role')->withTimestamps();
 	}
 
+	/**
+	* Attach role table to many-to-many relationship with "permissions" table via the "permission_role" pivot table.
+	*
+	*/
+	public function permissions()
+	{
+		return $this->belongsToMany('Permission', 'permission_role')->withTimestamps();
+	}
+
 
 	/**
 	* Return value based on whether the current user has a role, based on their community ID
