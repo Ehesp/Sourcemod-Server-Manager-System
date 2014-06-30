@@ -48,8 +48,8 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'active-plugins',
         ]);
 
-        $page->assignRole(
-            Role::where('name', '!=', 'guest')->first()
+        $page->assignRoles(
+            Role::where('name', '!=', 'guest')->get()
         );
 
         /**
@@ -65,7 +65,7 @@ class PagesTableSeeder extends Seeder {
         ]);
 
         $page->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
+            Role::where('name', 'super_admin')->get()
         );
 
         /**
@@ -112,8 +112,8 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'settings',
         ]);
 
-        $page->assignRole(
-            Role::whereName('super_admin')->first()
+        $page->assignRoles(
+            Role::whereName('super_admin')->get()
         );
     }
 
