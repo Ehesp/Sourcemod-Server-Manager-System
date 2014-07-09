@@ -18,7 +18,7 @@ return array(
 
 	'noAccess' => 'Your Steam account does not have access to this application.',
 
-	'noAccess' => 'Your Steam account has been disabled for this appliation.',
+	'accountDisabled' => 'Your Steam account has been disabled for this appliation.',
 
 	'successfulLogin' => 'You have successfully logged in!',
 
