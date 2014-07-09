@@ -129,7 +129,7 @@ class MakeDbConfigFileCommand extends Command {
 
 		! is_null($file) ? $template .= "\n'database.file' => '$file',\n" : '';
 
-		$template .= ");";
+		$template .= "\n);";
 
 		return $template;
 	}
