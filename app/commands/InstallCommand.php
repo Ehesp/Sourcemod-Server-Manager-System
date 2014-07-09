@@ -54,37 +54,34 @@ class InstallCommand extends Command {
 			{
 				if (Schema::hasTable('migrations'))
 				{
-					$continue = $this->confirm("Previous migrations detected. This installer will reset all tables and settings, are you sure you want to continue? [yes|no] :");
-				}
-
-				if ($continue)
-				{
-					try
-			   		{
-						if (! Schema::hasTable('migrations'))
-						{
-							$this->call("migrate:install");
-						}
-						
-						$this->call("migrate:reset");
-						$this->call("migrate");
-						$this->call("db:seed");
-						$this->info("Installer complete!");
-			   		}
-					catch (Exception $e)
+					if (! $this->confirm("Previous migrations detected. This installer will reset all tables and settings, are you sure you want to continue? [yes|no] :"))
 					{
-						$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
-						$this->info("\nCheck your $configFile database credentials!");
+						$this->abort();
 					}
 				}
-				else
+
+				try
 				{
-					$this->error("\n*** Installer aborted. ***");
+					if (! Schema::hasTable('migrations'))
+					{
+						$this->call("migrate:install");
+					}
+
+					$this->call("migrate:reset");
+					$this->call("migrate");
+					$this->call("db:seed");
+					$this->info("Installer complete!");
+				}
+				catch (Exception $e)
+				{
+					$this->error("\nAn error occured during database migrations (code " . $e->getCode() . "): \n   " . $e->getMessage());
+					$this->info("\nCheck your $configFile database credentials!");
+					$this->abort();
 				}
 			}
 			else
 			{
-				$this->error("\n*** Installer aborted. ***");
+				$this->abort();
 			}
 		}
 	}
@@ -109,6 +106,13 @@ class InstallCommand extends Command {
 		return [];
 	}
 
+	/**
+	 * Abort message
+	 *
+	 */
 
-
+	protected function abort()
+	{
+		return $this->error("\n*** Installer aborted!. ***") . die();
+	}
 }
