@@ -55,7 +55,7 @@
 
    <target name="clean-bower" description="Cleanup bower artifacts">
        <echo>Cleaning out the bower artifacts</echo>
-       <delete dir="${basedir}/public/components/vendor" />
+       <delete dir="${basedir}/public/assets/vendor" />
    </target>
 
 
@@ -63,7 +63,7 @@
 
    <target name="bower.check">
        <condition property="bower.exist">
-           <available file="${basedir}/public/components/vendor" type="dir" />
+           <available file="${basedir}/public/assets/vendor" type="dir" />
        </condition>
    </target>
 
