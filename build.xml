@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="YourProject" default="build" basedir=".">
+
+   <target name="build"
+       depends="build-common,phploc,phpcpd" />
+
+   <target name="build-clean"
+       depends="clean,build-common,phploc,phpcpd" />
+
+   <target name="build-dox"
+       depends="build-common,phploc,phpcpd" />
+
+   <target name="build-dox-clean"
+       depends="clean,build-common,phploc,phpcpd" />
+
+   <target name="build-parallel"
+       depends="build-common,tools-parallel" />
+
+   <target name="build-parallel-clean"
+       depends="clean,build-common,tools-parallel" />
+
+   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower,phpunit" />
+
+   <target name="tools-parallel" description="Run tools in parallel">
+       <parallel threadCount="2">
+           <sequential>
+               <antcall target="pdepend" />
+               <antcall target="phpcs-ci" />
+               <antcall target="phpmd-ci" />
+           </sequential>
+           <antcall target="phpcb" />
+           <antcall target="phpcpd" />
+           <antcall target="phpdox" />
+           <antcall target="phploc" />
+       </parallel>
+   </target>
+
+   <target name="clean" depends="clean-build,clean-composer,clean-bower" description="Cleanup build and composer artifacts" />
+
+   <target name="clean-build" description="Cleanup build artifacts">
+       <echo>Cleaning out the build artifacts</echo>
+       <delete dir="${basedir}/build/api" />
+       <delete dir="${basedir}/build/code-browser" />
+       <delete dir="${basedir}/build/coverage" />
+       <delete dir="${basedir}/build/logs" />
+       <delete dir="${basedir}/build/pdepend" />
+   </target>
+
+   <target name="clean-composer" description="Cleanup composer artifacts">
+   <echo>Cleaning out the composer artifacts</echo>
+   <delete dir="${basedir}/vendor" />
+   <delete file="${basedir}/composer.lock" />
+   </target>
+
+   <target name="clean-bower" description="Cleanup bower artifacts">
+       <echo>Cleaning out the bower artifacts</echo>
+       <delete dir="${basedir}/public/components/vendor" />
+   </target>
+
+
+   <target name="bower" depends="bower-install,bower-update" description="Install or update dependencies" />
+
+   <target name="bower.check">
+       <condition property="bower.exist">
+           <available file="${basedir}/public/components/vendor" type="dir" />
+       </condition>
+   </target>
+
+   <target name="bower-install" depends="bower.check" unless="bower.exist" description="Installing dependencies">
+       <echo>Installing dependencies</echo>
+       <exec executable="/usr/local/bin/bower" failonerror="true">
+           <arg value="install" />
+       </exec>
+   </target>
+
+   <target name="bower-update" depends="bower.check" if="bower.exist" description="Updating dependencies">
+       <echo>Updating dependencies</echo>
+       <exec executable="/usr/local/bin/bower" failonerror="true">
+           <arg value="update" />
+       </exec>
+   </target>
+
+   <!--// Check to see it the vendor folder already exist, if so, then no reason to run //-->
+   <target name="composer.check">
+       <condition property="composer.exist">
+           <available file="${basedir}/vendor" type="dir" />
+       </condition>
+   </target>
+
+   <target name="composer" depends="composer-install,composer-update" description="Install or update dependencies" />
+
+   <target name="composer-install" depends="composer.check" unless="composer.exist" description="Installing dependencies">
+       <echo>Installing dependencies</echo>
+       <exec executable="composer" failonerror="true">
+           <arg value="install" />
+       </exec>
+   </target>
+
+   <target name="composer-update" depends="composer.check" if="composer.exist" description="Updating dependencies">
+       <echo>Updating dependencies</echo>
+       <exec executable="composer" failonerror="true">
+           <arg value="update" />
+       </exec>
+   </target>
+
+   <target name="lint" description="Perform syntax check of sourcecode files">
+       <apply executable="php" failonerror="false">
+           <arg value="-l" />
+           <fileset dir="${basedir}/app">
+               <include name="**/*.php" />
+               <modified />
+           </fileset>
+       </apply>
+   </target>
+
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+       <exec executable="phpcpd">
+           <arg value="--log-pmd" />
+           <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+           <arg path="${basedir}/app" />
+       </exec>
+   </target>
+
+   <target name="phpcs"
+        description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+       <exec executable="phpcs">
+           <arg value="--standard=${basedir}/build/phpcs.xml" />
+           <arg path="${basedir}/app" />
+       </exec>
+   </target>
+
+   <target name="phploc" description="Measure project size using PHPLOC">
+       <exec executable="phploc">
+          <arg value="--log-csv" />
+          <arg value="${basedir}/build/logs/phploc.csv" />
+          <arg path="${basedir}/app" />
+       </exec>
+   </target>
+
+   <target name="phpunit" description="Run unit tests with PHPUnit">
+       <exec executable="phpunit" failonerror="true">
+           <arg value="-c" />
+           <arg value="${basedir}/phpunit.xml.dist" />
+           <arg value="--coverage-html" />
+           <arg value="${basedir}/build/coverage" />
+       </exec>
+   </target>
+
+   <target name="storage-permissions" depends="storage-permissions.unix,storage-permissions.windows" description="Setting storage permissions" />
+
+   <target name="storage-permissions.unix" depends="storage.unix.check" if="storage.unix.exist" description="Setting storage permissions on unix">
+       <echo>Setting app/storage to 777</echo>
+       <chmod file="${basedir}/app/storage/**" perm="777" type="dir" failonerror="false" />
+   </target>
+
+   <target name="storage-permissions.windows" depends="storage.windows.check" if="storage.windows.exist" description="Setting storage permissions on windows">
+       <echo>Setting app/storage to writable</echo>
+       <attrib file="${basedir}/app/storage/**" perm="+R" failonerror="false" />
+   </target>
+
+   <!--// Check to see it the app/storage folder exist, if so, then can change permissions //-->
+   <target name="storage.unix.check" description="Check for app/storage on unix">
+       <condition property="storage.unix.exist">
+           <and>
+               <available file="${basedir}/app/storage" type="dir" />
+               <os family="unix" />
+           </and>
+       </condition>
+   </target>
+
+   <!--// Check to see it the app/storage folder exist, if so, then can change permissions //-->
+   <target name="storage.windows.check" description="Check for app/storage on windows">
+       <condition property="storage.windows.exist">
+           <and>
+               <available file="${basedir}/app/storage" type="dir" />
+               <os family="windows" />
+           </and>
+       </condition>
+   </target>
+
+    <target name="prepare" depends="clean-build" description="Prepare for build">
+       <echo>Making the build artifact folders</echo>
+       <mkdir dir="${basedir}/build/api" />
+       <mkdir dir="${basedir}/build/code-browser" />
+       <mkdir dir="${basedir}/build/coverage" />
+       <mkdir dir="${basedir}/build/logs" />
+       <mkdir dir="${basedir}/build/pdepend" />
+   </target>
+
+</project>
