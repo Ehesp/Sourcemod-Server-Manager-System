@@ -4,6 +4,8 @@
  License: 
 */
 
+@import url('loading.min.css');
+
 /* Fonts */
   @font-face {
       font-family: 'Montserrat';

@@ -6,7 +6,7 @@
 
 	<title>@yield('page_meta_title', 'SSMS')</title>
 
-  @section('scripts')
+  @section('assets')
     [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
     [[ HTML::style('assets/vendor/font-awesome/css/font-awesome.min.css') ]]
     [[ HTML::style('assets/vendor/angular-dialog-service/dialogs.min.css') ]]
@@ -20,6 +20,7 @@
     
     [[ HTML::style('css/dashboard.min.css') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
+    [[ HTML::script('js/angular/directives.js') ]]
   @show
 
 </head>
