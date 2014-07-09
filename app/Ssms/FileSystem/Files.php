@@ -1,4 +1,4 @@
-<?php namespace Ssms\Artisan\FileSystem;
+<?php namespace Ssms\FileSystem;
 
 class Files {
 

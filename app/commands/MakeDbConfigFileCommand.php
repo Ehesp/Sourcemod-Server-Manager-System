@@ -1,6 +1,6 @@
 <?php
 
-use Ssms\Artisan\FileSystem\Files;
+use Ssms\FileSystem\Files;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
