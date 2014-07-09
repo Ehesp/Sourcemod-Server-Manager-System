@@ -53,7 +53,7 @@ App::error(function(Exception $exception, $code)
 
 App::missing(function($exception)
 {
-    return Response::view('pages.missing', array(), 404);
+    return Response::view('http_status.404', array(), 404);
 });
 
 /*
