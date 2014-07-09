@@ -1,4 +1,4 @@
-<?php namespace Ssms\PageMngt;
+<?php namespace Ssms\Authorization;
 
 class Count {
 

@@ -97,7 +97,7 @@ App::after(function($request, $response)
 
 Route::filter('access', function()
 {
-	$auth = new Ssms\PageMngt\Access;
+	$auth = new Ssms\Authorization\Access;
 
 	$pages = App::make('pages');
 
