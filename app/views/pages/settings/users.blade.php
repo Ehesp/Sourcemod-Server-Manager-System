@@ -27,7 +27,7 @@
           <loading ng-if="loading"></loading>
 
           <div class="error" ng-if="!loading && error">
-            <span ng-bind="message"></span>
+            <span ng-bind-html="message"></span>
           </div>
 
           <div class="table-responsive" ng-if="!loading && !error">

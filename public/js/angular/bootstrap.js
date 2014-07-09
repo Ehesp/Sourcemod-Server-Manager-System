@@ -1,4 +1,4 @@
-var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies']);
+var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies', 'ngSanitize']);
 
 app.controller('MasterCtrl', function($scope, $cookieStore)
 {

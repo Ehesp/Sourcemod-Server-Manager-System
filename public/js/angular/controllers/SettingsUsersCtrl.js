@@ -20,7 +20,6 @@ app.controller('SettingsUsersCtrl', function($scope, $http)
 	}).
 	error(function(data, status, headers, config)
 	{
-		console.log(config);
 		error(data, status, config);
 	});
 
