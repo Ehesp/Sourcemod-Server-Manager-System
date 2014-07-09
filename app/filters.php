@@ -78,6 +78,7 @@ App::before(function($request)
 
 	// Attach some PHP variables to the "ssms" JavaScript scope
 	JavaScript::put([
+		'app_path' => URL::to('/') . '/',
 		'template_path' => URL::to('templates') . '/',
 	]);
 

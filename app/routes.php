@@ -42,6 +42,7 @@ Route::group(['before' => 'access'], function()
 		Route::get('/', ['as' => 'settings', 'uses' => 'SettingController@getView']);
 
 		Route::get('users', ['as' => 'settings.users', 'before' => 'permission:settings.users', 'uses' => 'SettingController@getUsersView']);
+		Route::post('users', ['before' => 'permission:settings.users', 'uses' => 'SettingController@getUsers']);
 	});
 	
 
