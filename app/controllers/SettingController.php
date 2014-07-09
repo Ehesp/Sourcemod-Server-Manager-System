@@ -8,7 +8,7 @@ class SettingController extends BaseController {
 	* @return json
 	*/
 
-	protected function getUsers()
+	public function getUsers()
 	{
 		return User::all();
 	}
@@ -84,8 +84,7 @@ class SettingController extends BaseController {
 
 	public function getUsersView()
 	{
-		return View::make('pages.settings.users')
-			->with('users', $this->paginateUsers());
+		return View::make('pages.settings.users');
 	}
 
 }

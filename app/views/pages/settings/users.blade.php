@@ -19,12 +19,18 @@
       <div class="widget" ng-controller="SettingsUsersCtrl">
         <div class="widget-title">
           <i class="fa fa-users"></i> Manage Users
+          <input type="text" class="form-control input-sm pull-right" placeholder="Search..." ng-model="searchUsers">
+          <div class="clearfix"></div>
         </div>
         <div class="widget-body no-padding">
 
-          <loading></loading>
+          <loading ng-if="loading"></loading>
 
-          <div class="table-responsive">
+          <div class="error" ng-if="!loading && error">
+            <span ng-bind="message"></span>
+          </div>
+
+          <div class="table-responsive" ng-if="!loading && !error">
             <table class="table">
               <thead>
                 <tr>
@@ -33,25 +39,20 @@
                   <th>Community ID</th>
                   <th>Enabled</th>
                   <th>Groups</th>
-                  <th>Created</th>
                   <th>Last Updated</th>
                   <th class="text-center"><i class="fa fa-cogs"></i></th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($users as $user)
-                  <tr>
-                    <td class="text-center">[[ $user->id ]]</td>
-                    <td>[[ $user->nickname ]]</td>
-                    <td>[[ $user->community_id ]]</td>
-                    <td>[[ $user->enabled ]]</td>
-                    <td></td>
-                    <td>[[ $user->updated_at ]]</td>
-                    <td>
-                      <button class="btn btn-sm btn-warning"><i class="fa fa-refresh"></i></button>
-                    </td>
-                  </tr>
-                @endforeach
+                <tr ng-repeat="user in users | filter:searchUsers">
+                  <td class="text-center" ng-bind="user.id"></td>
+                  <td ng-bind="user.nickname"></td>
+                  <td ng-bind="user.community_id"></td>
+                  <td ng-bind="user.enabled"></td>
+                  <td></td>
+                  <td ng-bind="user.updated_at"></td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>

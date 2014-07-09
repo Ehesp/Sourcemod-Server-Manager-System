@@ -300,8 +300,15 @@
   .widget .widget-title i {
     margin-right: 5px;
   }
+  .widget .widget-title input {
+    width: 25%;
+  }
   .widget .widget-body {
     padding: 20px;
+  }
+  .widget .widget-body .error {
+    padding: 20px;
+    color: #ff0000;
   }
   .widget .widget-body table thead {
     background: #fafafa;
@@ -322,9 +329,6 @@
     line-height: 66px;
     color: #ffffff;
     font-size: 30px;
-  }
-  .widget .widget-content {
-
   }
   .widget .widget-content .title {
     font-size: 28px;

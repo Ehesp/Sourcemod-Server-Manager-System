@@ -20,13 +20,19 @@ app.controller('SettingsUsersCtrl', function($scope, $http)
 	}).
 	error(function(data, status, headers, config)
 	{
-		error(status);
+		console.log(config);
+		error(data, status, config);
 	});
 
-	function error(status)
+	function error(data, status, config)
 	{
+		message = "An error occurred and the data could not be loaded!<br />";
+		message += "Error: " + data.error.message + "<br />";
+		message += "Exception: " + data.error.type + "<br />";
+		message += config.method + " " + config.url + ", HTTP status " + status;
+
+		$scope.message = message;
 		$scope.error = true;
-		$scope.message = 'An error occurred and the data could not be loaded! HTTP Status ' + status;
 		$scope.loading = false;
 	}
 
