@@ -202,7 +202,7 @@ class PermissionsTableSeeder extends Seeder {
         // Manage users page
 
         $permission = Permission::create([
-            'name' => 'settings.users.manage',
+            'name' => 'settings.users',
             'description' => 'View user management page',
             'page_id' => $settings,
         ]);

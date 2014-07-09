@@ -2,23 +2,40 @@
 
 class Access {
 
-	public function checkPageAccess($pages, $url)
+	protected $pages = [];
+
+	public function __construct($pages)
+	{
+		$this->pages = $pages->toArray();
+	}
+
+	public function validate($segment)
 	{
 		$access = false;
 
-		foreach ($pages as $page)
+		if ($this->count($this->pages))
 		{
-			if ($page->slug == $url)
+			foreach ($this->pages as $page)
 			{
-				$access = true;
-				break;
+				if ($page['slug'] == $segment)
+				{
+					$access = true;
+					break;
+				}
 			}
-		}
 
-		if (! $access) {
-			\App::abort(401, 'Unauthorized access');
 		}
-
+		
 		return $access;
+	}
+
+	protected function count($pages)
+	{
+		if (count($pages) == 0)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

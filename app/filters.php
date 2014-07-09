@@ -97,11 +97,17 @@ App::after(function($request, $response)
 
 Route::filter('access', function()
 {
-	$auth = new Ssms\Authorization\Access;
+	$access = new Ssms\Authorization\Access(App::make('pages'));
 
-	$pages = App::make('pages');
+	if (! $access->validate(Request::segment(1))) return App::abort(401, 'Sufficient access is required');
 
-	$auth->checkPageAccess($pages, Request::segment(1));
+});
+
+Route::filter('permission', function($route, $request, $value)
+{
+    $permission = new Ssms\Authorization\Permission(App::make('permissions'));
+
+    if (! $permission->validate($value)) return App::abort(401, 'Insufficient permissions');
 });
 
 /*
