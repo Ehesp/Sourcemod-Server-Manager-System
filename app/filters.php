@@ -99,7 +99,7 @@ Route::filter('access', function()
 {
 	$access = new Ssms\Authorization\Access(App::make('pages'));
 
-	if (! $access->validate(Request::segment(1))) return App::abort(401, 'Sufficient access is required');
+	if (! $access->validate(Request::segment(1))) return App::abort(401, 'You do not have the required access for this page');
 
 });
 
