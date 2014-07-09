@@ -4,7 +4,9 @@ class GameTypeController extends BaseController {
 
 	public function getView()
 	{
-		return View::make('pages.game-types');
+        $server = new SourceServer('192.168.0.114', 27015);
+        $server->initialize();
+        print_r($server->getPlayers());
 	}
 
 }
