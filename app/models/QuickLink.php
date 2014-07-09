@@ -15,4 +15,11 @@ class QuickLink extends Eloquent {
 	* @var array
 	*/
 	protected $fillable = ['name', 'url', 'icon'];
+
+	/**
+	* Disable timestamps on this model
+	*
+	* @var boolen
+	*/
+	public $timestamps = false;
 }
