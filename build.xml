@@ -20,7 +20,7 @@
    <target name="build-parallel-clean"
        depends="clean,build-common,tools-parallel" />
 
-   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower,phpunit" />
+   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower" />
 
    <target name="tools-parallel" description="Run tools in parallel">
        <parallel threadCount="2">
