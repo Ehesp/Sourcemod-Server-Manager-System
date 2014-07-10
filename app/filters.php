@@ -13,14 +13,15 @@
 
 App::before(function($request)
 {
-	/**
-	* When user is not logged in
-	*
-	*/
 
 	if (Auth::guest())
 	{
-		// Share the steam login URL with the view
+		/**
+		* Share the Steam login URL when the user is not logged in
+		* which can be accessed via the $steamLoginUrl variable.
+		*
+		*/
+
 		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
 				Config::get('steam.returnTo'), true
@@ -29,7 +30,8 @@ App::before(function($request)
 	}
 
 	/**
-	* When any user visits
+	* Share the pages the user is able to access to the views under 
+	* the $pages variable.
 	*
 	*/
 
@@ -37,14 +39,26 @@ App::before(function($request)
 		Access::pages()
 	);
 
-	// Share the quick links with the views
+	/**
+	* Share the quick links with the views using the
+	* the $quickLinks variable.
+	*
+	*/
+
 	View::share('quickLinks',
 		QuickLink::get([
 			'name', 'url', 'icon'
 		])
 	);
 
-	// Attach some PHP variables to the "ssms" JavaScript scope
+	/**
+	* Attach a PHP array to the window to allow JavaScript to use.
+	* The "URL" provider is used rather than the Laravel helper paths
+	* to ensure the paths are consistent across Windows and Unix platforms.
+	*
+	* @see https://github.com/laracasts/PHP-Vars-To-Js-Transformer
+	*/
+
 	JavaScript::put([
 		'app_path' => URL::to('/') . '/',
 		'template_path' => URL::to('templates') . '/',
