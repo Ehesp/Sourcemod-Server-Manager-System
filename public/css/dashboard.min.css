@@ -54,7 +54,6 @@
     background: #30426a;
     position: fixed;
     height: 100%;
-    z-index: 10000;
     transition: all .3s ease 0s;
   }
   .green {
@@ -282,6 +281,11 @@
     padding-right: 7px;
   }
 
+  /* Toolbars */
+  .toolbar button {
+    margin-left: 10px;
+  }
+
   /* Widgets */
   .widget {
     background: #ffffff;
@@ -340,3 +344,7 @@
     font-size: 28px;
     display: block;
   }
+
+.message-heading {
+  font-size: 17px !important;
+}
