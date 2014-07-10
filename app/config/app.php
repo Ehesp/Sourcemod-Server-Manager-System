@@ -124,6 +124,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
+		'Ssms\Authorization\AuthorizationServiceProvider',
 
 	),
 
@@ -191,6 +192,11 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+
+		// SSMS Facades
+
+		'Access'		  => 'Ssms\Support\Facades\Access',
+		'Permission'	  => 'Ssms\Support\Facades\Permission',
 
 	),
 

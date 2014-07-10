@@ -20,20 +20,6 @@ App::before(function($request)
 
 	if (Auth::guest())
 	{
-		// Bind guest permissions to the IoC container
-		App::instance('permissions', Role::whereName('guest')->first()->permissions);
-
-		// Get pages guest is allowed to access
-		$pages = Role::whereName('guest')->first()->pages;
-
-		// Bind pages to the IoC container
-		App::instance('pages', $pages);
-
-		// Share the pages with the views
-		View::share('sidebarPages',
-			$pages
-		);
-
 		// Share the steam login URL with the view
 		View::share('steamLoginUrl',
 			Ssms\Steam\Login::genUrl(
@@ -43,31 +29,13 @@ App::before(function($request)
 	}
 
 	/**
-	* When user is logged in
-	*
-	*/
-
-	else
-	{
-		// Bind the user permissions to the IoC container
-		App::instance('permissions', Auth::user()->permissions);
-
-		// Get pages the user is allowed to access
-		$pages = Auth::user()->pages;
-
-		// Bind the pages to the IoC container
-		App::instance('pages', $pages);
-	
-		// Share the pages with the views
-		View::share('sidebarPages',
-			$pages
-		);
-	}
-
-	/**
 	* When any user visits
 	*
 	*/
+
+	View::share('pages',
+		Access::pages()
+	);
 
 	// Share the quick links with the views
 	View::share('quickLinks',
@@ -95,24 +63,23 @@ App::after(function($request, $response)
 | Access Filter
 |--------------------------------------------------------------------------
 |
-| Checks the current root page with the pages data from the IoC container
-| and checks whether the user can access that page.
-|
 */
 
 Route::filter('access', function()
 {
-	$access = new Ssms\Authorization\Access(App::make('pages'));
-
-	if (! $access->validate(Request::segment(1))) return App::abort(401, 'You do not have the required access for this page');
-
+	if(! Access::validate(Request::segment(1))) return App::abort(401, 'You do not have the required access for this page');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Permission Filter
+|--------------------------------------------------------------------------
+|
+*/
 
 Route::filter('permission', function($route, $request, $value)
 {
-    $permission = new Ssms\Authorization\Permission(App::make('permissions'));
-
-    if (! $permission->validate($value)) return App::abort(401, 'Insufficient permissions');
+	if(! Permission::validate($value)) return App::abort(401, 'Insufficient permissions');
 });
 
 /*
