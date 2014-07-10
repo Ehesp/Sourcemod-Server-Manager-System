@@ -4,14 +4,29 @@ use Role;
 
 class PermissionBuilder {
 
+	/**
+	 * The $app->auth instance
+	 *
+	 */
 	protected $auth;
 
+	/**
+	 * Create a new PermissionBuilder instance.
+	 *
+	 * @return void
+	 */
 	public function __construct($auth)
 	{
 		$this->auth = $auth;
 		$this->permissions = $this->getUserPermissions();
 	}
 
+	/**
+	 * Returns the permissions which are accessible to the user in their
+	 * current authenticated state.
+	 * 
+	 * @return json
+	 */
 	private function getUserPermissions()
 	{
 		if ($this->auth->guest())
@@ -24,6 +39,12 @@ class PermissionBuilder {
 		}
 	}
 
+	/**
+	 * Determins whether the user has permission for the 
+	 * given value.
+	 * 
+	 * @return bool
+	 */
 	public function validate($value, $type = 'name')
 	{
 		$access = false;
