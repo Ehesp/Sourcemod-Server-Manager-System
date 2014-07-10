@@ -15,4 +15,18 @@ class BaseController extends Controller {
 		}
 	}
 
+	/**
+	 * Return a structured Json response.
+	 *
+	 * @return json
+	 */
+	protected function jsonResponse($httpCode, $status, $message)
+	{
+		$json['code'] = $httpCode;
+		$json['status'] = $status;
+		$json['message'] = $message;
+
+		return Response::json($json);
+	}
+
 }
