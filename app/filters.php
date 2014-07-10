@@ -81,7 +81,7 @@ App::after(function($request, $response)
 
 Route::filter('access', function()
 {
-	if(! Access::validate(Request::segment(1))) return App::abort(401, 'You do not have the required access for this page');
+	if(! Access::validate(Request::segment(1))) return App::abort(403, 'You do not have the required access for this page');
 });
 
 /*
@@ -93,8 +93,22 @@ Route::filter('access', function()
 
 Route::filter('permissions', function($route, $request, $value)
 {
-	if(! Permissions::validate($value)) return App::abort(401, 'Insufficient permissions');
+	if(! Permissions::validate($value)) return App::abort(403, 'Insufficient permissions');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Ajax Filter
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::filter('ajax', function()
+{
+	if (! Request::ajax()) return App::abort(406, 'The request to this resource must be via Ajax');
+});
+
+
 
 /*
 |--------------------------------------------------------------------------
