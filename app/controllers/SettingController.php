@@ -13,6 +13,33 @@ class SettingController extends BaseController {
 		return User::with('roles')->get();
 	}
 
+	public function deleteUser()
+	{
+		$id = Input::all()[0];
+
+		if (User::count() == 1)
+		{
+			return App::abort(405,'You are the only user in the application and cannot be deleted!');
+		}
+		else if (Auth::user()->id == $id)
+		{
+			return App::abort(405,'You can not delete yourself!');
+		}
+		else
+		{
+			try
+			{
+				User::destroy($id);
+			}
+			catch (Exception $e)
+			{
+				return App::abort(405,'An error occured: ' . $e->getMessage());
+			}
+
+			return Response::json(['message' => 'The user has successfully been deleted!']);
+		}
+	}
+
 	/**
 	* Get a limited number of users
 	*
