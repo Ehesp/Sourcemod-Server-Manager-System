@@ -13,31 +13,61 @@ class SettingController extends BaseController {
 		return User::with('roles')->get();
 	}
 
+	/**
+	* Delete a user
+	*
+	* Takes a AJAX post request with an ID parameter.
+	*/
+
 	public function deleteUser()
 	{
 		$id = Input::all()[0];
 
 		if (User::count() == 1)
 		{
-			return App::abort(405,'You are the only user in the application and cannot be deleted!');
+			return $this->jsonResponse(400, false, 'You are the only user left in the application and cannot delete youself.');
 		}
 		else if (Auth::user()->id == $id)
 		{
-			return App::abort(405,'You can not delete yourself!');
+			return $this->jsonResponse(400, false, 'You are unable to delete yourself from the application.');
 		}
 		else
 		{
+			User::destroy($id);
+
+			return $this->jsonResponse(200, true, 'User has been successfully been deleted!.');
+		}
+	}
+
+	public function userSearch()
+	{
+		// $string = Input::all()[0];
+
+		// $string = '76561197993035972';
+		$id = 'STEAM_0:0:16385122ewd';
+
+		if (! is_numeric($id))
+		{
 			try
 			{
-				User::destroy($id);
+				$id = SteamId::convertSteamIdToCommunityId($id);
 			}
 			catch (Exception $e)
 			{
-				return App::abort(405,'An error occured: ' . $e->getMessage());
+				App::abort(400, $e->getMessage());
 			}
-
-			return Response::json(['message' => 'The user has successfully been deleted!']);
 		}
+
+		try
+		{
+			$steam = new SteamId($id);
+		}
+		catch (Exception $e)
+		{
+			App::abort(400, $e->getMessage());
+		}
+		
+		dd($steam);
 	}
 
 	/**
