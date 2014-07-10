@@ -10,21 +10,26 @@
     [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
     [[ HTML::style('assets/vendor/font-awesome/css/font-awesome.min.css') ]]
     [[ HTML::style('assets/vendor/angular-dialog-service/dialogs.min.css') ]]
+    [[ HTML::style('assets/vendor/AngularJS-Toaster/toaster.css') ]]
 
     [[ HTML::script('assets/vendor/angular/angular.min.js') ]]
     [[ HTML::script('assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') ]]
     [[ HTML::script('assets/vendor/angular-cookies/angular-cookies.min.js') ]]
-    [[ HTML::script('assets/vendor/angular-dialog-service/dialogs.min.js') ]]
     [[ HTML::script('assets/vendor/angular-sanitize/angular-sanitize.min.js') ]]
     [[ HTML::script('assets/vendor/angular-translate/angular-translate.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-animate/angular-animate.min.js') ]]
+    [[ HTML::script('assets/vendor/angular-dialog-service/dialogs.min.js') ]]
+    [[ HTML::script('assets/vendor/AngularJS-Toaster/toaster.js') ]]
     
     [[ HTML::style('css/dashboard.min.css') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
     [[ HTML::script('js/angular/directives.js') ]]
+    [[ HTML::script('js/angular/services.js') ]]
   @show
 
 </head>
 <body ng-controller="MasterCtrl">
+
   <div id="page-wrapper" ng-class="{'active': toggle}">
 
     <!-- Sidebar -->
@@ -44,7 +49,8 @@
 
       </div>
     </div>
-      
   </div>
+
+
 </body>
 </html>
