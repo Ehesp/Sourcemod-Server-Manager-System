@@ -24,8 +24,9 @@
     "angular-bootstrap": "~0.11.0",
     "font-awesome": "~4.1.0",
     "bootstrap-css-only": "~3.2.0",
-    "angular-cookies": "~1.2.18",
-    "angular-sanitize": "~1.2.18",
-    "angular-dialog-service": "~5.0.0"
+    "angular-cookies": "~1.2.19",
+    "angular-sanitize": "~1.2.19",
+    "angular-dialog-service": "~5.0.0",
+    "AngularJS-Toaster": "0.4.6"
   }
 }

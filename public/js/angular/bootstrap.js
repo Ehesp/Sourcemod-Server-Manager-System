@@ -1,4 +1,4 @@
-var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies', 'ngSanitize']);
+var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies', 'ngSanitize','ngAnimate', 'dialogs.main', 'toaster']);
 
 app.controller('MasterCtrl', function($scope, $cookieStore)
 {
@@ -39,4 +39,15 @@ app.controller('MasterCtrl', function($scope, $cookieStore)
 
 	window.onresize = function() { $scope.$apply(); };
 
+
 });
+
+function errorMessage(data, status, config)
+{
+	message = "<u class='message-heading'>An error occured!</u><br />";
+	message += "Error: " + data.error.message + "<br />";
+	message += "Exception: " + data.error.type + "<br />";
+	message += config.method + " " + config.url + ", HTTP status " + status;
+
+	return message;
+}
