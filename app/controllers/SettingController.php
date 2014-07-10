@@ -10,7 +10,7 @@ class SettingController extends BaseController {
 
 	public function getUsers()
 	{
-		return User::all();
+		return User::with('roles')->get();
 	}
 
 	/**
@@ -84,7 +84,8 @@ class SettingController extends BaseController {
 
 	public function getUsersView()
 	{
-		return View::make('pages.settings.users');
+		return View::make('pages.settings.users')
+			->with('permissions', App::make('permissions'));
 	}
 
 }
