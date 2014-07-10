@@ -86,14 +86,14 @@ Route::filter('access', function()
 
 /*
 |--------------------------------------------------------------------------
-| Permission Filter
+| Permissions Filter
 |--------------------------------------------------------------------------
 |
 */
 
-Route::filter('permission', function($route, $request, $value)
+Route::filter('permissions', function($route, $request, $value)
 {
-	if(! Permission::validate($value)) return App::abort(401, 'Insufficient permissions');
+	if(! Permissions::validate($value)) return App::abort(401, 'Insufficient permissions');
 });
 
 /*

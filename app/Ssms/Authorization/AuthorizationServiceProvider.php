@@ -12,7 +12,7 @@ class AuthorizationServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerAccessBuilder();
-		$this->registerPermissionBuilder();
+		$this->registerPermissionsBuilder();
 	}
 
 	/**
@@ -33,11 +33,11 @@ class AuthorizationServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	protected function registerPermissionBuilder()
+	protected function registerPermissionsBuilder()
 	{
-		$this->app->bindShared('permission', function($app)
+		$this->app->bindShared('permissions', function($app)
 		{
-			return new PermissionBuilder($app['auth']);
+			return new PermissionsBuilder($app['auth']);
 		});
 	}
 
@@ -48,7 +48,7 @@ class AuthorizationServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('access', 'permission');
+		return array('access', 'permissions');
 	}
 
 }

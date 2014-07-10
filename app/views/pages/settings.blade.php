@@ -14,9 +14,11 @@
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-users"></i> SSMS Users
-          <a href="[[ URL::route('settings.users') ]]" class="pull-right">
-            Manage
-          </a>
+          @if(Permissions::validate('settings.users'))
+            <a href="[[ URL::route('settings.users') ]]" class="pull-right">
+              Manage
+            </a>
+          @endif
         </div>
         <div class="widget-body no-padding">
           <table class="table">

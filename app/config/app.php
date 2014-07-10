@@ -196,7 +196,7 @@ return array(
 		// SSMS Facades
 
 		'Access'		  => 'Ssms\Support\Facades\Access',
-		'Permission'	  => 'Ssms\Support\Facades\Permission',
+		'Permissions'	  => 'Ssms\Support\Facades\Permissions',
 
 	),
 

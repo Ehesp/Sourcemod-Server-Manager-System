@@ -84,8 +84,7 @@ class SettingController extends BaseController {
 
 	public function getUsersView()
 	{
-		return View::make('pages.settings.users')
-			->with('permissions', App::make('permissions'));
+		return View::make('pages.settings.users');
 	}
 
 }

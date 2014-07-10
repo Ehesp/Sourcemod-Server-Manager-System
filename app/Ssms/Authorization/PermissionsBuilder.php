@@ -2,7 +2,7 @@
 
 use Role;
 
-class PermissionBuilder {
+class PermissionsBuilder {
 
 	/**
 	 * The $app->auth instance
@@ -60,5 +60,14 @@ class PermissionBuilder {
 
 		return $access;		
 	}
-	
+
+	/**
+	 * Returns the permissions the user is able to access
+	 * 
+	 * @return json
+	 */
+	public function permissions()
+	{
+		return $this->permissions;
+	}
 }
