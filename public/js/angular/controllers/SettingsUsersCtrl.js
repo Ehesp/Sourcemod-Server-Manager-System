@@ -24,16 +24,24 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 
 		d.result.then(function(c) {
 			http.post(window.app_path + 'settings/users/delete', user.id).
-				success(function(data, status, headers, config)
+				success(function(data)
 				{
-					toaster.pop('success', data.message);
+					if(! data.status)
+					{
+						toaster.pop('error', 'Deleting the user failed!', '', null, null, function()
+						{
+							dialogs.error('An error occured while deleting the user', errorMessage(data.code, data.message));
+						});
+					}
+					else
+					{
+						delete $scope.users[findWithAttr($scope.users, 'id', user.id)];
+						toaster.pop('success', data.message);	
+					}
 				}).
 				error(function(data, status, headers, config)
 				{
-					toaster.pop('error', 'Deleting the user failed!', '', null, null, function()
-					{
-						dialogs.error(toaster.title, errorMessage(data, status, config));
-					});
+					dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 				});
 		});
 	};
