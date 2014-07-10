@@ -18,11 +18,6 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 			$scope.loading = false;
 		});
 
-	$scope.toastToErrorDialog = function(toaster)
-	{
-		dialogs.error(toaster.title, $scope.message);
-	};
-
 	$scope.deleteUser = function(user)
 	{
 		var d = dialogs.confirm('Delete User - ' + user.community_id, 'Are you sure you want to delete the user "'+ user.nickname + '"?');
@@ -35,8 +30,10 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 				}).
 				error(function(data, status, headers, config)
 				{
-					$scope.message = errorMessage(data, status, config);
-					toaster.pop('error', 'Deleting the user failed!', '', null, null, 'toastToErrorDialog');
+					toaster.pop('error', 'Deleting the user failed!', '', null, null, function()
+					{
+						dialogs.error(toaster.title, errorMessage(data, status, config));
+					});
 				});
 		});
 	};
@@ -57,6 +54,9 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 
 .controller('newUserDialogControl', function($scope,$modalInstance,data)
 {
+
+
+
 	$scope.cancel = function(){
 		$modalInstance.dismiss();
 	};
