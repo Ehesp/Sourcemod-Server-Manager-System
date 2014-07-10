@@ -85,5 +85,14 @@ App::down(function()
 
 require app_path().'/filters.php';
 
+/*
+|--------------------------------------------------------------------------
+| Change Blade Templating Tags
+|--------------------------------------------------------------------------
+|
+| This is required to prevent conflicts between Blade and Angular JS.
+|
+*/
+
 Blade::setContentTags('[[', ']]');
 Blade::setEscapedContentTags('[[[', ']]]');
