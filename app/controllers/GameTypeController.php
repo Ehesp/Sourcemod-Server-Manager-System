@@ -25,6 +25,20 @@ class GameTypeController extends BaseController {
         } catch (Exceptio $e) {
             echo "Timeout or cannot connect to server";
         }
+
+        $rooms = array(
+            array(
+                'room_id' => 'xxxxx',
+                'auth_token' => 'xxxxxxxx',
+            ),
+        );
+
+// Create the required Guzzle client.
+        $client = new \Guzzle\Http\Client;
+        $hipchat = new \Hipchat\Notifier($client, $rooms);
+
+// Send the notification.
+        $hipchat->notify('Hello world!');
 	}
 
 }

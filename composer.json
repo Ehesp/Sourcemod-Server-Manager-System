@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"koraktor/steam-condenser": "1.3-stable",
-		"laracasts/utilities": "~1.0"
+		"laracasts/utilities": "~1.0",
+		"hannesvdvreken/hipchat": "*"
 	},
 	"autoload": {
 		"classmap": [

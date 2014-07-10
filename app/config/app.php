@@ -125,6 +125,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Ssms\Authorization\AuthorizationServiceProvider',
+        'Hipchat\Support\ServiceProvider',
 
 	),
 
