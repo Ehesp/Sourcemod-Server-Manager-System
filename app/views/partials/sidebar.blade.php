@@ -6,7 +6,7 @@
     </a>
   </li>
   <li class="sidebar-title"><span>NAVIGATION</span></li>
-  @foreach($sidebarPages as $page)
+  @foreach($pages as $page)
     <li class="sidebar-list">
       <a href="[[ URL::to($page->slug) ]]">[[ $page->friendly_name ]] <span class="menu-icon [[ $page->icon ]]" title="[[ $page->friendly_name ]]"></span></a>
     </li>
