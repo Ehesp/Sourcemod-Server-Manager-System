@@ -1,38 +1,63 @@
-app.controller('SettingsUsersCtrl', function($scope, $http)
+app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toaster)
 {
 	$scope.loading = true;
 	$scope.error = false;
 	$scope.message = '';
 	$scope.users = {};
 
-	$http({method: 'POST', url: window.app_path + 'settings/users'}).
-	success(function(data, status, headers, config)
-	{
-		if (status != 200)
-		{
-			error(status);
-		}
-		else
+	http.post(window.app_path + 'settings/users').
+		success(function(data, status, headers, config)
 		{
 			$scope.users = data;
 			$scope.loading = false;
-		}
-	}).
-	error(function(data, status, headers, config)
+		}).
+		error(function(data, status, headers, config)
+		{
+			$scope.message = errorMessage(data, status, config);
+			$scope.error = true;
+			$scope.loading = false;
+		});
+
+	$scope.toastToErrorDialog = function(toaster)
 	{
-		error(data, status, config);
-	});
+		dialogs.error(toaster.title, $scope.message);
+	};
 
-	function error(data, status, config)
+	$scope.deleteUser = function(user)
 	{
-		message = "An error occurred and the data could not be loaded!<br />";
-		message += "Error: " + data.error.message + "<br />";
-		message += "Exception: " + data.error.type + "<br />";
-		message += config.method + " " + config.url + ", HTTP status " + status;
+		var d = dialogs.confirm('Delete User - ' + user.community_id, 'Are you sure you want to delete the user "'+ user.nickname + '"?');
 
-		$scope.message = message;
-		$scope.error = true;
-		$scope.loading = false;
-	}
+		d.result.then(function(c) {
+			http.post(window.app_path + 'settings/users/delete', user.id).
+				success(function(data, status, headers, config)
+				{
+					toaster.pop('success', data.message);
+				}).
+				error(function(data, status, headers, config)
+				{
+					$scope.message = errorMessage(data, status, config);
+					toaster.pop('error', 'Deleting the user failed!', '', null, null, 'toastToErrorDialog');
+				});
+		});
+	};
 
+   	$scope.newUser = function()
+   	{
+   		var d = dialogs.create(window.template_path + 'dialogs/settings.new-user.html', 'newUserDialogControl',{});
+
+   		d.result.then(function(name){
+			console.log(name);
+		},function(){
+			console.log("here");
+		});
+
+   	}
+
+})
+
+.controller('newUserDialogControl', function($scope,$modalInstance,data)
+{
+	$scope.cancel = function(){
+		$modalInstance.dismiss();
+	};
 });
