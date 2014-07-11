@@ -3,7 +3,7 @@
 class SettingController extends BaseController {
 
 	/**
-	* Get all users
+	* Get all users with roles
 	*
 	* @return json
 	*/
@@ -17,6 +17,7 @@ class SettingController extends BaseController {
 	* Delete a user
 	*
 	* Takes a AJAX post request with an ID parameter.
+	* @return json
 	*/
 
 	public function deleteUser()
@@ -35,16 +36,70 @@ class SettingController extends BaseController {
 		{
 			User::destroy($id);
 
-			return $this->jsonResponse(200, true, 'User has been successfully been deleted!.');
+			return $this->jsonResponse(200, true, 'User has been successfully been deleted!');
 		}
 	}
 
+	/**
+	* Add a user
+	*
+	* Takes a AJAX post request with JSON parameters.
+	* @return json
+	*/
+	public function addUser()
+	{
+		$user = Input::all();
+
+		try
+		{
+			$create = User::create([
+				'community_id' => $user['community_id'],
+				'nickname' => $user['nickname'],
+				'avatar' => $user['avatar'],
+				'enabled' => $user['state'],
+			]);
+
+			if (! is_null($user['role']))
+			{
+				foreach ($user['role'] as $role)
+				{
+					$create->assignRoles(
+						Role::where('id', $role['id'])->get()
+					);
+				}
+
+				$create->assignRoles(
+					Role::whereName('guest')->get()
+				);
+			}
+			// If no roles chosen, set them as guest
+			else
+			{
+				$create->assignRoles(
+					Role::whereName('guest')->get()
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			// 23000: Integrity constraint violation = Duplicate Entry
+			if ($e->getCode() == '23000') return $this->jsonResponse(400, false, 'User already exists!');
+
+			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
+		}
+
+		return $this->jsonResponse(200, true, 'User has been successfully been added!', $create);
+	}
+
+	/**
+	* Search for a Steam user via Steam Condenser
+	*
+	* Takes a AJAX post request with Steam ID parameter.
+	* @return json
+	*/
 	public function userSearch()
 	{
-		// $string = Input::all()[0];
-
-		// $string = '76561197993035972';
-		$id = 'STEAM_0:0:16385122ewd';
+		$id = Input::all()[0];
 
 		if (! is_numeric($id))
 		{
@@ -54,20 +109,25 @@ class SettingController extends BaseController {
 			}
 			catch (Exception $e)
 			{
-				App::abort(400, $e->getMessage());
+				return $this->jsonResponse(400, false, $e->getMessage());
 			}
 		}
 
 		try
 		{
-			$steam = new SteamId($id);
+			$steamObject = new SteamId($id);
 		}
 		catch (Exception $e)
 		{
-			App::abort(400, $e->getMessage());
+			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 		
-		dd($steam);
+		return $this->jsonResponse(200, true, 'User profile found!',
+			[
+				'community_id' => $steamObject->getSteamId64(),
+				'nickname' => $steamObject->getNickname(),
+				'avatar' => $steamObject->getMediumAvatarUrl(),
+			]);
 	}
 
 	/**
@@ -139,6 +199,11 @@ class SettingController extends BaseController {
 			->with('quick_links', $this->getQuickLinks());
 	}
 
+	/**
+	* Return the users settings view
+	*
+	* @return View
+	*/
 	public function getUsersView()
 	{
 		return View::make('pages.settings.users');

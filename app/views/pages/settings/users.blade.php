@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="toolbar">
-          <button class="btn btn-sm btn-success pull-right" ng-click="newUser()">New User</button>
+          <button class="btn btn-sm btn-success pull-right" ng-click="addUser()">Add User(s)</button>
           <button class="btn btn-sm btn-info pull-right">Force Refresh</button>
         </div>
       </div>
@@ -57,7 +57,10 @@
                     <td class="text-center" ng-bind="user.id"></td>
                     <td ng-bind="user.nickname"></td>
                     <td ng-bind="user.community_id"></td>
-                    <td ng-bind="user.enabled"></td>
+                    <td ng-switch="user.enabled">
+                      <i ng-switch-when="1" class="fa fa-check"></i>
+                      <i ng-switch-when="0" class="fa fa-times"></i>
+                    </td>
                     <td></td>
                     <td ng-bind="user.updated_at"></td>
                     <td>

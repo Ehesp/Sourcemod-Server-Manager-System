@@ -1,16 +1,24 @@
-app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toaster)
+app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs, http, toaster)
 {
+	/**
+	* Scope Variables
+	*/ 
 	$scope.loading = true;
 	$scope.error = false;
 	$scope.message = '';
-	$scope.users = [];
 
+	// Pass the users into the rootScope as we need to access
+	// them in the dialog(s) within another scope
+	$rootScope.users = [];
+
+	/**
+	* Load SSMS users
+	*/ 
 	http.post(window.app_path + 'settings/users').
 		success(function(data, status, headers, config)
 		{
-			$scope.users = data;
+			$rootScope.users = data;
 			$scope.loading = false;
-			console.log(data);
 		}).
 		error(function(data, status, headers, config)
 		{
@@ -19,10 +27,15 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 			$scope.loading = false;
 		});
 
+	/**
+	* Delete user function
+	*/ 
 	$scope.deleteUser = function(user)
 	{
+		// Trigger dialog
 		var d = dialogs.confirm('Delete User - ' + user.community_id, 'Are you sure you want to delete the user "'+ user.nickname + '"?');
 
+		// On dialog "confirm"
 		d.result.then(function(c) {
 			http.post(window.app_path + 'settings/users/delete', user.id).
 				success(function(data)
@@ -36,7 +49,7 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 					}
 					else
 					{
-						$scope.users.splice(findWithAttr($scope.users, 'id', user.id), 1);
+						$rootScope.users.splice(findWithAttr($rootScope.users, 'id', user.id), 1);
 						toaster.pop('success', data.message);	
 					}
 				}).
@@ -47,26 +60,146 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 		});
 	};
 
-   	$scope.newUser = function()
+	/**
+	* Add user function
+	*/ 
+   	$scope.addUser = function()
    	{
-   		var d = dialogs.create(window.template_path + 'dialogs/settings.new-user.html', 'newUserDialogControl',{});
-
-   		d.result.then(function(name){
-			console.log(name);
-		},function(){
-			console.log("here");
-		});
-
+   		var d = dialogs.create(window.template_path + 'dialogs/settings.new-user.html', 'newUserDialogCtrl',{});
    	}
 
 })
 
-.controller('newUserDialogControl', function($scope,$modalInstance,data)
+/**
+* New user dialog controller
+*/ 
+
+.controller('newUserDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
 {
+	// Scope defaults
+	function reset()
+	{
+		$scope.steam = {};
+		$scope.user = {};
 
+		$scope.success = false;
+		$scope.warning = false;
+		$scope.error = false;
 
+		$scope.searching = false;
+		$scope.found = false;
+		$scope.message = false;
 
-	$scope.cancel = function(){
+		$scope.adding = false;
+		$scope.addUserError = false;
+	}
+
+	reset();
+
+	// Set user states: enabled/disabled
+	$scope.states = [{ value: 0, name: 'disabled'},{ value: 1, name: 'enabled'}];
+	// Get the none guest roles from the window
+	$scope.roles = window.roles;
+
+	/**
+	* Search Steam User
+	*/ 
+	$scope.search = function(steam)
+	{
+		// If Steam ID is not valid
+		if (! validateSteamData(steam.id))
+		{
+			$scope.success = false;
+			$scope.error = false;
+			$scope.warning = true;
+			$scope.searching = false;
+
+			$scope.message = 'Please enter a valid Steam or Community ID!';
+		}
+		else
+		{
+			$scope.success = false;
+			$scope.warning = false;
+			$scope.error = false;
+			$scope.searching = true;
+
+			$scope.message = '';
+
+			// Send request to search for user
+			http.post(window.app_path + 'settings/users/add/search', JSON.stringify(steam.id)).
+				success(function(data)
+				{
+					$scope.searching = false;
+
+					if(! data.status)
+					{
+						$scope.error = true;
+						$scope.message = data.message;
+					}
+					else
+					{
+						$scope.success = true;
+						$scope.message = data.message;
+
+						$scope.found = true;
+						$scope.user = data.payload;
+					}
+				}).
+				error(function(data, status, headers, config)
+				{
+					$scope.searching = false;
+
+					$scope.error = true;
+					$scope.message = errorExceptionMessage(data, status, config);
+				});
+		}
+	}
+
+	/**
+	* Add user to SSMS
+	*/ 
+	$scope.addUser = function(user)
+	{
+		$scope.adding = true;
+
+		http.post(window.app_path + 'settings/users/add', JSON.stringify(user)).
+			success(function(data)
+			{
+				$scope.adding = false;
+
+				if(! data.status)
+				{
+					console.log(data);
+					$scope.addUserError = data.message;
+				}
+				else
+				{
+					toaster.pop('success', 'User added!');
+					reset();
+					$rootScope.users.push(data.payload);
+				}
+			}).
+			error(function(data, status, headers, config)
+			{
+				$scope.adding = false;
+
+				$scope.addUserError = errorExceptionMessage(data, status, config);
+			});
+	}
+
+	/**
+	* Reset the dialog
+	*/ 
+	$scope.reset = function()
+	{
+		reset();
+	}
+
+	/**
+	* Close the dialog
+	*/ 
+	$scope.close = function()
+	{
 		$modalInstance.dismiss();
 	};
 });
