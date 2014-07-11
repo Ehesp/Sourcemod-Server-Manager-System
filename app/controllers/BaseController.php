@@ -20,11 +20,13 @@ class BaseController extends Controller {
 	 *
 	 * @return json
 	 */
-	protected function jsonResponse($httpCode, $status, $message)
+	protected function jsonResponse($httpCode, $status, $message, $payload = null, $exceptionCode = null)
 	{
 		$json['code'] = $httpCode;
 		$json['status'] = $status;
 		$json['message'] = $message;
+		! is_null($payload) ? $json['payload'] = $payload :'';
+		! is_null($exceptionCode) ? $json['exceptionCode'] = $exceptionCode :'';
 
 		return Response::json($json);
 	}
