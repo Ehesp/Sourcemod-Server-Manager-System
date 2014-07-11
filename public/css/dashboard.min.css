@@ -24,6 +24,12 @@
     }
   }
 
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+  select {
+    font-family: Arial;
+    }
+  }
+
 /* Base */
   html {
     overflow-y: scroll;
@@ -69,6 +75,15 @@
     background: #ae2323 !important;
   }
 
+  .form-horizontal .has-feedback .fa-form-control-feedback {
+    position: absolute;
+    right: 24px;
+    top: 7px;
+    font-size: 20px;
+  }
+  .form-group .help-block.form-group-inline-error {
+    padding-top: 3px;
+  }
 
 /* Sidebar */
   ul.sidebar {
@@ -348,3 +363,14 @@
 .message-heading {
   font-size: 17px !important;
 }
+
+/* Dialogs */
+
+  .steam-search-profile img {
+    width: 40px;
+  }
+  .steam-search-profile .nickname {
+    padding-left: 10px;
+    position: relative;
+    top: 10px;
+  }
