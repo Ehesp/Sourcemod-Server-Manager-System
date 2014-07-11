@@ -3,17 +3,18 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 	$scope.loading = true;
 	$scope.error = false;
 	$scope.message = '';
-	$scope.users = {};
+	$scope.users = [];
 
 	http.post(window.app_path + 'settings/users').
 		success(function(data, status, headers, config)
 		{
 			$scope.users = data;
 			$scope.loading = false;
+			console.log(data);
 		}).
 		error(function(data, status, headers, config)
 		{
-			$scope.message = errorMessage(data, status, config);
+			$scope.message = errorExceptionMessage(data, status, config);
 			$scope.error = true;
 			$scope.loading = false;
 		});
@@ -35,7 +36,7 @@ app.controller('SettingsUsersCtrl', function($scope, $http, dialogs, http, toast
 					}
 					else
 					{
-						delete $scope.users[findWithAttr($scope.users, 'id', user.id)];
+						$scope.users.splice(findWithAttr($scope.users, 'id', user.id), 1);
 						toaster.pop('success', data.message);	
 					}
 				}).
