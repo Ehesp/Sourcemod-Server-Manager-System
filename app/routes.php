@@ -44,7 +44,8 @@ Route::group(['before' => 'access'], function()
 		Route::get('users', ['as' => 'settings.users', 'before' => 'permission:settings.users', 'uses' => 'SettingController@getUsersView']);
 		Route::post('users', ['before' => 'ajax|permissions:settings.users', 'uses' => 'SettingController@getUsers']);
 		Route::post('users/delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'SettingController@deleteUser']);
-		Route::any('users/add', ['before' => 'permissions:settings.users.add', 'uses' => 'SettingController@userSearch']);
+		Route::post('users/add', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@addUser']);
+		Route::post('users/add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@userSearch']);
 	});
 	
 
