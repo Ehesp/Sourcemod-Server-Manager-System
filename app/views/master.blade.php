@@ -22,6 +22,7 @@
     [[ HTML::script('assets/vendor/AngularJS-Toaster/toaster.js') ]]
     
     [[ HTML::style('css/dashboard.min.css') ]]
+    [[ HTML::script('js/helpers.js') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
     [[ HTML::script('js/angular/directives.js') ]]
     [[ HTML::script('js/angular/services.js') ]]

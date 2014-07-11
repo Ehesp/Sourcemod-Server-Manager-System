@@ -40,30 +40,3 @@ app.controller('MasterCtrl', function($scope, $cookieStore)
 	window.onresize = function() { $scope.$apply(); };
 
 });
-
-function errorExceptionMessage(data, status, config)
-{
-	message = "<u class='message-heading'>An error occured!</u><br />";
-	message += "Error: " + data.error.message + "<br />";
-	message += "Exception: " + data.error.type + "<br />";
-	message += config.method + " " + config.url + ", HTTP status " + status;
-
-	return message;
-}
-
-function errorMessage(httpCode, data)
-{
-	message = "<u class='message-heading'>An error occured!</u><br />";
-	message += "HTTP Code: " + httpCode + "<br />";
-	message += "Message: " + data + "<br />";
-
-	return message;
-}
-
-function findWithAttr(array, attr, value) {
-    for(var i = 0; i < array.length; i += 1) {
-        if(array[i][attr] === value) {
-            return i;
-        }
-    }
-}
