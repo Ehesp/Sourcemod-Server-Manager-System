@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration {
 		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('community_id');
+			$table->string('community_id')->unique();
 			$table->string('nickname');
 			$table->string('avatar', 200)->nullable();
 			$table->boolean('enabled')->default(0);
