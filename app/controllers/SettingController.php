@@ -50,6 +50,7 @@ class SettingController extends BaseController {
 	{
 		$user = Input::all();
 
+		// Check if user is trying to disable their own account
 		if ($user['id'] == Auth::user()->id && $user['edit']['state'] == 0)
 		{
 			return $this->jsonResponse(400, false, 'You cannot disable your own account.');
@@ -62,10 +63,12 @@ class SettingController extends BaseController {
 			$update->enabled = $user['edit']['state'];
 			$update->save();
 
+			// Remove all roles apart from guest
 			$update->removeRoles(
 				Role::where('name', '!=', 'guest')->get()
 			);
 
+			// Update new roles
 			foreach ($user['edit']['role'] as $role) {
 				$update->assignRoles(
 					Role::where('id', $role['id'])->get()
@@ -100,6 +103,7 @@ class SettingController extends BaseController {
 				'enabled' => $user['state'],
 			]);
 
+			// Update roles
 			if (! is_null($user['role']))
 			{
 				foreach ($user['role'] as $role)
@@ -142,6 +146,7 @@ class SettingController extends BaseController {
 	{
 		$id = Input::all()[0];
 
+		// If the id is not fully numeric, assume it's a Steam ID, and convert it to a Community ID
 		if (! is_numeric($id))
 		{
 			try
@@ -154,6 +159,7 @@ class SettingController extends BaseController {
 			}
 		}
 
+		// Grab user details from Steam
 		try
 		{
 			$steamObject = new SteamId($id);

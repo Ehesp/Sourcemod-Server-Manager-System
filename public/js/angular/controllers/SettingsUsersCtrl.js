@@ -83,21 +83,15 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	{
 		$scope.edit[user.id] = ! angular.isDefined($scope.edit[user.id]) ? true : ! $scope.edit[user.id];
 
-		$scope.selectedRoles[user.id] = [];
-
-		console.log(user.roles);
-
 		// Assign a variable the roles the user has so we're able to default them
+		$scope.selectedRoles[user.id] = [];
 		angular.forEach(user.roles, function(value, key)
 		{
 			if (angular.isDefined($rootScope.roles[findWithAttr($rootScope.roles, 'id', value.id)]))
 			{
 				$scope.selectedRoles[user.id].push($rootScope.roles[findWithAttr($rootScope.roles, 'id', value.id)]);
-				//findWithAttr($rootScope.users, 'id', user.id)
 			}
 		});
-
-		console.log($scope.selectedRoles[user.id]);
 	}
 
 	/**
@@ -148,7 +142,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 
 .controller('newUserDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
 {
-	// Scope defaults
+	// Scope defaults / reset defaults
 	function reset()
 	{
 		$scope.steam = {};
