@@ -4,7 +4,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	* Scope Variables
 	*/ 
 	$scope.loading = true;
-	$scope.saving = false;
+	$scope.saving = {};
 	$scope.refreshing = {};
 	$scope.error = false;
 	$scope.message = '';
@@ -23,7 +23,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	* Load SSMS users
 	*/
 	http.post(window.app_path + 'settings/users').
-		success(function(data, status, headers, config)
+		success(function(data)
 		{
 			$rootScope.users = data;
 			$scope.loading = false;
@@ -100,12 +100,12 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	*/ 
 	$scope.saveEdit = function(user)
 	{
-		$scope.saving = true;
+		$scope.saving[user.id] = true;
 
 		http.post(window.app_path + 'settings/users/edit', JSON.stringify(user)).
 			success(function(data)
 			{
-				$scope.saving = false;
+				$scope.saving[user.id] = false;
 
 				if(! data.status)
 				{
