@@ -247,6 +247,17 @@ class PermissionsTableSeeder extends Seeder {
             Role::where('name', 'super_admin')->get()
         );
 
+        // Refresh a user(s)
+
+        $permission = Permission::create([
+            'name' => 'settings.users.refresh',
+            'description' => 'Refresh a user(s)',
+            'page_id' => $settings,
+        ]);
+
+        $permission->assignRoles(
+            Role::where('name', 'super_admin')->get()
+        );
         // Manage SSMS options
 
         $permission = Permission::create([

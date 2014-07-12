@@ -61,6 +61,7 @@ class SettingController extends BaseController {
 			$update = User::find($user['id']);
 
 			$update->enabled = $user['edit']['state'];
+			$update->touch();
 			$update->save();
 
 			// Remove all roles apart from guest
@@ -175,6 +176,57 @@ class SettingController extends BaseController {
 				'nickname' => $steamObject->getNickname(),
 				'avatar' => $steamObject->getMediumAvatarUrl(),
 			]);
+	}
+
+	public function refreshUser($id = null)
+	{
+		if (! is_null($id))
+		{
+			$user = Input::all();
+
+			try
+			{
+				$steamObject = new SteamId($user['community_id']);
+
+				$update = User::find($user['id']);
+
+				$update->nickname = $steamObject->getNickname();
+				$update->avatar = $steamObject->getMediumAvatarUrl();
+				$update->touch();
+				$update->save();
+			}
+			catch (Exception $e)
+			{
+				return $this->jsonResponse(400, false, $e->getMessage());
+			}
+
+			return $this->jsonResponse(200, true, 'User details refreshed!', User::with('roles')->where('id', $user['id'])->first());
+		}
+		else
+		{
+			$users = User::all();
+
+			try
+			{
+				foreach ($users as $user)
+				{
+					$steamObject = new SteamId($user['community_id']);
+					
+					$update = User::find($user['id']);
+
+					$update->nickname = $steamObject->getNickname();
+					$update->avatar = $steamObject->getMediumAvatarUrl();
+					$update->touch();
+					$update->save();
+				}
+			}
+			catch (Exception $e)
+			{
+				return $this->jsonResponse(400, false, $e->getMessage());
+			}
+
+			return $this->jsonResponse(200, true, 'The users have been updated!', User::with('roles')->get());
+		}
 	}
 
 	/**

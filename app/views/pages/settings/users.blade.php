@@ -21,7 +21,9 @@
           @if(Permissions::validate('settings.users.add'))
             <button class="btn btn-sm btn-success pull-right" ng-click="addUser()">Add User(s)</button>
           @endif
-          <button class="btn btn-sm btn-info pull-right">Force Refresh</button>
+          @if(Permissions::validate('settings.users.refresh'))
+          <button class="btn btn-sm btn-info pull-right" ng-click="massRefresh()">Mass Refresh</button>
+          @endif
         </div>
       </div>
     </div>
@@ -51,7 +53,7 @@
                     <th>Roles</th>
                     <th>Enabled</th>
                     <th>Last Updated</th>
-                    <th class="text-center"><i class="fa fa-cogs"></i></th>
+                    <th class="text-right"><i class="fa fa-cogs"></i></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,21 +83,26 @@
                     </td>
                     <td ng-bind="user.updated_at"></td>
                     <td>
-                      @if(Permissions::validate('settings.users.delete'))
-                        <button ng-if="!edit[user.id]" class="btn btn-danger" ng-click="deleteUser(user)">
-                          <i class="fa fa-trash-o"></i>
-                        </button>
-                      @endif
                       @if(Permissions::validate('settings.users.edit'))
-                        <button ng-if="!edit[user.id]" class="btn btn-warning" ng-click="editUser(user)">
+                        <button ng-if="!edit[user.id]" class="btn btn-warning btn-sm pull-right" ng-click="editUser(user)" tooltip="Edit User">
                           <i class="fa fa-wrench"></i>
                         </button>
-                        <button ng-if="edit[user.id]" class="btn btn-success" ng-click="saveEdit(user)">
+                        <button ng-if="edit[user.id]" class="btn btn-danger btn-sm pull-right" ng-click="editUser(user)" tooltip="Cancel">
+                          <i class="fa fa-times"></i>
+                        </button>
+                        <button ng-if="edit[user.id]" class="btn btn-success btn-sm pull-right" ng-click="saveEdit(user)" tooltip="Saves Changes">
                           <i ng-if="!saving" class="fa fa-check"></i>
                           <i ng-if="saving" class="fa fa-spinner fa-spin"></i>
                         </button>
-                        <button ng-if="edit[user.id]" class="btn btn-danger" ng-click="editUser(user)">
-                          <i class="fa fa-times"></i>
+                      @endif
+                      @if(Permissions::validate('settings.users.delete'))
+                        <button ng-if="!edit[user.id]" class="btn btn-danger btn-sm pull-right" ng-click="deleteUser(user)" tooltip="Delete User">
+                          <i class="fa fa-trash-o"></i>
+                        </button>
+                      @endif
+                      @if(Permissions::validate('settings.users.refresh'))
+                        <button class="btn btn-info btn-sm pull-right" ng-click="refreshUser(user)" tooltip="Refresh User">
+                          <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing[user.id]}"></i>
                         </button>
                       @endif
                     </td>

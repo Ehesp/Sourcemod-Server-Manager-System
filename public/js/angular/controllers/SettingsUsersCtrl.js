@@ -5,6 +5,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	*/ 
 	$scope.loading = true;
 	$scope.saving = false;
+	$scope.refreshing = {};
 	$scope.error = false;
 	$scope.message = '';
 	$scope.edit = {};
@@ -20,7 +21,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 
 	/**
 	* Load SSMS users
-	*/ 
+	*/
 	http.post(window.app_path + 'settings/users').
 		success(function(data, status, headers, config)
 		{
@@ -104,9 +105,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 		http.post(window.app_path + 'settings/users/edit', JSON.stringify(user)).
 			success(function(data)
 			{
-				console.log(data.payload);
-				console.log($rootScope.users[0]);
-
 				$scope.saving = false;
 
 				if(! data.status)
@@ -131,8 +129,64 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 				$scope.saving = false;
 				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 			});
+	}
 
-		
+	/**
+	* Refresh a single user
+	*/ 
+	$scope.refreshUser = function(user)
+	{
+		$scope.refreshing[user.id] = true;
+
+		http.post(window.app_path + 'settings/users/refresh/'+ user.id, JSON.stringify(user)).
+			success(function(data)
+			{
+				if(! data.status)
+				{
+					toaster.pop('error', 'Failed to refresh user!', '', null, null, function()
+					{
+						dialogs.error('An error occured while refreshing the users details!', errorMessage(data.code, data.message));
+					});
+				}
+				else
+				{
+					toaster.pop('success', data.message);
+					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
+					$scope.refreshing[user.id] = false;
+				}
+			}).
+			error(function(data, status, headers, config)
+			{
+				$scope.refreshing[user.id] = false;
+				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
+			});
+	}
+
+	/**
+	* Refresh all users
+	*/ 
+	$scope.massRefresh = function()
+	{
+		http.post(window.app_path + 'settings/users/refresh').
+			success(function(data)
+			{
+				if(! data.status)
+				{
+					toaster.pop('error', 'An error occured while refreshing the users!', '', null, null, function()
+					{
+						dialogs.error('An error occured while refreshing the application users!', errorMessage(data.code, data.message));
+					});
+				}
+				else
+				{
+					toaster.pop('success', data.message);
+					$rootScope.users = data.payload;
+				}
+			}).
+			error(function(data, status, headers, config)
+			{
+				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
+			});
 	}
 })
 
