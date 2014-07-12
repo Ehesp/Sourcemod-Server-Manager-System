@@ -341,6 +341,9 @@
   .widget .widget-body.no-padding {
     padding: 0;
   }
+  .widget .widget-body button {
+    margin-left: 5px;
+  }
   .widget .widget-icon {
     background: #30426a;
     width: 65px;
