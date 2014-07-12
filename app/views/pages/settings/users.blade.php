@@ -91,8 +91,7 @@
                           <i class="fa fa-times"></i>
                         </button>
                         <button ng-if="edit[user.id]" class="btn btn-success btn-sm pull-right" ng-click="saveEdit(user)" tooltip="Saves Changes">
-                          <i ng-if="!saving" class="fa fa-check"></i>
-                          <i ng-if="saving" class="fa fa-spinner fa-spin"></i>
+                          <i class="fa" ng-class="{'fa-check': !saving[user.id], 'fa-spinner fa-spin': saving[user.id]}"></i>
                         </button>
                       @endif
                       @if(Permissions::validate('settings.users.delete'))

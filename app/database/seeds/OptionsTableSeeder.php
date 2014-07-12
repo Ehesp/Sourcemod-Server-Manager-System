@@ -8,7 +8,7 @@ class OptionsTableSeeder extends Seeder {
             'name' => 'default_language',
             'friendly_name' => 'Default Language',
             'value' => 'en',
-            'options' => "['en', 'nl', 'de']",
+            'options' => "en|nl|de",
             'description' => 'If no language is set by the user, this is the default',
         ]);
 
@@ -23,7 +23,7 @@ class OptionsTableSeeder extends Seeder {
             'name' => 'theme',
             'friendly_name' => 'Theme',
             'value' => 'blue',
-            'options' => "['blue', 'red', 'orange', 'green']",
+            'options' => "blue|red|orange|green",
             'description' => 'The colour theme the application',
         ]);
     }

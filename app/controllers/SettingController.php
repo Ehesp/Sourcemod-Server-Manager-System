@@ -178,6 +178,12 @@ class SettingController extends BaseController {
 			]);
 	}
 
+	/**
+	* Refresh a user, or all users
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
 	public function refreshUser($id = null)
 	{
 		if (! is_null($id))
@@ -230,47 +236,37 @@ class SettingController extends BaseController {
 	}
 
 	/**
-	* Get a limited number of users
-	*
-	* @return json
-	*/
-
-	protected function limitUsers($n = 5)
-	{
-		return User::take($n)->get();
-	}
-
-	/**
-	* Return a response of users with pagination
-	*
-	* @return json
-	*/
-
-	protected function paginateUsers($n = 20)
-	{
-		return User::paginate($n);
-	}
-
-	/**
 	* Get all options
 	*
 	* @return json
 	*/
-
-	protected function getOptions()
+	public function getOptions()
 	{
 		return Option::all();
 	}
 
-	/**
-	* Get a limited number of options
-	*
-	* @return json
-	*/
-
-	protected function limitOptions($n = 5)
+	public function updateOption()
 	{
-		return Option::take($n)->get();
+		$option = Input::all();
+
+		if ($option['value'] === null || $option['value'] == '')
+		{
+			return $this->jsonResponse(400, false, "The option value must be present!");
+		}
+
+		try
+		{
+			$update = Option::find($option['id']);
+			$update->value = $option['value'];
+			$update->touch();
+			$update->save();
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'The option has been updated!', Option::find($option['id']));
 	}
 
 	/**
@@ -293,8 +289,8 @@ class SettingController extends BaseController {
 	public function getView()
 	{
 		return View::make('pages.settings')
-			->with('users', $this->limitUsers())
-			->with('options', $this->limitOptions())
+			->with('users', $this->getUsers())
+			->with('options', $this->getOptions())
 			->with('quick_links', $this->getQuickLinks());
 	}
 
@@ -308,4 +304,13 @@ class SettingController extends BaseController {
 		return View::make('pages.settings.users');
 	}
 
+	/**
+	* Return the options settings view
+	*
+	* @return View
+	*/
+	public function getOptionsView()
+	{
+		return View::make('pages.settings.options');
+	}
 }

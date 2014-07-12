@@ -51,6 +51,13 @@ Route::group(['before' => 'access'], function()
 			Route::post('add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@userSearch']);
 			Route::post('refresh/{id?}', ['before' => 'ajax|permissions:settings.users.refresh', 'uses' => 'SettingController@refreshUser']);
 		});
+
+		Route::group(['prefix' => 'options', 'before' => 'permission:settings.options'], function()
+		{
+			Route::get('/', ['as' => 'settings.options', 'uses' => 'SettingController@getOptionsView']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getOptions']);
+			Route::post('update', ['before' => 'ajax', 'uses' => 'SettingController@updateOption']);
+		});
 	});
 	
 
