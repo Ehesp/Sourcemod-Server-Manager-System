@@ -25,7 +25,6 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 	*/
 	$scope.updateOption = function(option)
 	{
-		console.log(option);
 		$scope.updating[option.id] = true;
 
 		http.post(window.app_path + 'settings/options/update', JSON.stringify(option)).

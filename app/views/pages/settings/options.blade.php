@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="widget">
 					<div class="widget-title">
-						<i class="fa fa-users"></i> Manage Users
+						<i class="fa fa-cogs"></i> Manage Options
 						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." ng-model="searchOptions">
 						<div class="clearfix"></div>
 					</div>
