@@ -22,7 +22,7 @@ class Page extends Eloquent {
 	*/
 	public function roles()
 	{
-		return $this->belongsToMany('Role', 'page_role')->withTimestamps();
+		return $this->belongsToMany('Role', 'page_role')->orderBy('id', 'asc')->withTimestamps();
 	}
 
 	/**
@@ -46,11 +46,13 @@ class Page extends Eloquent {
 	}
 
 	/**
-	* Remove the page role by ID or Object
+	* Remove the page role by Object
 	*
 	*/
-	public function removeRole($role)
+	public function removeRoles($roles)
 	{
-		$this->roles()->detach($role);
+		foreach ($roles as $role) {
+			$this->roles()->detach($role);
+		}
 	}
 }

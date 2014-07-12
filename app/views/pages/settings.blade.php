@@ -85,24 +85,28 @@
     <div class="col-lg-6">
       <div class="widget">
         <div class="widget-title">
-          <i class="fa fa-external-link-square"></i> Quick Links
-          <a href="#" class="pull-right">
+          <i class="fa fa-key"></i> Page Management
+          @if(Permissions::validate('settings.page_management'))
+          <a href="[[ URL::route('settings.page-management') ]]" class="pull-right">
             Manage
           </a>
+          @endif
         </div>
         <div class="widget-body no-padding">
           <table class="table table-condensed">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>URL</th>
+                <th>Name</th>
+                <th>Icon</th>
+                <th>Slug</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($quick_links as $link)
+              @foreach($page_access as $access)
                 <tr>
-                  <td>[[ $link->name ]]</td>
-                  <td>[[ $link->url ]]</td>
+                  <td>[[ $access->friendly_name ]]</td>
+                  <td><i class="[[ $access->icon ]]"></i></td>
+                  <td>[[ $access->slug ]]</td>
                 </tr>
               @endforeach
             </tbody>
@@ -133,5 +137,34 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="widget">
+        <div class="widget-title">
+          <i class="fa fa-external-link-square"></i> Quick Links
+          <a href="#" class="pull-right">
+            Manage
+          </a>
+        </div>
+        <div class="widget-body no-padding">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($quick_links as $link)
+                <tr>
+                  <td>[[ $link->name ]]</td>
+                  <td>[[ $link->url ]]</td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
   </div>
 @stop

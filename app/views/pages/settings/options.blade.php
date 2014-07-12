@@ -10,7 +10,7 @@
 
 @section('assets')
   @parent
-  [[ HTML::script('js/angular/controllers/SettingsOptionsCtrl.js') ]]
+  [[ HTML::script('js/angular/controllers/settings/SettingsOptionsCtrl.js') ]]
 @stop
 
 @section('content')

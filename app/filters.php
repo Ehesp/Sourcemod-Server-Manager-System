@@ -62,7 +62,7 @@ App::before(function($request)
 	JavaScript::put([
 		'app_path' => URL::to('/') . '/',
 		'template_path' => URL::to('templates') . '/',
-		'roles' => Role::where('name', 'super_admin')->orWhere('name', 'admin')->orWhere('name', 'user')->get(['id', 'friendly_name']),
+		'roles' => Role::get(['id', 'name', 'friendly_name']),
 	]);
 
 });

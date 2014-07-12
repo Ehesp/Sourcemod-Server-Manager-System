@@ -58,6 +58,13 @@ Route::group(['before' => 'access'], function()
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getOptions']);
 			Route::post('update', ['before' => 'ajax', 'uses' => 'SettingController@updateOption']);
 		});
+
+		Route::group(['prefix' => 'page-management', 'before' => 'permission:settings.page_access'], function()
+		{
+			Route::get('/', ['as' => 'settings.page-management', 'uses' => 'SettingController@getPageManagementView']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPageManagement']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPage']);
+		});
 	});
 	
 

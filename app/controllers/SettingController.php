@@ -245,6 +245,12 @@ class SettingController extends BaseController {
 		return Option::all();
 	}
 
+	/**
+	* Update an option
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
 	public function updateOption()
 	{
 		$option = Input::all();
@@ -274,10 +280,79 @@ class SettingController extends BaseController {
 	*
 	* @return json
 	*/
-
 	protected function getQuickLinks()
 	{
 		return QuickLink::all();
+	}
+
+	/**
+	* Get pages and their access
+	*
+	* @return json
+	*/
+	protected function getPageManagement()
+	{
+		return Page::with('roles')->get();
+	}
+
+	/**
+	* Edit a page
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	protected function editPage()
+	{
+		$page = Input::all();
+
+		// If no icon given
+		if ($page['edit']['icon'] === null || $page['edit']['icon'] == '') return $this->jsonResponse(400, false, "The icon field cannot be left empty!");
+
+		// If invalid font awesome name 
+		if (strpos($page['edit']['icon'], 'fa fa-') !== false)
+		{}
+		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+
+		// Page must have a role attached
+		if (count($page['edit']['role']) == 0) return $this->jsonResponse(400, false, "A page must have at least one role!");
+
+		// Stop user assigning User/Guest role to settings and multi_console page
+		if ($page['name'] == 'settings' || $page['name'] == 'multi_console')
+		{
+			foreach ($page['edit']['role'] as $role)
+			{
+				if ($role['name'] == 'user' || $role['name'] == 'guest') return $this->jsonResponse(400, false, "Unable to give page User or Guest privilages for security reasons!");
+			}
+		}
+
+		try
+		{
+			$update = Page::find($page['id']);
+
+			$update->icon = $page['edit']['icon'];
+			$update->touch();
+			$update->save();
+
+			// Remove all page roles
+			$update->removeRoles(
+				Role::all()
+			);
+
+			//Give page new set of chosen roles
+			foreach ($page['edit']['role'] as $role)
+			{
+				$update->assignRoles(
+					Role::where('name', $role['name'])->get()
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'Page successfully updated!', Page::with('roles')->find($page['id']));
+
 	}
 
 	/**
@@ -285,12 +360,12 @@ class SettingController extends BaseController {
 	*
 	* @return View
 	*/
-
 	public function getView()
 	{
 		return View::make('pages.settings')
 			->with('users', $this->getUsers())
 			->with('options', $this->getOptions())
+			->with('page_access', $this->getPageManagement())
 			->with('quick_links', $this->getQuickLinks());
 	}
 
@@ -312,5 +387,15 @@ class SettingController extends BaseController {
 	public function getOptionsView()
 	{
 		return View::make('pages.settings.options');
+	}
+
+	/**
+	* Return the page-access settings view
+	*
+	* @return View
+	*/
+	public function getPageManagementView()
+	{
+		return View::make('pages.settings.page-management');
 	}
 }

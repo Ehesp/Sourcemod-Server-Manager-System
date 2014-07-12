@@ -285,8 +285,8 @@ class PermissionsTableSeeder extends Seeder {
         // Manage access control
 
         $permission = Permission::create([
-            'name' => 'settings.access',
-            'description' => 'Manage application page access',
+            'name' => 'settings.page_management',
+            'description' => 'Manage application pages',
             'page_id' => $settings,
         ]);
 
