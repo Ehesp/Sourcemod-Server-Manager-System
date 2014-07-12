@@ -338,6 +338,10 @@
   .widget .widget-body table thead {
     background: #fafafa;
   }
+  .widget .widget-body.medium {
+    height: 250px;
+    overflow-y: auto;
+  }
   .widget .widget-body.no-padding {
     padding: 0;
   }

@@ -20,14 +20,14 @@
             </a>
           @endif
         </div>
-        <div class="widget-body no-padding">
+        <div class="widget-body medium no-padding">
           <table class="table">
             <thead>
               <tr>
                 <th class="text-center">ID</th>
                 <th>Nickname</th>
                 <th>Community ID</th>
-                <th>Enabled</th>
+                <th class="text-center">Enabled</th>
               </tr>
             </thead>
             <tbody>
@@ -36,7 +36,13 @@
                   <td class="text-center">[[ $user->id ]]</td>
                   <td>[[ $user->nickname ]]</td>
                   <td>[[ $user->community_id ]]</td>
-                  <td>[[ $user->enabled ]]</td>
+                  <td class="text-center">
+                    @if ($user->enabled == 1)
+                      <i class="fa fa-check"></i>
+                    @else
+                      <i class="fa fa-times"></i>
+                    @endif
+                  </td>
                 </tr>
               @endforeach
             </tbody>
@@ -48,11 +54,13 @@
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-cogs"></i> SSMS Options
-          <a href="#" class="pull-right">
+          @if(Permissions::validate('settings.options'))
+          <a href="[[ URL::route('settings.options') ]]" class="pull-right">
             Manage
           </a>
+          @endif
         </div>
-        <div class="widget-body no-padding">
+        <div class="widget-body medium no-padding">
           <table class="table">
             <thead>
               <tr>
@@ -60,7 +68,7 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="tbody-medium">
               @foreach($options as $option)
                 <tr>
                   <td>[[ $option->friendly_name ]]</td>
