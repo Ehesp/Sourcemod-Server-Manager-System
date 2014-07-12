@@ -36,7 +36,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	*/
 	public function roles()
 	{
-		return $this->belongsToMany('Role', 'role_user')->withTimestamps();
+		return $this->belongsToMany('Role', 'role_user')->orderBy('id', 'asc')->withTimestamps();
 	}
 
 	/**
@@ -69,9 +69,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	* Remove the users role by ID or Object
 	*
 	*/
-	public function removeRole($role)
+	public function removeRoles($roles)
 	{
-		$this->roles()->detach($role);
+		foreach ($roles as $role) {
+			$this->roles()->detach($role);
+		}
 	}
 
 	/**
