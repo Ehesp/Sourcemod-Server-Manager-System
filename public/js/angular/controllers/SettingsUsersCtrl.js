@@ -4,12 +4,19 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	* Scope Variables
 	*/ 
 	$scope.loading = true;
+	$scope.saving = false;
 	$scope.error = false;
 	$scope.message = '';
+	$scope.edit = {};
+	$scope.selectedRoles = {};
 
-	// Pass the users into the rootScope as we need to access
+	// Pass data into the rootScope as we need to access
 	// them in the dialog(s) within another scope
 	$rootScope.users = [];
+	// Set user states: enabled/disabled
+	$rootScope.states = [{ value: 0, name: 'disabled'},{ value: 1, name: 'enabled'}];
+	// Get the none guest roles from the window
+	$rootScope.roles = window.roles;
 
 	/**
 	* Load SSMS users
@@ -62,12 +69,77 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 
 	/**
 	* Add user function
+	* Load newUserDialogCtrl dialog
 	*/ 
    	$scope.addUser = function()
    	{
    		var d = dialogs.create(window.template_path + 'dialogs/settings.new-user.html', 'newUserDialogCtrl',{});
    	}
 
+	/**
+	* Edit user function
+	*/ 
+	$scope.editUser = function(user)
+	{
+		$scope.edit[user.id] = ! angular.isDefined($scope.edit[user.id]) ? true : ! $scope.edit[user.id];
+
+		$scope.selectedRoles[user.id] = [];
+
+		console.log(user.roles);
+
+		// Assign a variable the roles the user has so we're able to default them
+		angular.forEach(user.roles, function(value, key)
+		{
+			if (angular.isDefined($rootScope.roles[findWithAttr($rootScope.roles, 'id', value.id)]))
+			{
+				$scope.selectedRoles[user.id].push($rootScope.roles[findWithAttr($rootScope.roles, 'id', value.id)]);
+				//findWithAttr($rootScope.users, 'id', user.id)
+			}
+		});
+
+		console.log($scope.selectedRoles[user.id]);
+	}
+
+	/**
+	* Save the edit
+	*/ 
+	$scope.saveEdit = function(user)
+	{
+		$scope.saving = true;
+
+		http.post(window.app_path + 'settings/users/edit', JSON.stringify(user)).
+			success(function(data)
+			{
+				console.log(data.payload);
+				console.log($rootScope.users[0]);
+
+				$scope.saving = false;
+
+				if(! data.status)
+				{
+					toaster.pop('error', 'Failed to save changes!', '', null, null, function()
+					{
+						dialogs.error('An error occured saving the user changes!', errorMessage(data.code, data.message));
+					});
+				}
+				else
+				{
+					toaster.pop('success', data.message);
+
+					// Update the user before we close the edit area
+					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
+
+					$scope.edit[user.id] = false;
+				}
+			}).
+			error(function(data, status, headers, config)
+			{
+				$scope.saving = false;
+				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
+			});
+
+		
+	}
 })
 
 /**
@@ -95,11 +167,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	}
 
 	reset();
-
-	// Set user states: enabled/disabled
-	$scope.states = [{ value: 0, name: 'disabled'},{ value: 1, name: 'enabled'}];
-	// Get the none guest roles from the window
-	$scope.roles = window.roles;
 
 	/**
 	* Search Steam User

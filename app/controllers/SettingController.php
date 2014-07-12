@@ -41,6 +41,47 @@ class SettingController extends BaseController {
 	}
 
 	/**
+	* Edit a user
+	*
+	* Takes a AJAX post request with JSON parameter.
+	* @return json
+	*/
+	public function editUser()
+	{
+		$user = Input::all();
+
+		if ($user['id'] == Auth::user()->id && $user['edit']['state'] == 0)
+		{
+			return $this->jsonResponse(400, false, 'You cannot disable your own account.');
+		}
+
+		try
+		{
+			$update = User::find($user['id']);
+
+			$update->enabled = $user['edit']['state'];
+			$update->save();
+
+			$update->removeRoles(
+				Role::where('name', '!=', 'guest')->get()
+			);
+
+			foreach ($user['edit']['role'] as $role) {
+				$update->assignRoles(
+					Role::where('id', $role['id'])->get()
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
+		}
+
+		return $this->jsonResponse(200, true, 'User has been updated!', User::with('roles')->where('id', $user['id'])->first());
+
+	}
+
+	/**
 	* Add a user
 	*
 	* Takes a AJAX post request with JSON parameters.
@@ -88,7 +129,7 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
 		}
 
-		return $this->jsonResponse(200, true, 'User has been successfully been added!', $create);
+		return $this->jsonResponse(200, true, 'User has been successfully been added!', User::with('roles')->where('id', $create['id'])->first());
 	}
 
 	/**
