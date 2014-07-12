@@ -10,7 +10,7 @@
 
 @section('assets')
   @parent
-  [[ HTML::script('js/angular/controllers/SettingsUsersCtrl.js') ]]
+  [[ HTML::script('js/angular/controllers/settings/SettingsUsersCtrl.js') ]]
 @stop
 
 @section('content')
@@ -63,7 +63,7 @@
                     <td ng-bind="user.community_id"></td>
                     [[-- Roles --]]
                     <td ng-if="!edit[user.id]">
-                      <span ng-repeat="role in user.roles" ng-switch="role.name">
+                      <span class="roles" ng-repeat="role in user.roles" ng-switch="role.name">
                         <i ng-switch-when="super_admin" class="fa fa-star" tooltip="Super Admin"></i>
                         <i ng-switch-when="admin" class="fa fa-star-half-empty" tooltip="Admin"></i>
                         <i ng-switch-when="user" class="fa fa-star-o" tooltip="User"></i>

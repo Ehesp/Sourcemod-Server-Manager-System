@@ -331,6 +331,9 @@
   .widget .widget-body table tbody * {
     font-size: 13px !important;
   }
+    .widget .widget-body table tbody .roles i {
+    font-size: 17px !important;
+  }
   .widget .widget-body .error {
     padding: 20px;
     color: #ff0000;
@@ -366,10 +369,9 @@
     font-size: 28px;
     display: block;
   }
-
-.message-heading {
-  font-size: 17px !important;
-}
+  .message-heading {
+    font-size: 17px !important;
+  }
 
 /* Dialogs */
 
