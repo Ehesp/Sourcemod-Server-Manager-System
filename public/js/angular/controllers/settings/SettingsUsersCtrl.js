@@ -18,6 +18,9 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	$rootScope.states = [{ value: 0, name: 'disabled'},{ value: 1, name: 'enabled'}];
 	// Get the none guest roles from the window
 	$rootScope.roles = window.roles;
+	// Remove the guest from the variable, as we are not going to 
+	// set a user manually as a guest
+	delete $rootScope.roles[findWithAttr($rootScope.roles, 'friendly_name', 'Guest')];
 
 	/**
 	* Load SSMS users
