@@ -41,12 +41,16 @@ Route::group(['before' => 'access'], function()
 	{
 		Route::get('/', ['as' => 'settings', 'uses' => 'SettingController@getView']);
 
-		Route::get('users', ['as' => 'settings.users', 'before' => 'permission:settings.users', 'uses' => 'SettingController@getUsersView']);
-		Route::post('users', ['before' => 'ajax|permissions:settings.users', 'uses' => 'SettingController@getUsers']);
-		Route::post('users/delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'SettingController@deleteUser']);
-		Route::post('users/edit', ['before' => 'ajax|permissions:settings.users.edit', 'uses' => 'SettingController@editUser']);
-		Route::post('users/add', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@addUser']);
-		Route::post('users/add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@userSearch']);
+		Route::group(['prefix' => 'users'], function()
+		{
+			Route::get('/', ['as' => 'settings.users', 'before' => 'permission:settings.users', 'uses' => 'SettingController@getUsersView']);
+			Route::post('/', ['before' => 'ajax|permissions:settings.users', 'uses' => 'SettingController@getUsers']);
+			Route::post('delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'SettingController@deleteUser']);
+			Route::post('edit', ['before' => 'ajax|permissions:settings.users.edit', 'uses' => 'SettingController@editUser']);
+			Route::post('add', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@addUser']);
+			Route::post('add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'SettingController@userSearch']);
+			Route::post('refresh/{id?}', ['before' => 'ajax|permissions:settings.users.refresh', 'uses' => 'SettingController@refreshUser']);
+		});
 	});
 	
 
