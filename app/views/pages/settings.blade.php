@@ -21,32 +21,34 @@
           @endif
         </div>
         <div class="widget-body medium no-padding">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-center">ID</th>
-                <th>Nickname</th>
-                <th>Community ID</th>
-                <th class="text-center">Enabled</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($users as $user)
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td class="text-center">[[ $user->id ]]</td>
-                  <td>[[ $user->nickname ]]</td>
-                  <td>[[ $user->community_id ]]</td>
-                  <td class="text-center">
-                    @if ($user->enabled == 1)
-                      <i class="fa fa-check"></i>
-                    @else
-                      <i class="fa fa-times"></i>
-                    @endif
-                  </td>
+                  <th class="text-center">ID</th>
+                  <th>Nickname</th>
+                  <th>Community ID</th>
+                  <th class="text-center">Enabled</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach($users as $user)
+                  <tr>
+                    <td class="text-center">[[ $user->id ]]</td>
+                    <td>[[ $user->nickname ]]</td>
+                    <td>[[ $user->community_id ]]</td>
+                    <td class="text-center">
+                      @if ($user->enabled == 1)
+                        <i class="fa fa-check"></i>
+                      @else
+                        <i class="fa fa-times"></i>
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -61,22 +63,24 @@
           @endif
         </div>
         <div class="widget-body medium no-padding">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Option</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody class="tbody-medium">
-              @foreach($options as $option)
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td>[[ $option->friendly_name ]]</td>
-                  <td>[[ $option->value ]]</td>
+                  <th>Option</th>
+                  <th></th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="tbody-medium">
+                @foreach($options as $option)
+                  <tr>
+                    <td>[[ $option->friendly_name ]]</td>
+                    <td>[[ $option->value ]]</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -93,24 +97,26 @@
           @endif
         </div>
         <div class="widget-body no-padding">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Icon</th>
-                <th>Slug</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($page_access as $access)
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td>[[ $access->friendly_name ]]</td>
-                  <td><i class="[[ $access->icon ]]"></i></td>
-                  <td>[[ $access->slug ]]</td>
+                  <th>Name</th>
+                  <th>Icon</th>
+                  <th>Slug</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach($page_access as $access)
+                  <tr>
+                    <td>[[ $access->friendly_name ]]</td>
+                    <td><i class="[[ $access->icon ]]"></i></td>
+                    <td>[[ $access->slug ]]</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -125,24 +131,26 @@
           @endif
         </div>
         <div class="widget-body medium no-padding">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>Permission</th>
-                <th>Description</th>
-                <th>Page</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($permission_control as $permission)
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td>[[ $permission->name ]]</td>
-                  <td>[[ $permission->description ]]</td>
-                  <td>[[ $permission->page->friendly_name ]]</td>
+                  <th>Permission</th>
+                  <th>Description</th>
+                  <th>Page</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach($permission_control as $permission)
+                  <tr>
+                    <td>[[ $permission->name ]]</td>
+                    <td>[[ $permission->description ]]</td>
+                    <td>[[ $permission->page->friendly_name ]]</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -157,22 +165,24 @@
           </a>
         </div>
         <div class="widget-body no-padding">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>URL</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($quick_links as $link)
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td>[[ $link->name ]]</td>
-                  <td>[[ $link->url ]]</td>
+                  <th>Title</th>
+                  <th>URL</th>
                 </tr>
-              @endforeach
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                @foreach($quick_links as $link)
+                  <tr>
+                    <td>[[ $link->name ]]</td>
+                    <td>[[ $link->url ]]</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
   </div>
