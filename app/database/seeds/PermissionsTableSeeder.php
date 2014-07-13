@@ -90,7 +90,7 @@ class PermissionsTableSeeder extends Seeder {
         // View server restarts
 
         $permission = Permission::create([
-            'name' => 'servers.viewRestarts',
+            'name' => 'servers.view_restarts',
             'description' => 'View server restarts',
             'page_id' => $servers,
         ]);
