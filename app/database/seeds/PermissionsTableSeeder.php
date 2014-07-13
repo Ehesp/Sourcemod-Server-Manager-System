@@ -273,7 +273,7 @@ class PermissionsTableSeeder extends Seeder {
         // Manage quick links
 
         $permission = Permission::create([
-            'name' => 'settings.quicklinks',
+            'name' => 'settings.quick_links',
             'description' => 'Manage application quick links',
             'page_id' => $settings,
         ]);
