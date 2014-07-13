@@ -290,7 +290,7 @@ class SettingController extends BaseController {
 	*
 	* @return json
 	*/
-	protected function getPageManagement()
+	public function getPages()
 	{
 		return Page::with('roles')->get();
 	}
@@ -356,6 +356,63 @@ class SettingController extends BaseController {
 	}
 
 	/**
+	* Get permissions and their roles
+	*
+	* @return json
+	*/
+	public function getPermissions()
+	{
+		return Permission::with('roles', 'page')->get();
+	}
+
+	/**
+	* Get permissions and their roles
+	*
+	* @return json
+	*/
+	public function editPermission()
+	{
+		$permission = Input::all();
+
+		// Permission must have a role attached
+		if (count($permission['edit']['role']) == 0) return $this->jsonResponse(400, false, "A permission must have at least one role!");
+
+		// Stop user assigning User/Guest role to servers.rcon and multi_console.execute
+		if ($permission['name'] == 'multi_console.execute' || $permission['name'] == 'servers.rcon')
+		{
+			foreach ($permission['edit']['role'] as $role)
+			{
+				if ($role['name'] == 'user' || $role['name'] == 'guest') return $this->jsonResponse(400, false, "Unable to give permissions to User or Guest for security reasons!");
+			}
+		}
+
+		try
+		{
+			$update = Permission::find($permission['id']);
+			$update->touch();
+
+			// Remove all permission roles
+			$update->removeRoles(
+				Role::all()
+			);
+
+			//Give page new set of chosen roles
+			foreach ($permission['edit']['role'] as $role)
+			{
+				$update->assignRoles(
+					Role::where('name', $role['name'])->get()
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'Permission has successfully been updated!', Permission::with('roles')->find($permission['id']));
+	}
+
+	/**
 	* Return the master settings overview with data
 	*
 	* @return View
@@ -365,7 +422,8 @@ class SettingController extends BaseController {
 		return View::make('pages.settings')
 			->with('users', $this->getUsers())
 			->with('options', $this->getOptions())
-			->with('page_access', $this->getPageManagement())
+			->with('page_access', $this->getPages())
+			->with('permission_control', $this->getPermissions())
 			->with('quick_links', $this->getQuickLinks());
 	}
 
@@ -397,5 +455,15 @@ class SettingController extends BaseController {
 	public function getPageManagementView()
 	{
 		return View::make('pages.settings.page-management');
+	}
+
+	/**
+	* Return the permission-control settings view
+	*
+	* @return View
+	*/
+	public function getPermissionControlView()
+	{
+		return View::make('pages.settings.permission-control');
 	}
 }

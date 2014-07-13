@@ -282,11 +282,11 @@ class PermissionsTableSeeder extends Seeder {
             Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
         );
 
-        // Manage access control
+        // Manage page access control
 
         $permission = Permission::create([
             'name' => 'settings.page_management',
-            'description' => 'Manage application pages',
+            'description' => 'Manage pages and their access',
             'page_id' => $settings,
         ]);
 
@@ -294,6 +294,17 @@ class PermissionsTableSeeder extends Seeder {
             Role::where('name', 'super_admin')->get()
         );
 
+        // Manage permmission control
+
+        $permission = Permission::create([
+            'name' => 'settings.permission_control',
+            'description' => 'Manage application permissions',
+            'page_id' => $settings,
+        ]);
+
+        $permission->assignRoles(
+            Role::where('name', 'super_admin')->get()
+        );
         return $this;
 
     }

@@ -62,8 +62,15 @@ Route::group(['before' => 'access'], function()
 		Route::group(['prefix' => 'page-management', 'before' => 'permission:settings.page_access'], function()
 		{
 			Route::get('/', ['as' => 'settings.page-management', 'uses' => 'SettingController@getPageManagementView']);
-			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPageManagement']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPages']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPage']);
+		});
+
+		Route::group(['prefix' => 'permission-control', 'before' => 'permission:settings.permission_control'], function()
+		{
+			Route::get('/', ['as' => 'settings.permission-control', 'uses' => 'SettingController@getPermissionControlView']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPermissions']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPermission']);
 		});
 	});
 	

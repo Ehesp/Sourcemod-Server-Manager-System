@@ -35,13 +35,24 @@ class Permission extends Eloquent {
 	}
 
 	/**
-	* Assign a page multiple roles by object
+	* Assign a permission multiple roles by object
 	*
 	*/
 	public function assignRoles($roles)
 	{
 		foreach ($roles as $role) {
 			$this->roles()->attach($role);
+		}
+	}
+
+	/**
+	* Remove permission roles object
+	*
+	*/
+	public function removeRoles($roles)
+	{
+		foreach ($roles as $role) {
+			$this->roles()->detach($role);
 		}
 	}
 }

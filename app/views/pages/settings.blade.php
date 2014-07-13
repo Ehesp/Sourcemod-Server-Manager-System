@@ -55,9 +55,9 @@
         <div class="widget-title">
           <i class="fa fa-cogs"></i> SSMS Options
           @if(Permissions::validate('settings.options'))
-          <a href="[[ URL::route('settings.options') ]]" class="pull-right">
-            Manage
-          </a>
+            <a href="[[ URL::route('settings.options') ]]" class="pull-right">
+              Manage
+            </a>
           @endif
         </div>
         <div class="widget-body medium no-padding">
@@ -87,9 +87,9 @@
         <div class="widget-title">
           <i class="fa fa-key"></i> Page Management
           @if(Permissions::validate('settings.page_management'))
-          <a href="[[ URL::route('settings.page-management') ]]" class="pull-right">
-            Manage
-          </a>
+            <a href="[[ URL::route('settings.page-management') ]]" class="pull-right">
+              Manage
+            </a>
           @endif
         </div>
         <div class="widget-body no-padding">
@@ -117,21 +117,30 @@
     <div class="col-lg-6">
       <div class="widget">
         <div class="widget-title">
-          <i class="fa fa-unlock-alt"></i> Access Control
-          <a href="#" class="pull-right">
-            Manage
-          </a>
+          <i class="fa fa-unlock-alt"></i> Permission Control
+          @if(Permissions::validate('settings.permission_control'))
+            <a href="[[ URL::route('settings.permission-control') ]]" class="pull-right">
+              Manage
+            </a>
+          @endif
         </div>
-        <div class="widget-body no-padding">
+        <div class="widget-body medium no-padding">
           <table class="table table-condensed">
             <thead>
               <tr>
+                <th>Permission</th>
+                <th>Description</th>
                 <th>Page</th>
-                <th>Link</th>
-                <th>Icon</th>
               </tr>
             </thead>
             <tbody>
+              @foreach($permission_control as $permission)
+                <tr>
+                  <td>[[ $permission->name ]]</td>
+                  <td>[[ $permission->description ]]</td>
+                  <td>[[ $permission->page->friendly_name ]]</td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

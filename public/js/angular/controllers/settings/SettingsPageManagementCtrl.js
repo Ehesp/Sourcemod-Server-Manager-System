@@ -49,8 +49,6 @@ app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, ht
 	{
 		$scope.saving[page.id] = true;
 
-		console.log(page);
-
 		http.post(window.app_path + 'settings/page-management/edit', JSON.stringify(page)).
 			success(function(data)
 			{
