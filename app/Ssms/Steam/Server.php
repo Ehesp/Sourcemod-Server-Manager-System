@@ -20,11 +20,6 @@ class Server {
 		$s->initialize();
 	}
 
-	private function convert($data)
-	{
-		return json_encode($data);
-	}
-
 	public function info()
 	{
 		return $this->server->getServerInfo();
@@ -32,7 +27,7 @@ class Server {
 
 	public function players()
 	{
-		return $this->convert($this->server->getPlayers());
+		return $this->server->getPlayers();
 	}
 
 	public function ping()

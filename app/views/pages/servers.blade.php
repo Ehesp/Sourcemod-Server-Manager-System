@@ -19,7 +19,7 @@
       <div class="col-xs-12">
         <div class="toolbar">
           @if(Permissions::validate('servers.add'))
-            <button class="btn btn-sm btn-success pull-right" ng-click="addUser()">Add Server(s)</button>
+            <button class="btn btn-sm btn-success pull-right" ng-click="addServer()">Add Server(s)</button>
           @endif
           @if(Permissions::validate('servers.refresh'))
           <button ng-if="!mass" class="btn btn-sm btn-info pull-right" ng-click="massRefresh()">Mass Refresh</button>
