@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="widget">
 					<div class="widget-title">
-						<i class="fa fa-cogs"></i> Manage Permissions
+						<i class="fa fa-unlock-alt"></i> Manage Permissions
 						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." ng-model="searchPermissions">
 						<div class="clearfix"></div>
 					</div>
