@@ -52,6 +52,19 @@ App::before(function($request)
 	);
 
 	/**
+	* Share the site options with the views under
+	* the $siteOptions variable.
+	*
+	*/
+
+	$options = Option::get(['name', 'value']);
+
+	foreach ($options as $option)
+		$o[$option->name] = $option->value;
+
+	View::share('siteOptions', $o);
+
+	/**
 	* Attach a PHP array to the window to allow JavaScript to use.
 	* The "URL" provider is used rather than the Laravel helper paths
 	* to ensure the paths are consistent across Windows and Unix platforms.
