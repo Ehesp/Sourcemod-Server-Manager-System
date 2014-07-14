@@ -54,8 +54,8 @@
 									 	</td>
 									 	<td ng-bind="option.updated_at"></td>
 									 	<td>
-									 		<button class="btn btn-success btn-sm pull-right" ng-click="updateOption(option)" tooltip="Update">
-									 			<i class="fa" ng-class="{'fa-check': !updating[option.id], 'fa-spinner fa-spin': updating[option.id]}"></i>
+									 		<button class="btn btn-success btn-sm pull-right" ng-click="editOption(option)" tooltip="Update">
+									 			<i class="fa" ng-class="{'fa-check': !saving[option.id], 'fa-spinner fa-spin': saving[option.id]}"></i>
 									 		</button>
 									 	</td>
 									</tr>
