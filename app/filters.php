@@ -74,7 +74,6 @@ App::before(function($request)
 
 	JavaScript::put([
 		'app_path' => URL::to('/') . '/',
-		'template_path' => URL::to('templates') . '/',
 		'roles' => Role::get(['id', 'name', 'friendly_name']),
 	]);
 
