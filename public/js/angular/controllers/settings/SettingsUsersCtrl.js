@@ -6,6 +6,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	$scope.loading = true;
 	$scope.saving = {};
 	$scope.refreshing = {};
+	$scope.mass = false;
 	$scope.error = false;
 	$scope.message = '';
 	$scope.edit = {};
@@ -129,7 +130,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 			}).
 			error(function(data, status, headers, config)
 			{
-				$scope.saving = false;
+				$scope.saving[user.id] = false;
 				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 			});
 	}
@@ -170,9 +171,13 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	*/ 
 	$scope.massRefresh = function()
 	{
+		$scope.mass = true;
+
 		http.post(window.app_path + 'settings/users/refresh').
 			success(function(data)
 			{
+				$scope.mass = false;
+
 				if(! data.status)
 				{
 					toaster.pop('error', 'An error occured while refreshing the users!', '', null, null, function()
@@ -188,6 +193,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 			}).
 			error(function(data, status, headers, config)
 			{
+				$scope.mass = false;
 				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 			});
 	}
