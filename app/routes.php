@@ -27,7 +27,11 @@ Route::group(['before' => 'access'], function()
 {
 	Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@getView']);
 
-	Route::get('servers', ['as' => 'servers', 'uses' => 'ServerController@getView']);
+	Route::group(['prefix' => 'servers'], function()
+	{
+		Route::get('/', ['as' => 'servers', 'uses' => 'ServerController@getView']);
+		Route::post('/', ['before' => 'ajax', 'uses' => 'ServerController@getServers']);
+	});
 
 	Route::get('active-plugins', ['as' => 'active-plugins', 'uses' => 'PluginController@getView']);
 
@@ -56,7 +60,7 @@ Route::group(['before' => 'access'], function()
 		{
 			Route::get('/', ['as' => 'settings.options', 'uses' => 'SettingController@getOptionsView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getOptions']);
-			Route::post('update', ['before' => 'ajax', 'uses' => 'SettingController@updateOption']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editOption']);
 		});
 
 		Route::group(['prefix' => 'page-management', 'before' => 'permission:settings.page_access'], function()
@@ -71,6 +75,15 @@ Route::group(['before' => 'access'], function()
 			Route::get('/', ['as' => 'settings.permission-control', 'uses' => 'SettingController@getPermissionControlView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPermissions']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPermission']);
+		});
+
+		Route::group(['prefix' => 'quick-links', 'before' => 'permission:settings.permission_control'], function()
+		{
+			Route::get('/', ['as' => 'settings.quick-links', 'uses' => 'SettingController@getQuickLinksView']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getQuickLinks']);
+			Route::post('delete', ['before' => 'ajax', 'uses' => 'SettingController@deleteQuickLink']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editQuickLink']);
+			Route::post('add', ['before' => 'ajax', 'uses' => 'SettingController@addQuickLink']);
 		});
 	});
 	
