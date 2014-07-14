@@ -160,17 +160,20 @@
       <div class="widget">
         <div class="widget-title">
           <i class="fa fa-external-link-square"></i> Quick Links
-          <a href="#" class="pull-right">
-            Manage
-          </a>
+          @if(Permissions::validate('settings.quick_links'))
+            <a href="[[ URL::route('settings.quick-links') ]]" class="pull-right">
+              Manage
+            </a>
+          @endif
         </div>
-        <div class="widget-body no-padding">
+        <div class="widget-body small no-padding">
           <div class="table-responsive">
             <table class="table table-condensed">
               <thead>
                 <tr>
                   <th>Title</th>
                   <th>URL</th>
+                  <th>Icon</th>
                 </tr>
               </thead>
               <tbody>
@@ -178,6 +181,7 @@
                   <tr>
                     <td>[[ $link->name ]]</td>
                     <td>[[ $link->url ]]</td>
+                    <td><i class="[[ $link->icon ]]"></i></td>
                   </tr>
                 @endforeach
               </tbody>
