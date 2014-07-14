@@ -246,19 +246,16 @@ class SettingController extends BaseController {
 	}
 
 	/**
-	* Update an option
+	* Edit an option
 	*
 	* Takes a AJAX post request.
 	* @return json
 	*/
-	public function updateOption()
+	public function editOption()
 	{
 		$option = Input::all();
 
-		if ($option['value'] === null || $option['value'] == '')
-		{
-			return $this->jsonResponse(400, false, "The option value must be present!");
-		}
+		if ($option['value'] === null || $option['value'] == '') return $this->jsonResponse(400, false, "The option value must be present!");
 
 		try
 		{
@@ -283,6 +280,113 @@ class SettingController extends BaseController {
 	protected function getQuickLinks()
 	{
 		return QuickLink::all();
+	}
+
+	/**
+	* Edit a quick link
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	protected function editQuickLink()
+	{
+		$link = Input::all();
+
+		if ($link['edit']['name'] == null || $link['edit']['name'] == '') return $this->jsonResponse(400, false, "The name value must be present!");
+		
+		if ($link['edit']['url'] == null || $link['edit']['url'] == '') return $this->jsonResponse(400, false, "The url value must be present!");
+
+		if ($link['edit']['icon'] == null || $link['edit']['icon'] == '') return $this->jsonResponse(400, false, "The icon value must be present!");
+
+		// If invalid font awesome name 
+		if (strpos($link['edit']['icon'], 'fa fa-') !== false)
+		{}
+		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+
+		// If invalid URL
+		if (strpos($link['edit']['url'], 'http://') !== false || strpos($link['edit']['url'], 'https://') !== false)
+		{}
+		else return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
+
+		try
+		{
+			$update = QuickLink::find($link['id']);
+
+			$update->name = $link['edit']['name'];
+			$update->url = $link['edit']['url'];
+			$update->icon = $link['edit']['icon'];
+			$update->save();
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'Quick Link updated successfully!', QuickLink::find($link['id']));
+	}
+
+	/**
+	* Delete a quick link
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	protected function deleteQuickLink()
+	{
+		$id = Input::all()[0];
+
+		try
+		{
+			QuickLink::destroy($id);
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'Quick Link has successfully been deleted!');
+	}
+
+	/**
+	* Add a quick link
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	protected function addQuickLink()
+	{
+		$link = Input::all();
+
+		if ($link['name'] == null || $link['name'] == '') return $this->jsonResponse(400, false, "The name value must be present!");
+		
+		if ($link['url'] == null || $link['url'] == '') return $this->jsonResponse(400, false, "The url value must be present!");
+
+		if ($link['icon'] == null || $link['icon'] == '') return $this->jsonResponse(400, false, "The icon value must be present!");
+
+		// If invalid font awesome name 
+		if (strpos($link['icon'], 'fa fa-') !== false)
+		{}
+		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+
+		// If invalid URL
+		if (strpos($link['url'], 'http://') !== false || strpos($link['url'], 'https://') !== false)
+		{}
+		else return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
+
+		try
+		{
+			$newLink = QuickLink::create([
+				'name' => $link['name'],
+				'url' => $link['url'],
+				'icon' => $link['icon']
+			]);
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'Quick Link has successfully been added!', $newLink);
 	}
 
 	/**
@@ -366,8 +470,9 @@ class SettingController extends BaseController {
 	}
 
 	/**
-	* Get permissions and their roles
+	* Edit a permission and their roles
 	*
+	* Takes a AJAX post request.
 	* @return json
 	*/
 	public function editPermission()
@@ -465,5 +570,15 @@ class SettingController extends BaseController {
 	public function getPermissionControlView()
 	{
 		return View::make('pages.settings.permission-control');
+	}
+
+	/**
+	* Return the quick-links settings view
+	*
+	* @return View
+	*/
+	public function getQuickLinksView()
+	{
+		return View::make('pages.settings.quick-links');
 	}
 }
