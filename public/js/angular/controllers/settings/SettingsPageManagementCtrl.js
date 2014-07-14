@@ -73,7 +73,7 @@ app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, ht
 			}).
 			error(function(data, status, headers, config)
 			{
-				$scope.saving = false;
+				$scope.saving[page.id] = false;
 				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 			});
 	}
