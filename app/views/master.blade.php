@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>@yield('page_meta_title', 'SSMS')</title>
+	<title>@yield('page_meta_title', $siteOptions['application_title'])</title>
 
   @section('assets')
     [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
@@ -22,6 +22,7 @@
     [[ HTML::script('assets/vendor/AngularJS-Toaster/toaster.js') ]]
     
     [[ HTML::style('css/dashboard.min.css') ]]
+    [[ HTML::style('css/themes/' . $siteOptions['theme'] . '.min.css') ]]
     [[ HTML::script('js/helpers.js') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
     [[ HTML::script('js/angular/directives.js') ]]
@@ -30,7 +31,6 @@
 
 </head>
 <body ng-controller="MasterCtrl">
-
   <div id="page-wrapper" ng-class="{'active': toggle}">
 
     <!-- Sidebar -->
@@ -51,7 +51,5 @@
       </div>
     </div>
   </div>
-
-
 </body>
 </html>

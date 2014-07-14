@@ -23,7 +23,7 @@ class OptionsTableSeeder extends Seeder {
             'name' => 'theme',
             'friendly_name' => 'Theme',
             'value' => 'blue',
-            'options' => "blue|red|orange|green",
+            'options' => "blue|red|green",
             'description' => 'The colour theme the application',
         ]);
     }
