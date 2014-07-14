@@ -1,7 +1,7 @@
 <ul class="sidebar">
   <li class="sidebar-main">
     <a href="#" ng-click="toggleSidebar()">
-      SSMS 
+      [[ $siteOptions['application_title'] ]]
       <span class="menu-icon glyphicon glyphicon-transfer"></span>
     </a>
   </li>
