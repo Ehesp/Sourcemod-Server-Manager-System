@@ -2,7 +2,7 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 {
 	$scope.loading = true;
 	$scope.options = {};
-	$scope.updating = {};
+	$scope.saving = {};
 
 	/**
 	* Load SSMS options
@@ -23,19 +23,19 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 	/**
 	* Update an option
 	*/
-	$scope.updateOption = function(option)
+	$scope.editOption = function(option)
 	{
-		$scope.updating[option.id] = true;
+		$scope.saving[option.id] = true;
 
-		http.post(window.app_path + 'settings/options/update', JSON.stringify(option)).
+		http.post(window.app_path + 'settings/options/edit', JSON.stringify(option)).
 		success(function(data)
 		{
-			$scope.updating[option.id] = false;
+			$scope.saving[option.id] = false;
 			if (! data.status)
 			{
-				toaster.pop('error', 'An error occured updating the option!', '', null, null, function()
+				toaster.pop('error', 'An error occured saving the option!', '', null, null, function()
 				{
-					dialogs.error('An error occured while updating the option!', errorMessage(data.code, data.message));
+					dialogs.error('An error occured while saving the option!', errorMessage(data.code, data.message));
 				});				
 			}
 			else
@@ -46,7 +46,7 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 		}).
 		error(function(data, status, headers, config)
 		{
-			$scope.updating[option.id] = false;
+			$scope.saving[option.id] = false;
 			dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 		});
 	}
