@@ -47,7 +47,7 @@ Route::group(['before' => 'access'], function()
 
 		Route::group(['prefix' => 'users'], function()
 		{
-			Route::get('/', ['as' => 'settings.users', 'before' => 'permission:settings.users', 'uses' => 'SettingController@getUsersView']);
+			Route::get('/', ['as' => 'settings.users', 'before' => 'permissions:settings.users', 'uses' => 'SettingController@getUsersView']);
 			Route::post('/', ['before' => 'ajax|permissions:settings.users', 'uses' => 'SettingController@getUsers']);
 			Route::post('delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'SettingController@deleteUser']);
 			Route::post('edit', ['before' => 'ajax|permissions:settings.users.edit', 'uses' => 'SettingController@editUser']);
@@ -56,28 +56,28 @@ Route::group(['before' => 'access'], function()
 			Route::post('refresh/{id?}', ['before' => 'ajax|permissions:settings.users.refresh', 'uses' => 'SettingController@refreshUser']);
 		});
 
-		Route::group(['prefix' => 'options', 'before' => 'permission:settings.options'], function()
+		Route::group(['prefix' => 'options', 'before' => 'permissions:settings.options'], function()
 		{
 			Route::get('/', ['as' => 'settings.options', 'uses' => 'SettingController@getOptionsView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getOptions']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editOption']);
 		});
 
-		Route::group(['prefix' => 'page-management', 'before' => 'permission:settings.page_access'], function()
+		Route::group(['prefix' => 'page-management', 'before' => 'permissions:settings.page_access'], function()
 		{
 			Route::get('/', ['as' => 'settings.page-management', 'uses' => 'SettingController@getPageManagementView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPages']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPage']);
 		});
 
-		Route::group(['prefix' => 'permission-control', 'before' => 'permission:settings.permission_control'], function()
+		Route::group(['prefix' => 'permission-control', 'before' => 'permissions:settings.permission_control'], function()
 		{
 			Route::get('/', ['as' => 'settings.permission-control', 'uses' => 'SettingController@getPermissionControlView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPermissions']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editPermission']);
 		});
 
-		Route::group(['prefix' => 'quick-links', 'before' => 'permission:settings.permission_control'], function()
+		Route::group(['prefix' => 'quick-links', 'before' => 'permissions:settings.permission_control'], function()
 		{
 			Route::get('/', ['as' => 'settings.quick-links', 'uses' => 'SettingController@getQuickLinksView']);
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getQuickLinks']);
@@ -86,14 +86,32 @@ Route::group(['before' => 'access'], function()
 			Route::post('add', ['before' => 'ajax', 'uses' => 'SettingController@addQuickLink']);
 		});
 	});
-	
 
+});
+
+/*
+|--------------------------------------------------------------------------
+| Template Routes
+|--------------------------------------------------------------------------
+|
+| As our templates might be used on secure pages, we don't want the public
+| to be able to view them by navigating through the URL. Instead, we load
+| the templates via a route with the required permissions/access being 
+| validated. This is slower, but more secure.
+|
+*/
+
+Route::group(['prefix' => 'template'], function()
+{
+	Route::get('settings.new-user', ['before' => 'permissions:settings.users.add', 'uses' => 'TemplateController@getSettingsNewUserTemplate']);
+	Route::get('servers.new-server', ['before' => 'permissions:servers.add', 'uses' => 'TemplateController@getServersNewServerTemplate']);
 });
 
 Route::group(['before' => 'auth'], function()
 {
 	Route::get('profile', ['as' => 'profile', 'uses' => 'ProfileController@getView']);	
 });
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes

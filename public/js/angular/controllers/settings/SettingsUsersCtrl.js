@@ -78,7 +78,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs,
 	*/ 
    	$scope.addUser = function()
    	{
-   		var d = dialogs.create(window.template_path + 'dialogs/settings.new-user.html', 'newUserDialogCtrl',{});
+   		dialogs.create(window.app_path + 'template/settings.new-user', 'newUserDialogCtrl',{});
    	}
 
 	/**
