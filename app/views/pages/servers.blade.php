@@ -16,6 +16,19 @@
 @section('content')
 <div ng-controller="ServersCtrl">
 	<div class="row">
+      <div class="col-xs-12">
+        <div class="toolbar">
+          @if(Permissions::validate('servers.add'))
+            <button class="btn btn-sm btn-success pull-right" ng-click="addUser()">Add Server(s)</button>
+          @endif
+          @if(Permissions::validate('servers.refresh'))
+          <button ng-if="!mass" class="btn btn-sm btn-info pull-right" ng-click="massRefresh()">Mass Refresh</button>
+          <button ng-if="mass" type="submit" class="btn btn-sm btn-info pull-right" disabled="disabled"><i class="fa fa-spinner fa-spin"></i> Refreshing users...</button>
+          @endif
+        </div>
+      </div>
+    </div>
+	<div class="row">
 		<div class="col-lg-12">
 			<div class="widget">
 				<div class="widget-title">

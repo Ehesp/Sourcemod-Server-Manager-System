@@ -15,22 +15,10 @@ class PermissionsTableSeeder extends Seeder {
     {
         $servers = Page::whereName('servers')->first(['id'])->id;
 
-        // View server list
-
-        $permission = Permission::create([
-            'name' => 'servers.view',
-            'description' => 'View server list',
-            'page_id' => $servers,
-        ]);
-
-        $permission->assignRoles(
-            Role::all()
-        );
-
         // Add new server
 
         $permission = Permission::create([
-            'name' => 'servers.new',
+            'name' => 'servers.add',
             'description' => 'Add a new server',
             'page_id' => $servers,
         ]);
