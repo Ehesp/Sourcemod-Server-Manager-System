@@ -7,13 +7,18 @@ class TemplateController extends BaseController {
 		$this->path = app_path() . '/views/templates/';
 	}
 
-	public function getTemplate($name)
+	public function getSecureTemplate($name)
 	{
 		if (Permissions::validate($name))
 		{
-			return File::get($this->path . $name . '.php');
+			return File::get($this->path . 'secure/' . $name . '.php');
 		}
 
 		return App::abort(404);
+	}
+
+	public function getTemplate($name)
+	{
+		return File::get($this->path . $name . '.php');
 	}
 }
