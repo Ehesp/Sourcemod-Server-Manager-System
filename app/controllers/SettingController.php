@@ -34,8 +34,15 @@ class SettingController extends BaseController {
 		}
 		else
 		{
-			User::destroy($id);
-
+			try
+			{
+				User::destroy($id);
+			}
+			catch (Exception $e)
+			{
+				return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
+			}
+			
 			return $this->jsonResponse(200, true, 'User has been successfully been deleted!');
 		}
 	}
@@ -255,7 +262,7 @@ class SettingController extends BaseController {
 	{
 		$option = Input::all();
 
-		if ($option['value'] === null || $option['value'] == '') return $this->jsonResponse(400, false, "The option value must be present!");
+		if ($this->isEmpty($option['value'])) return $this->jsonResponse(400, false, "The option value must be present!");
 
 		try
 		{
@@ -292,16 +299,14 @@ class SettingController extends BaseController {
 	{
 		$link = Input::all();
 
-		if ($link['edit']['name'] == null || $link['edit']['name'] == '') return $this->jsonResponse(400, false, "The name value must be present!");
+		if ($this->isEmpty($link['edit']['name'])) return $this->jsonResponse(400, false, "The name value must be present!");
 		
-		if ($link['edit']['url'] == null || $link['edit']['url'] == '') return $this->jsonResponse(400, false, "The url value must be present!");
+		if ($this->isEmpty($link['edit']['url'])) return $this->jsonResponse(400, false, "The url value must be present!");
 
-		if ($link['edit']['icon'] == null || $link['edit']['icon'] == '') return $this->jsonResponse(400, false, "The icon value must be present!");
+		if ($this->isEmpty($link['edit']['icon'])) return $this->jsonResponse(400, false, "The icon value must be present!");
 
 		// If invalid font awesome name 
-		if (strpos($link['edit']['icon'], 'fa fa-') !== false)
-		{}
-		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+		if (! $this->isValidFontAwesome($link['edit']['icon'])) return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
 
 		// If invalid URL
 		if (strpos($link['edit']['url'], 'http://') !== false || strpos($link['edit']['url'], 'https://') !== false)
@@ -357,21 +362,17 @@ class SettingController extends BaseController {
 	{
 		$link = Input::all();
 
-		if ($link['name'] == null || $link['name'] == '') return $this->jsonResponse(400, false, "The name value must be present!");
+		if ($this->isEmpty($link['name'])) return $this->jsonResponse(400, false, "The name value must be present!");
 		
-		if ($link['url'] == null || $link['url'] == '') return $this->jsonResponse(400, false, "The url value must be present!");
+		if ($this->isEmpty($link['url'])) return $this->jsonResponse(400, false, "The url value must be present!");
 
-		if ($link['icon'] == null || $link['icon'] == '') return $this->jsonResponse(400, false, "The icon value must be present!");
+		if ($this->isEmpty($link['icon'])) return $this->jsonResponse(400, false, "The icon value must be present!");
 
 		// If invalid font awesome name 
-		if (strpos($link['icon'], 'fa fa-') !== false)
-		{}
-		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+		if (! $this->isValidFontAwesome($link['icon'])) $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
 
 		// If invalid URL
-		if (strpos($link['url'], 'http://') !== false || strpos($link['url'], 'https://') !== false)
-		{}
-		else return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
+		if (! $this->isValidUrl($link['url'])) return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
 
 		try
 		{
@@ -410,12 +411,10 @@ class SettingController extends BaseController {
 		$page = Input::all();
 
 		// If no icon given
-		if ($page['edit']['icon'] === null || $page['edit']['icon'] == '') return $this->jsonResponse(400, false, "The icon field cannot be left empty!");
+		if ($this->isEmpty($page['edit']['icon'])) return $this->jsonResponse(400, false, "The icon field cannot be left empty!");
 
 		// If invalid font awesome name 
-		if (strpos($page['edit']['icon'], 'fa fa-') !== false)
-		{}
-		else return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
+		if (! $this->isValidFontAwesome($page['edit']['icon'])) return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
 
 		// Page must have a role attached
 		if (count($page['edit']['role']) == 0) return $this->jsonResponse(400, false, "A page must have at least one role!");
@@ -424,9 +423,7 @@ class SettingController extends BaseController {
 		if ($page['name'] == 'settings' || $page['name'] == 'multi_console')
 		{
 			foreach ($page['edit']['role'] as $role)
-			{
 				if ($role['name'] == 'user' || $role['name'] == 'guest') return $this->jsonResponse(400, false, "Unable to give page User or Guest privilages for security reasons!");
-			}
 		}
 
 		try
