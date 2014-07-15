@@ -26,4 +26,22 @@ class Server extends Eloquent {
 	* @var array
 	*/
 	protected $guarded = ['id', 'rcon_password'];
+
+	/**
+	* Automatically encrypts a value entered into the rcon_password field.
+	*
+	*/
+	public function setRconPasswordAttribute($value)
+	{
+	    $this->attributes['rcon_password'] = \Crypt::encrypt($value);
+	}
+
+	/**
+	* Automatically decrypts the rcon_password field when called.
+	*
+	*/
+	public function getRconPasswordAttribute($value)
+	{
+	    return \Crypt::decrypt($value);
+	}
 }

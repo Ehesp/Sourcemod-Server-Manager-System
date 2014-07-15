@@ -34,7 +34,7 @@ Route::group(['before' => 'access'], function()
 		Route::post('add', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@addServer']);
 		Route::post('add/search', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@searchServer']);
 		Route::post('add/validate', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@validateServerPassword']);
-		Route::any('players/{id}', ['before' => '', 'uses' => 'ServerController@getServerPlayers']);
+		Route::post('players/{id}', ['before' => 'ajax', 'uses' => 'ServerController@getServerPlayers']);
 	});
 
 	Route::get('active-plugins', ['as' => 'active-plugins', 'uses' => 'PluginController@getView']);
@@ -126,14 +126,3 @@ Route::group(['before' => 'auth'], function()
 Route::get('login', 'AuthController@validateSteamLogin');
 
 Route::get('logout', 'AuthController@logout');
-
-Route::get('t', function()
-{
-
-	$t = "123456789";
-
-	$d = Crypt::encrypt($t);
-
-	var_dump($d);
-
-});

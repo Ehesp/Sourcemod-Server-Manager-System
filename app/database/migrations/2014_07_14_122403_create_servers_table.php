@@ -19,7 +19,7 @@ class CreateServersTable extends Migration {
 			$table->string('ip');
 			$table->integer('port');
 			$table->string('tags')->nullable();
-			$table->text('rcon_password');
+			$table->longText('rcon_password');
 			$table->integer('multi_console');
 			$table->string('game_type');
 			$table->string('operating_system');

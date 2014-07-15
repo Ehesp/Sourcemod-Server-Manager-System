@@ -77,7 +77,7 @@ class ServerController extends BaseController {
 			$s->ip = $server['ip'];
 			$s->port = $server['port'];
 			$s->tags = $server['serverTags'];
-			$s->rcon_password = Crypt::encrypt($server['rcon']);
+			$s->rcon_password = $server['rcon'];
 			$s->multi_console = $server['multiConsole'];
 			$s->game_type = $server['gameDir'];
 			$s->operating_system = $server['operatingSystem'];
@@ -141,7 +141,7 @@ class ServerController extends BaseController {
 	{
 		$server = Ssms\Server::where('id', $id)->first(['ip', 'port', 'rcon_password']);
 
-		$s = new Server($server['ip'], $server['port'], Crypt::decrypt($server['rcon']));
+		$s = new Server($server['ip'], $server['port'], $server['rcon_password']);
 
 		return $s->players();
 	}
