@@ -60,7 +60,14 @@
 							</thead>
 							<tbody>
 								 <tr ng-repeat="server in servers | filter:searchServers">
-
+								 	<td></td>
+								 	<td ng-bind="server.id"></td>
+								 	<td></td>
+								 	<td ng-bind="server.name"></td>
+								 	<td ng-bind="server.current_map"></td>
+								 	<td>{{ server.current_players }}-{{ server.current_bots }} / {{ server.max_players }}</td>
+								 	<td>{{ server.updated_at }}</td>
+								 	<td></td>
 								 </tr>
 							</tbody>
 						</table>
