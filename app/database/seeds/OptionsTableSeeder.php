@@ -28,7 +28,7 @@ class OptionsTableSeeder extends Seeder {
         ]);
 
         Option::create([
-            'name' => 'custom_script',
+            'name' => 'companion_script',
             'friendly_name' => 'SSMS Companion Shell Script',
             'value' => 'true',
             'options' => "true|false",
