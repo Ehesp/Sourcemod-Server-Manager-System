@@ -1,4 +1,4 @@
-app.controller('SettingsUsersCtrl', function($scope, $rootScope, $http, dialogs, http, toaster)
+app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, toaster)
 {
 	/**
 	* Scope Variables
