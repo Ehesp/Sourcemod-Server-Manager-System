@@ -7,14 +7,13 @@ class TemplateController extends BaseController {
 		$this->path = app_path() . '/views/templates/';
 	}
 
-	public function getSettingsNewUserTemplate()
+	public function getTemplate($name)
 	{
-		return File::get($this->path . 'settings.new-user.php');
-	}
+		if (Permissions::validate($name))
+		{
+			return File::get($this->path . $name . '.php');
+		}
 
-	public function getServersNewServerTemplate()
-	{
-		return File::get($this->path . 'servers.new-server.php');
+		return App::abort(404);
 	}
-
 }

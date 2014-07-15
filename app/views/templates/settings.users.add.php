@@ -31,7 +31,7 @@
 					<div class="row">
 						<div class="col-xs-4">
 							<label for="roles" class="control-label">Roles:</label>
-							<select id="roles" ng-init="user.role = null" size="{{ roles.length }}" multiple ng-multiple="true" ng-model="user.role" class="form-control input-sm" ng-options="r.friendly_name for r in roles"></select>
+							<select id="roles" ng-init="user.role = null" multiple ng-multiple="true" ng-model="user.role" class="form-control input-sm" ng-options="r.friendly_name for r in roles"></select>
 						</div>
 						<div class="col-xs-4">
 							<label for="state" class="control-label">Disabled/Enabled:</label>
