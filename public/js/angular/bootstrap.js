@@ -6,6 +6,14 @@ app.controller('MasterCtrl', function($scope, $cookieStore)
 
 	$scope.getWidth = function() { return window.innerWidth; };
 
+	function setDefaultState()
+	{
+		if(angular.isDefined($cookieStore.get('toggle')))
+			$scope.toggle = $cookieStore.get('toggle');
+	}
+
+	setDefaultState();
+
 	$scope.$watch($scope.getWidth, function(newValue, oldValue)
 	{
 		if(newValue >= mobileView)
