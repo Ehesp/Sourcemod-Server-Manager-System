@@ -139,7 +139,7 @@ class ServerController extends BaseController {
 	*/
 	public function getServerPlayers($id)
 	{
-		$server = Ssms\Server::where('id', $id)->get(['ip', 'port', 'rcon_password']);
+		$server = Ssms\Server::where('id', $id)->first(['ip', 'port', 'rcon_password']);
 
 		$s = new Server($server['ip'], $server['port'], Crypt::decrypt($server['rcon']));
 

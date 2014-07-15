@@ -21,9 +21,9 @@ class Server extends Eloquent {
 	protected $table = 'servers';
 
 	/**
-	* The fillable table columns.
+	* The guarded table columns.
 	*
 	* @var array
 	*/
-	protected $guarded = ['id'];
+	protected $guarded = ['id', 'rcon_password'];
 }

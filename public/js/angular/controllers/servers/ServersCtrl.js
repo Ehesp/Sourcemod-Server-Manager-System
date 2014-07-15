@@ -50,7 +50,6 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 
 .controller('viewPlayersCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
 {
-	console.log(data);
 	$scope.loading = true;
 	$scope.error = false;
 
