@@ -20,32 +20,25 @@
 					</div>
 
 					<div class="table-responsive" ng-if="!loading && !error">
-						<table class="table">
+						<table class="table table-condensed">
 							<thead>
 								<tr>
-									<th>Option</th>
-									<th>Description</th>
-									<th>Value</th>
-									<th>Last Updated</th>
-									<th class="text-right"><i class="fa fa-cog"></i></th>
+									<th>Name</th>
+									<th>Score</th>
+									<th>Ping</th>
+									<th>Steam ID</th>
+									<th>Connection Time</th>
+									<th>IP</th>
 								</tr>
 							</thead>
 							<tbody>
-								 <tr ng-repeat="option in options | filter:searchOptions">
-								 	<td ng-bind="option.friendly_name"></td>
-								 	<td ng-bind="option.description"></td>
-								 	<td ng-if="option.options === null">
-								 		<input class="form-control" type="text" ng-model="option.value" />
-								 	</td>
-								 	<td ng-if="option.options !== null">
-								 		<select class="form-control input-sm" ng-init="option.value = option.value" ng-model="option.value" ng-options="option for option in stringToArray(option.options, '|')"></select>
-								 	</td>
-								 	<td ng-bind="option.updated_at"></td>
-								 	<td>
-								 		<button class="btn btn-success btn-sm pull-right" ng-click="editOption(option)" tooltip="Update">
-								 			<i class="fa" ng-class="{'fa-check': !saving[option.id], 'fa-spinner fa-spin': saving[option.id]}"></i>
-								 		</button>
-								 	</td>
+								 <tr ng-repeat="player in players | filter:searchPlayers">
+								 	<td ng-bind="player.name"></td>
+								 	<td ng-bind="player.score"></td>
+								 	<td ng-bind="player.ping"></td>
+								 	<td ng-bind="player.steam_id"></td>
+								 	<td ng-bind="player.connection_time"></td>
+								 	<td ng-bind="player.ip_address"></td>
 								</tr>
 							</tbody>
 						</table>

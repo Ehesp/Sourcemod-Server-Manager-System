@@ -79,7 +79,7 @@ class Server {
             $res[$count]['name'] = $player->getName() == '' ? false : $player->getName();
             $res[$count]['score'] = $player->getScore();
             $res[$count]['ping'] = $player->getPing();
-            $res[$count]['connect_time'] = with(new SecToHrMinSec($player->getConnectTime()))->convert();
+            $res[$count]['connection_time'] = with(new SecToHrMinSec($player->getConnectTime()))->convert();
             $res[$count]['state'] = $player->getState();
             $res[$count]['ip_address'] = $player->getIpAddress();
 

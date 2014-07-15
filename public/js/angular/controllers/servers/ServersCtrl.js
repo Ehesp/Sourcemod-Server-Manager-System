@@ -52,11 +52,12 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 {
 	$scope.loading = true;
 	$scope.error = false;
+	$scope.players = {};
 
 	http.post(window.app_path + 'servers/players/' + data).
 		success(function(data)
 		{
-			console.log(data);
+			$scope.players = data;
 			$scope.loading = false;
 		}).
 		error(function(data, status, headers, config)
