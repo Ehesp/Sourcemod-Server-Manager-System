@@ -77,7 +77,7 @@ class ServerController extends BaseController {
 			$s->ip = $server['ip'];
 			$s->port = $server['port'];
 			$s->tags = $server['serverTags'];
-			$s->rcon_password = Hash::make($server['rcon']);
+			$s->rcon_password = Crypt::encrypt($server['rcon']);
 			$s->multi_console = $server['multiConsole'];
 			$s->game_type = $server['gameDir'];
 			$s->operating_system = $server['operatingSystem'];
@@ -131,6 +131,20 @@ class ServerController extends BaseController {
 		return $this->jsonResponse(200, true, 'RCON Password successfully validated!');
 	}
 
+	/**
+	* Returns the players on a server by ID
+	*
+	* Takes a AJAX post request
+	* @return json
+	*/
+	public function getServerPlayers($id)
+	{
+		$server = Ssms\Server::where('id', $id)->get(['ip', 'port', 'rcon_password']);
+
+		$s = new Server($server['ip'], $server['port'], Crypt::decrypt($server['rcon']));
+
+		return $s->players();
+	}
 	/**
 	* Return the servers page view
 	*

@@ -1,27 +1,36 @@
 <?php namespace Ssms\Steam;
 
 use SourceServer;
+use SteamId;
+use Ssms\Support\Helpers\SecToHrMinSec;
 
 class Server {
 
     /**
      * @var string The IP Address of the server
      */
-	protected $ip;
+    protected $ip;
 
     /**
      * @var int The port number of the server
      */
-	protected $port;
+    protected $port;
+
+    /**
+     * @var string The rcon password for the server
+     */
+    protected $rcon;
 
     /**
      * Creates a new SourceServer instance
      *
      */
-	public function __construct($ip, $port)
+	public function __construct($ip, $port, $rcon = null)
 	{
 		$this->server = new SourceServer($ip, $port);
-		$this->initialize($this->server);
+		$this->initializeServer($this->server);
+
+        $this->setRcon($rcon);
 	}
 
     /**
@@ -29,11 +38,18 @@ class Server {
      * Turn off user notices from SteamCondenser
      *
      */
-	private function initialize($s)
+	private function initializeServer($s)
 	{
 		error_reporting(E_ALL ^ E_USER_NOTICE);
 		$s->initialize();
 	}
+
+    public function setRcon($string)
+    {
+        $this->rcon = $string;
+
+        return $this;
+    }
 
     /**
      * Return the server instance information 
@@ -45,12 +61,32 @@ class Server {
 	}
 
     /**
-     * Return the server instance current players 
+     * Return the server instance current players information
      *
      */
 	public function players()
 	{
-		return $this->server->getPlayers();
+        $res = [];
+
+        $players = $this->server->getPlayers($this->rcon);
+
+        $count = 0;
+
+        foreach ($players as $key => $player)
+        {
+            $res[$count]['steam_id'] = $player->getSteamId() == null ? 'Steam ID unavailable!' : $player->getSteamId();
+            $res[$count]['community_id'] = $player->getSteamId() == null ? false : SteamId::convertSteamIdToCommunityId($player->getSteamId());
+            $res[$count]['name'] = $player->getName() == '' ? false : $player->getName();
+            $res[$count]['score'] = $player->getScore();
+            $res[$count]['ping'] = $player->getPing();
+            $res[$count]['connect_time'] = with(new SecToHrMinSec($player->getConnectTime()))->convert();
+            $res[$count]['state'] = $player->getState();
+            $res[$count]['ip_address'] = $player->getIpAddress();
+
+            $count++;
+        }
+
+		return json_encode($res);
 	}
 
     /**
