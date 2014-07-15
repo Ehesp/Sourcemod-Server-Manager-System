@@ -31,6 +31,8 @@ Route::group(['before' => 'access'], function()
 	{
 		Route::get('/', ['as' => 'servers', 'uses' => 'ServerController@getView']);
 		Route::post('/', ['before' => 'ajax', 'uses' => 'ServerController@getServers']);
+		Route::post('add/search', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@searchServer']);
+		Route::post('add/validate', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@validateServerPassword']);
 	});
 
 	Route::get('active-plugins', ['as' => 'active-plugins', 'uses' => 'PluginController@getView']);
