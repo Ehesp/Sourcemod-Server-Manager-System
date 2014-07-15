@@ -1,6 +1,10 @@
 app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaster)
 {
+	var refreshTime = 60;
+
 	$scope.loading = true;
+	$scope.error = false;
+
 	$rootScope.servers = {};
 
 	/**
@@ -29,10 +33,47 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	* Add server function
 	* Load newServerDialogCtrl dialog
 	*/ 
-   	$scope.addServer = function()
-   	{
-   		dialogs.create(window.app_path + 'template/servers.add', 'newServerDialogCtrl',{});
-   	}
+	$scope.addServer = function()
+	{
+		dialogs.create(window.app_path + 'templates/secure/servers.add', 'newServerDialogCtrl',{});
+	}
+
+	/**
+	* View server players (real time)
+	* Load viewServerPlayersCtrl dialog
+	*/ 
+	$scope.viewPlayers = function(id)
+	{
+		dialogs.create(window.app_path + 'templates/servers.view_players', 'viewPlayersCtrl', id);
+	}
+})
+
+.controller('viewPlayersCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
+{
+	console.log(data);
+	$scope.loading = true;
+	$scope.error = false;
+
+	http.post(window.app_path + 'servers/players/' + data).
+		success(function(data)
+		{
+			console.log(data);
+			$scope.loading = false;
+		}).
+		error(function(data, status, headers, config)
+		{
+			$scope.message = errorExceptionMessage(data, status, config);
+			$scope.error = true;
+			$scope.loading = false;
+		});
+
+	/**
+	* Close the dialog
+	*/ 
+	$scope.close = function()
+	{
+		$modalInstance.dismiss();
+	};
 })
 
 .controller('newServerDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
@@ -56,21 +97,6 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	}
 
 	reset();
-
-	// $scope.portDetect = function(ip)
-	// {
-	// 	console.log(ip);
-
-	// 	if(ip.indexOf(':') != '-1' )
-	// 	{
-	// 		var arr = ip.split(':');
-
-	// 		console.log(arr);
-
-	// 		// $scope.server.ip = arr[0];
-	// 		$scope.server.port = arr[1];
-	// 	}
-	// }
 
 	$scope.search = function(server)
 	{
