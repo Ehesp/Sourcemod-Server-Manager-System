@@ -34,6 +34,7 @@ Route::group(['before' => 'access'], function()
 		Route::post('add', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@addServer']);
 		Route::post('add/search', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@searchServer']);
 		Route::post('add/validate', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@validateServerPassword']);
+		Route::post('players/{id}', ['before' => 'ajax', 'uses' => 'ServerController@getServerPlayers']);
 	});
 
 	Route::get('active-plugins', ['as' => 'active-plugins', 'uses' => 'PluginController@getView']);
@@ -104,12 +105,10 @@ Route::group(['before' => 'access'], function()
 |
 */
 
-Route::group(['prefix' => 'template'], function()
+Route::group(['prefix' => 'templates'], function()
 {
 	Route::get('{name}', ['uses' => 'TemplateController@getTemplate']);
-	
-	Route::get('settings.new-user', ['before' => 'permissions:settings.users.add', 'uses' => 'TemplateController@getSettingsNewUserTemplate']);
-	Route::get('servers.new-server', ['before' => 'permissions:servers.add', 'uses' => 'TemplateController@getServersNewServerTemplate']);
+	Route::get('secure/{name}', ['uses' => 'TemplateController@getSecureTemplate']);
 });
 
 Route::group(['before' => 'auth'], function()
