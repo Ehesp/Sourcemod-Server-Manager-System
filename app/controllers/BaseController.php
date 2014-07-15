@@ -31,4 +31,44 @@ class BaseController extends Controller {
 		return Response::json($json);
 	}
 
+	/**
+	 * Return whether a given value is "empty"
+	 *
+	 * @return bool
+	 */
+	protected function isEmpty($value)
+	{
+		if ($value === null || $value == '' || $value == 'null') return true;
+
+		return false;
+	}
+
+	/**
+	 * Return whether a given value starts with the Font Awesome
+	 * class declaration.
+	 *
+	 * @return bool
+	 */
+	protected function isValidFontAwesome($value)
+	{
+		if (strpos($value, 'fa fa-') !== false) return true;
+
+		return false;
+	}
+
+	/**
+	 * Return whether a given value is a URL
+	 *
+	 * @return bool
+	 */
+	protected function isValidUrl($value)
+	{
+		if (strpos($value, 'http://') !== false || strpos($value, 'https://') !== false)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 }
