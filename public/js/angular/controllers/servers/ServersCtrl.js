@@ -31,7 +31,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	*/ 
    	$scope.addServer = function()
    	{
-   		dialogs.create(window.app_path + 'template/servers.new-server', 'newServerDialogCtrl',{});
+   		dialogs.create(window.app_path + 'template/servers.add', 'newServerDialogCtrl',{});
    	}
 })
 
@@ -40,71 +40,68 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	function reset()
 	{
 		$scope.server = {};
+		$scope.options = {};
 
-		$scope.success = false;
-		$scope.successRcon = false;
-
-		$scope.warning = {};
-		$scope.error = false;
-		$scope.errorRcon = false;
-
-		$scope.message = false;
-		$scope.messageRcon = false;
-
-		$scope.warning.main = false;
-		$scope.warning.ip = false;
-		$scope.warning.port = false;
+		$scope.errorStatus = '';
+		$scope.addStatus = '';
+		$scope.errorType = '';
+		$scope.message = '';
 
 		$scope.searching = false;
-		$scope.found = false;
-
 		$scope.adding = false;
-		$scope.addUserError = false;
 
-		$scope.validating = false;
+		$scope.bools = [{'value': 0, 'name': 'false'},{'value': 1, 'name': 'true'}];
+
+		$scope.dailyRestartEnabled = false;
 	}
 
 	reset();
 
+	// $scope.portDetect = function(ip)
+	// {
+	// 	console.log(ip);
+
+	// 	if(ip.indexOf(':') != '-1' )
+	// 	{
+	// 		var arr = ip.split(':');
+
+	// 		console.log(arr);
+
+	// 		// $scope.server.ip = arr[0];
+	// 		$scope.server.port = arr[1];
+	// 	}
+	// }
+
 	$scope.search = function(server)
 	{
-		if (! angular.isDefined(server.ip) || ! validateIp(server.ip))
+		if (! angular.isDefined(server.ip) || ! validateIp(server.ip) && ! validateHost(server.ip))
 		{
-			$scope.success = false;
-			$scope.warning.main = true;
+			$scope.errorStatus = 'warning';
+			$scope.errorType = 'ip';
 
-			$scope.warning.ip = true;
-			$scope.error = false;
-
-			$scope.searching = false;
-
-			$scope.message = 'Please enter a valid IP address!';
+			$scope.message = 'Please enter a valid hostname or IP address!';
 		}
-		else if(! angular.isDefined(server.port) ||! validateNumber(server.port))
+		else if(! angular.isDefined(server.port) || ! validateNumber(server.port))
 		{
-			$scope.success = false;
-			$scope.warning.main = true;
-
-			$scope.warning.ip = false;
-			$scope.warning.port = true;
-			$scope.error = false;
-
-			$scope.searching = false;
+			$scope.errorStatus = 'warning';
+			$scope.errorType = 'port';
 
 			$scope.message = 'Please enter a valid port number!';
 		}
+		else if(! angular.isDefined(server.rcon) || server.rcon == '')
+		{
+			$scope.errorStatus = 'warning';
+			$scope.errorType = 'rcon';
+
+			$scope.message = 'Please enter an RCON password!';
+		}
 		else
 		{
-			$scope.success = false;
-			$scope.warning.main = false;
-			$scope.error = false;
-
-			$scope.warning.ip = false;
-			$scope.warning.port = false;
+			$scope.errorStatus = '';
+			$scope.errorType = '';
+			$scope.message = '';
 
 			$scope.searching = true;
-
-			$scope.message = false;
 
 			// Send request to search for server
 			http.post(window.app_path + 'servers/add/search', JSON.stringify(server)).
@@ -114,57 +111,83 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 
 					if(! data.status)
 					{
-						$scope.error = true;
+						$scope.errorStatus = 'error';
 						$scope.message = data.message;
 					}
 					else
 					{
-						$scope.success = true;
+						$scope.errorStatus = 'success';
 						$scope.message = data.message;
 
-						$scope.found = true;
-						$scope.newServer = data.payload;
+						$scope.newServer = data.payload.server;
+						$scope.newServer.ip = server.ip;
+						$scope.newServer.port = server.port;
+						$scope.newServer.rcon = server.rcon;
+
+						$scope.options.companion = data.payload.options[findWithAttr(data.payload.options, 'name', 'companion_script')].value;
 					}
 				}).
 				error(function(data, status, headers, config)
 				{
 					$scope.searching = false;
 
-					$scope.error = true;
+					$scope.errorStatus = 'error';
 					$scope.message = errorExceptionMessage(data, status, config);
 				});
 		}
-	}
 
-	$scope.validate = function(server)
-	{
-		$scope.validating = true;
+		$scope.dailyRestartToggle = function(value)
+		{
+			if (value == 1)
+				$scope.dailyRestartEnabled = true;
+			else
+				$scope.dailyRestartEnabled = false;
+		}
 
-		// Send request to search for server
-		http.post(window.app_path + 'servers/add/validate', JSON.stringify(server)).
-			success(function(data)
+		$scope.addServer = function(server)
+		{
+			if (server.dailyRestart == 1 && ! validateTime(server.restartTime))
 			{
-				$scope.validating = false;
-
-				if(! data.status)
-				{
-					$scope.errorRcon = true;
-					$scope.successRcon = true;
-					$scope.messageRcon = data.message;
-				}
-				else
-				{
-					$scope.successRcon = false;
-					$scope.messageRcon = data.message;
-				}
-			}).
-			error(function(data, status, headers, config)
+				$scope.addStatus = 'warning';
+				$scope.addMessage = 'Please enter a valid restart time (hh:mm:ss)!';
+			}
+			else if(server.dailyRestart == 1 && server.restartCommands == '')
 			{
-				$scope.validating = false;
+				$scope.addStatus = 'warning';
+				$scope.addMessage = 'Please enter at least one restart command!';
+			}
+			else
+			{
+				$scope.addStatus = '';
+				$scope.adding = true;
 
-				$scope.errorRcon = true;
-				$scope.messageRcon = errorExceptionMessage(data, status, config);
-			});
+				// Send request to add server
+				http.post(window.app_path + 'servers/add', JSON.stringify(server)).
+				success(function(data)
+				{
+					$scope.adding = false;
+
+					if(! data.status)
+					{
+						$scope.addStatus = 'error';
+						$scope.addMessage = data.message;
+					}
+					else
+					{
+						toaster.pop('success', data.message);
+						$rootScope.servers.push(data.payload);
+						reset();
+					}
+				}).
+				error(function(data, status, headers, config)
+				{
+					$scope.adding = false;
+
+					$scope.addStatus = 'error';
+					$scope.addMessage = errorExceptionMessage(data, status, config);
+				});
+			}
+		}
 	}
 
 	/**
