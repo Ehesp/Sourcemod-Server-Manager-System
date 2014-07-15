@@ -5,7 +5,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class MakeDbConfigFileCommand extends Command {
+class DatabaseConfigFileCommand extends Command {
 
 	/**
 	 * The console command name.
