@@ -26,14 +26,30 @@ class ServerController extends BaseController {
 
 		try
 		{
+			$server['ip'] = gethostbyname($server['ip']);
+
 			$s = new Server($server['ip'], $server['port']);
 		}
 		catch (Exception $e)
 		{
-			return $this->jsonResponse(400, false, 'Could not find server ' . $server['ip'] . ':' . $server['port'] .' - ' . $e->getMessage());
+			return $this->jsonResponse(400, false, 'Unable to find server on ' . $server['ip'] . ':' . $server['port'] .' - Error: ' . $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'Server has been found!', $s->info());
+		try
+		{
+			$s->validateRconPass($server['rcon']);
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, 'Invalid RCON password or server is blocking your IP address.');
+		}
+
+		$payload = [
+			'server' => $s->info(),
+			'options' => Option::whereName('companion_script')->get(['name', 'value'])
+		];
+
+		return $this->jsonResponse(200, true, 'Server has been found!', $payload);
 	}
 
 	/**
@@ -44,38 +60,51 @@ class ServerController extends BaseController {
 	*/
 	public function addServer()
 	{
-		// $server = Input::all();
+		$server = Input::all();
 
-		// $s = new Server($server['ip'], $server['port']);
+		$duplicate = Ssms\Server::where('ip', $server['ip'])->where('port', $server['port'])->first();
 
-		// if (! $s->validateRconPass($server['rcon']))
-		// {
-		// 	return $this->jsonResponse(400, false, 'Invalid RCON password!');
-		// }
-		// else
-		// {
-		// 	$info = $s->info();
+		if (! is_null($duplicate))
+		{
+			return $this->jsonResponse(400, false, 'Sever ' . $server['ip'] . ':' . $server['port'] . ' already exists!');
+		}
 
-		// 	try
-		// 	{
-		// 		Ssms\Server::create([
-		// 			'name' => $info['serverName'],
-		// 			'ip' => $server['ip'],
-		// 			'port' => $server['port'],
-		// 			'tags' => $info['serverTags'],
-		// 			'rcon_password' => Hash::make($server['rcon']),
-		// 			'multi_console' => $server['multi_console'],
-		// 			'game_type' => $info['operatingSystem'],
-		// 			'version' => $info['gameVersion'],
-		// 			'network' => $info['networkVersion'],
-		// 			'network' => $info['networkVersion'],
-		// 		]);
-		// 	}
-		// 	catch (Exception $e)
-		// 	{
-		// 		return $this->jsonResponse(400, false, 'Failed to add server: ' . $e->getMessage());
-		// 	}
-		// }
+		try
+		{
+			$s = new Ssms\Server;
+
+			$s->name = $server['serverName'];
+			$s->ip = $server['ip'];
+			$s->port = $server['port'];
+			$s->tags = $server['serverTags'];
+			$s->rcon_password = Hash::make($server['rcon']);
+			$s->multi_console = $server['multiConsole'];
+			$s->game_type = $server['gameDir'];
+			$s->operating_system = $server['operatingSystem'];
+			$s->version = $server['gameVersion'];
+			$s->network = $server['networkVersion'];
+			$s->current_map = $server['mapName'];
+			$s->current_players = $server['numberOfPlayers'];
+			$s->current_bots = $server['botNumber'];
+			$s->max_players = $server['maxPlayers'];
+			$s->auto_update = $server['autoUpdate'];
+			$s->hidden = $server['hidden'];
+			$s->daily_restart = $server['dailyRestart'];
+			
+			if ($server['dailyRestart'] == 1)
+			{
+				$s->daily_restart_time = $server['restartTime'];
+				$s->daily_restart_commands = $server['restartCommands'];
+			}
+
+			$s->save();
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
+		}
+
+		return $this->jsonResponse(200, true, 'Server successfully added!', $s);
 	}
 
 	/**
