@@ -83,6 +83,9 @@
   .form-group .help-block.form-group-inline-error {
     padding-top: 3px;
   }
+  label + div.input-mask {
+    padding-top: 7px;
+  }
 
 /* Sidebar */
   ul.sidebar {
