@@ -78,7 +78,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 	*/ 
    	$scope.addUser = function()
    	{
-   		dialogs.create(window.app_path + 'template/settings.new-user', 'newUserDialogCtrl',{});
+   		dialogs.create(window.app_path + 'template/settings.users.add', 'newUserDialogCtrl',{});
    	}
 
 	/**
@@ -299,8 +299,8 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				else
 				{
 					toaster.pop('success', 'User added!');
-					reset();
 					$rootScope.users.push(data.payload);
+					reset();
 				}
 			}).
 			error(function(data, status, headers, config)
