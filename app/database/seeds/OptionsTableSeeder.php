@@ -26,6 +26,14 @@ class OptionsTableSeeder extends Seeder {
             'options' => "blue|red|green",
             'description' => 'The colour theme the application',
         ]);
+
+        Option::create([
+            'name' => 'custom_script',
+            'friendly_name' => 'SSMS Companion Shell Script',
+            'value' => 'true',
+            'options' => "true|false",
+            'description' => 'Whether or not you are using the SSMS shell script to control your servers',
+        ]);
     }
 
 }
