@@ -28,14 +28,12 @@ function findWithAttr(array, attr, value) {
     }
 }
 
+// Validates a number
 function validateNumber(num)
 {
-	if (isNaN(parseFloat(num)) && !isFinite(num))
-	{
-		if(! /[^0-9]/.test(num)) return false;
-	}
+	var regexp = /^[0-9]/g;
 
-	return true;
+	return regexp.test(num);
 }
 
 // Validate a string for a valid Steam ID
@@ -51,9 +49,26 @@ function validateSteamData(string)
 	return true;
 }
 
+// Validates an IP Address
 function validateIp(ip)
 {
 	var regexp = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/g;
 
 	return regexp.test(ip);
+}
+
+// Validates a hostname
+function validateHost(host)
+{
+	var regexp = /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/g;
+
+	return regexp.test(host);
+}
+
+// Validates a HH:MM:SS timestamp
+function validateTime(time)
+{
+	var regexp = /([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]/g;
+
+	return regexp.test(time);
 }
