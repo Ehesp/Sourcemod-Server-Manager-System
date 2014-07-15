@@ -5,6 +5,7 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 	$scope.edit = {};
 	$scope.saving = {};
 	$scope.adding = false;
+	$scope.error = false;
 
 	/**
 	* Load SSMS quick links

@@ -1,6 +1,7 @@
 app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toaster)
 {
 	$scope.loading = true;
+	$scope.error = false;
 	$scope.options = {};
 	$scope.saving = {};
 

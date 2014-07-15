@@ -1,6 +1,7 @@
 app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, http, toaster)
 {
 	$scope.loading = true;
+	$scope.error = false;
 	$scope.pages = {};
 	$scope.edit = {};
 	$scope.saving = {};

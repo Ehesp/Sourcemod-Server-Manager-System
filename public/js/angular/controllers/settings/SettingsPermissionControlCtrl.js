@@ -1,6 +1,7 @@
 app.controller('SettingsPermissionControlCtrl', function($scope, $http, dialogs, http, toaster)
 {
 	$scope.loading = true;
+	$scope.error = false;
 	$scope.permissions = {};
 	$scope.saving = {};
 	$scope.edit = {};
