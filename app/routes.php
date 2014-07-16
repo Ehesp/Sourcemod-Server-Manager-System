@@ -30,6 +30,7 @@ Route::group(['before' => 'access'], function()
 	Route::group(['prefix' => 'servers'], function()
 	{
 		Route::get('/', ['as' => 'servers', 'uses' => 'ServerController@getView']);
+        Route::get('/json', 'ServerController@getServersJson');
 		Route::post('/', ['before' => 'ajax', 'uses' => 'ServerController@getServers']);
 		Route::post('add', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@addServer']);
 		Route::post('add/search', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@searchServer']);

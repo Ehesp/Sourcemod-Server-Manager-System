@@ -155,4 +155,9 @@ class ServerController extends BaseController {
 		return View::make('pages.servers');
 	}
 
+    public function getServersJson()
+    {
+        return Ssms\Server::All();
+    }
+
 }
