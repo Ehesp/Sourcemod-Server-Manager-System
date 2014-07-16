@@ -69,12 +69,13 @@ class RefreshCommand extends Command {
 			// If it's invalid, set a flag on this server - but we're still able to update it
 			if (! $this->validRcon($s, $server['rcon_password']))
 			{
-				$db->setFlag(4);
+				$db->setFlags([4]);
 				$this->comment('{'. $server['id'] .'} Incorrect RCON password detcted - Setting flag!');
 			}
+			// Remove any flags for this server
 			else
 			{
-				$db->setFlag(1);
+				$db->removeFlags([4]);
 			}
 
 			// Try to perform the refresh with the server information via the model method

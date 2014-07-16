@@ -54,9 +54,9 @@ class Server extends Eloquent {
 		return $this->belongsTo('GameType', 'client_appid', 'client_appid');
 	}
 
-    public function flag()
+    public function flags()
     {
-        return $this->belongsTo('Flag', 'id', 'flag');
+        return $this->belongsToMany('Flag', 'flag_server')->orderBy('flag_id');
     }
 
 	/**
@@ -96,13 +96,48 @@ class Server extends Eloquent {
 	}
 
 	/**
-	* Sets a flag on the server
+	* Sets flags on a server, if they don't already exist
 	*
 	*/
-	public function setFlag($id = 1)
+	public function setFlags($flags)
 	{
-		$this->flag = $id;
-		$this->save();
+		foreach ($flags as $flag)
+		{
+			if (! $this->flags->contains($flag))
+			{
+				$this->flags()->attach($flag);
+			}
+		}
+
+		return;
+	}
+
+	/**
+	* Remove flags on a server, only if they exist
+	*
+	*/
+	public function removeFlags($flags)
+	{
+		foreach ($flags as $flag)
+		{
+			if ($this->flags->contains($flag))
+			{
+				$this->flags()->detach($flag);
+			}
+		}
+
+		return;
+	}
+
+	/**
+	* Resets the flags on the server, and assigns it the "all ok" flag
+	*
+	*/
+	public function resetFlags()
+	{
+		$this->flags()->detach();
+
+		$this->flags()->attach(1);
 
 		return;
 	}

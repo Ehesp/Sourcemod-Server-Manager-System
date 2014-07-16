@@ -16,7 +16,6 @@ class CreateServersTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('client_appid');
-			$table->integer('flag')->default(1);
 			$table->string('name');
 			$table->string('ip');
 			$table->integer('port');

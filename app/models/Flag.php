@@ -25,6 +25,6 @@ class Flag extends Eloquent {
 
     public function servers()
     {
-        return $this->hasMany('Ssms\Server', 'flag', 'id');
+        return $this->belongsToMany('Ssms\Server', 'flag_server');
     }
 }
