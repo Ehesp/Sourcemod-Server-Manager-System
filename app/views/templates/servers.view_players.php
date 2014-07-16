@@ -3,17 +3,10 @@
 		<i class="fa fa-task"></i> Server Players
 	</h4>
 </div>
-<div class="modal-body">
+<div class="modal-body table">
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="widget">
-				<div class="widget-title">
-					<input type="text" class="form-control input-sm pull-right" placeholder="Search..." ng-model="searchPlayers">
-					<div class="clearfix"></div>
-				</div>
-				<div class="widget-body no-padding">
-
-					<loading ng-if="loading"></loading>
+			<loading ng-if="loading"></loading>
 
 					<div class="error" ng-if="!loading && error">
 						<span ng-bind-html="message"></span>
@@ -43,8 +36,6 @@
 							</tbody>
 						</table>
 					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
