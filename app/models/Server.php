@@ -25,7 +25,7 @@ class Server extends Eloquent {
 	*
 	* @var array
 	*/
-	protected $guarded = ['id', 'rcon_password'];
+	protected $guarded = ['id'];
 
 	/**
 	* Automatically encrypts a value entered into the rcon_password field.
