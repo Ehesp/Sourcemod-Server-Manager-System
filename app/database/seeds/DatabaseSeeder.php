@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		//$this->call('GameTypesTableSeeder');
+		$this->call('GameTypesTableSeeder');
+		$this->call('FlagsTableSeeder');
 		$this->call('OptionsTableSeeder');
 		$this->call('QuickLinksTableSeeder');
 		$this->call('RolesTableSeeder');
