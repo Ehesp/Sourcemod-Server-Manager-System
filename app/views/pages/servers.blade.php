@@ -65,7 +65,7 @@
 								 	<td></td>
 								 	<td ng-bind="server.name"></td>
 								 	<td ng-bind="server.current_map"></td>
-								 	<td ng-click="viewPlayers(server.id)">{{ server.current_players }}-{{ server.current_bots }} / {{ server.max_players }}</td>
+								 	<td ng-click="viewPlayers(server.id)"><a href="#">{{ server.current_players }}-{{ server.current_bots }} / {{ server.max_players }}</a></td>
 								 	<td>{{ server.updated_at }}</td>
 								 	<td></td>
 								 </tr>
