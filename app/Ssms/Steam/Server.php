@@ -1,8 +1,9 @@
 <?php namespace Ssms\Steam;
 
 use SourceServer;
-use SteamId;
 use Ssms\Support\Helpers\SecToHrMinSec;
+use Ssms\Server as ServerModel;
+use SteamId;
 
 class Server {
 
@@ -44,6 +45,10 @@ class Server {
 		$s->initialize();
 	}
 
+    /**
+     * Sets the RCON password for the server instance
+     *
+     */
     public function setRcon($string)
     {
         $this->rcon = $string;
@@ -74,8 +79,14 @@ class Server {
 
         foreach ($players as $key => $player)
         {
+            if ($player->getSteamId() == 'BOT')
+                $res[$count]['community_id'] = 'BOT';
+            elseif ($player->getSteamId() == null)
+                $res[$count]['community_id'] = 'ERR';
+            else
+                $res[$count]['community_id'] = SteamId::convertSteamIdToCommunityId($player->getSteamId());
+
             $res[$count]['steam_id'] = $player->getSteamId() == null ? 'Steam ID unavailable!' : $player->getSteamId();
-            $res[$count]['community_id'] = $player->getSteamId() == null ? false : SteamId::convertSteamIdToCommunityId($player->getSteamId());
             $res[$count]['name'] = $player->getName() == '' ? false : $player->getName();
             $res[$count]['score'] = $player->getScore();
             $res[$count]['ping'] = $player->getPing();
