@@ -74,12 +74,12 @@ class ServerController extends BaseController {
 			$s = new Ssms\Server;
 
 			$s->name = $server['serverName'];
+			$s->client_appid = $server['appId'];
 			$s->ip = $server['ip'];
 			$s->port = $server['port'];
 			$s->tags = $server['serverTags'];
 			$s->rcon_password = $server['rcon'];
 			$s->multi_console = $server['multiConsole'];
-			$s->game_type = $server['gameDir'];
 			$s->operating_system = $server['operatingSystem'];
 			$s->version = $server['gameVersion'];
 			$s->network = $server['networkVersion'];
