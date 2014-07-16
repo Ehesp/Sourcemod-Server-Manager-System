@@ -83,7 +83,7 @@
   .form-group .help-block.form-group-inline-error {
     padding-top: 3px;
   }
-  label + div.input-mask {
+  div.input-mask {
     padding-top: 7px;
   }
 
@@ -387,4 +387,17 @@
     padding-left: 10px;
     position: relative;
     top: 10px;
+  }
+  .modal-dialog .modal-body.table {
+    padding: 0;
+  }
+  .modal-dialog .modal-body.table .row > div {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  .modal-dialog .modal-body.table thead {
+    font-size: 14px !important;
+  }
+  .modal-dialog .modal-body.table tbody {
+    font-size: 13px !important;
   }
