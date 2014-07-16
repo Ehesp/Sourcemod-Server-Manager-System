@@ -8,15 +8,15 @@
 		<div class="form-group" ng-class="{'has-success has-feedback': errorStatus == 'success', 'has-warning has-feedback': errorStatus == 'warning', 'has-error has-feedback': errorStatus == 'error'}">
 			<label for="steam" class="col-sm-2 control-label">Search</label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" id="server" ng-model="server.ip" placeholder="IP or Host">
+				<input  type="text" class="form-control" id="server" ng-model="server.ip" placeholder="IP or Host" ng-disabled="errorStatus == 'success'">	
 				<span ng-if="errorType == 'ip'" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 			</div>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" id="server" ng-model="server.port" placeholder="Port">
+				<input type="text" class="form-control" id="server" ng-model="server.port" placeholder="Port" ng-disabled="errorStatus == 'success'">	
 				<span ng-if="errorType == 'port'" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 			</div>
 			<div class="col-sm-4">
-				<input type="text" class="form-control" id="server" ng-model="server.rcon" placeholder="RCON Password">
+				<input type="text" class="form-control" id="server" ng-model="server.rcon" placeholder="RCON Password" ng-disabled="errorStatus == 'success'">	
 				<span ng-if="errorType == 'rcon'" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
 			</div>
 			<div class="row" ng-if="message">
