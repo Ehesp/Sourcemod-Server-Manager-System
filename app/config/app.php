@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'key' => '7fJxTFOoct7wWstZYxwAtC6QnGehwbDu',
+	'key' => isset($_ENV['application.key']) ? $_ENV['application.key'] : null,
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
