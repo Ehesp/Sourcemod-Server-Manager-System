@@ -177,12 +177,11 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 		
-		return $this->jsonResponse(200, true, 'User profile found!',
-			[
-				'community_id' => $steamObject->getSteamId64(),
-				'nickname' => $steamObject->getNickname(),
-				'avatar' => $steamObject->getMediumAvatarUrl(),
-			]);
+		return $this->jsonResponse(200, true, 'User profile found!', [
+			'community_id' => $steamObject->getSteamId64(),
+			'nickname' => $steamObject->getNickname(),
+			'avatar' => $steamObject->getMediumAvatarUrl(),
+		]);
 	}
 
 	/**
@@ -435,9 +434,7 @@ class SettingController extends BaseController {
 			$update->save();
 
 			// Remove all page roles
-			$update->removeRoles(
-				Role::all()
-			);
+			$update->roles()->detach();
 
 			//Give page new set of chosen roles
 			foreach ($page['edit']['role'] as $role)
