@@ -15,13 +15,14 @@ class CreateServersTable extends Migration {
 		Schema::create('servers', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('client_appid');
+			$table->integer('flag')->default(1);
 			$table->string('name');
 			$table->string('ip');
 			$table->integer('port');
 			$table->string('tags')->nullable();
 			$table->longText('rcon_password');
 			$table->integer('multi_console');
-			$table->string('game_type');
 			$table->string('operating_system');
 			$table->string('version');
 			$table->string('network');

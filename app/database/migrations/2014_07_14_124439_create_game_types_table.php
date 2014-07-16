@@ -15,11 +15,11 @@ class CreateGameTypesTable extends Migration {
 		Schema::create('game_types', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name');
-			$table->string('acronym');
-			$table->integer('app_id');
+			$table->integer('client_appid')->unique();
+			$table->string('hldsid');
+			$table->string('gamename');
 			$table->string('version');
-			$table->integer('min_players')->nullable();
+			$table->integer('expired')->default(0);
 			$table->text('icon')->nullable();
 			$table->text('logo')->nullable();
 		});
