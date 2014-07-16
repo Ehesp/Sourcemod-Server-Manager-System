@@ -166,7 +166,7 @@
             </a>
           @endif
         </div>
-        <div class="widget-body small no-padding">
+        <div class="widget-body medium no-padding">
           <div class="table-responsive">
             <table class="table table-condensed">
               <thead>
@@ -189,5 +189,38 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="widget">
+        <div class="widget-title">
+          <i class="fa fa-bolt"></i> Trigger Control
+            @if(Permissions::validate('settings.triggers'))
+              <a href="" class="pull-right">
+                Manage
+              </a>
+            @endif
+        </div>
+        <div class="widget-body medium no-padding">
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($triggers as $trigger)
+                  <tr>
+                    <td>[[ $trigger->friendly_name ]]</td>
+                    <td>[[ $trigger->value ]]</td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 @stop

@@ -512,6 +512,16 @@ class SettingController extends BaseController {
 	}
 
 	/**
+	* Get the application trigger options
+	*
+	* @return json
+	*/
+	public function getTriggers()
+	{
+		return Trigger::all();
+	}
+
+	/**
 	* Return the master settings overview with data
 	*
 	* @return View
@@ -523,7 +533,8 @@ class SettingController extends BaseController {
 			->with('options', $this->getOptions())
 			->with('page_access', $this->getPages())
 			->with('permission_control', $this->getPermissions())
-			->with('quick_links', $this->getQuickLinks());
+			->with('quick_links', $this->getQuickLinks())
+			->with('triggers', $this->getTriggers());
 	}
 
 	/**

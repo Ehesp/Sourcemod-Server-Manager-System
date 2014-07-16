@@ -293,6 +293,18 @@ class PermissionsTableSeeder extends Seeder {
         $permission->assignRoles(
             Role::where('name', 'super_admin')->get()
         );
+
+        // Manage triggers
+
+        $permission = Permission::create([
+            'name' => 'settings.triggers',
+            'description' => 'Manage application trigger options',
+            'page_id' => $settings,
+        ]);
+
+        $permission->assignRoles(
+            Role::where('name', 'super_admin')->get()
+        );       
         return $this;
 
     }
