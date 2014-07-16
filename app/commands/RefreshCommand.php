@@ -66,13 +66,13 @@ class RefreshCommand extends Command {
 			}
 
 			// Next, validate the RCON password in the database
-			// If it's invalid, set a flag on this server - but we're still able to update it
+			// If it's invalid, set the RCON warning flag
 			if (! $this->validRcon($s, $server['rcon_password']))
 			{
 				$db->setFlags([4]);
 				$this->comment('{'. $server['id'] .'} Incorrect RCON password detcted - Setting flag!');
 			}
-			// Remove any flags for this server
+			// Remove any RCON warning flags
 			else
 			{
 				$db->removeFlags([4]);
@@ -93,7 +93,7 @@ class RefreshCommand extends Command {
 
 		}
 
-		$this->info("\nRunning trigger checks...");
+		$this->info("Refresh process complete!\n");
 
 		// Run the command "php artisan ssms:trigger"
 		$this->call('ssms:trigger');

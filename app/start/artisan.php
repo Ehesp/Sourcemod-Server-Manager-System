@@ -12,6 +12,6 @@
 */
 
 	Artisan::add(new InstallCommand);
-	Artisan::add(new DatabaseConfigFileCommand);
+	Artisan::add(new ConfigFileCommand);
 	Artisan::add(new RefreshCommand);
 	Artisan::add(new TriggerCommand);

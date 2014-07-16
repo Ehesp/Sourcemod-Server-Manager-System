@@ -1,25 +1,25 @@
 <?php
 
-use Ssms\FileSystem\Files;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Ssms\Support\Helpers\Environment;
 
-class DatabaseConfigFileCommand extends Command {
+class ConfigFileCommand extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'ssms:dbconfig';
+	protected $name = 'ssms:config';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Creates a database configuration file with user input';
+	protected $description = 'Creates a configuration file for the application';
 
 	/**
 	 * Create a new command instance.
@@ -30,7 +30,7 @@ class DatabaseConfigFileCommand extends Command {
 	{
 		parent::__construct();
 
-		$this->filesystem = new Files();
+		$this->env = new Environment();
 	}
 
 	/**
@@ -40,21 +40,20 @@ class DatabaseConfigFileCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->line("\nChecking for existing config file...");
+		$this->info("Checking for existing config file...");
 
-		$fileName = $this->filesystem->getEnvDbConfigFileName(App::environment());
+		$fileName = $this->env->configFileName();
 
-		if ($this->filesystem->checkFileExists($fileName))
+		if (File::exists($fileName))
 		{
-			$this->error("File $fileName already exists!");
+			$this->error("File $fileName already exists - please delete it!");
+			$this->abort();
 		}
 		else
 		{
-			$this->error("No config file exists! Enter database details to create your file:\n");
+			$this->error("No config file exists! Enter database details to create your file:");
 
 			$type = $this->ask("What database driver type are you using? [mysql|sqlite|pgsql|sqlsrv]: ");
-
-			$valid = false;
 
 			$file = null;
 			$host = '';
@@ -66,7 +65,6 @@ class DatabaseConfigFileCommand extends Command {
 			{
 				$file = $this->ask('Where is your sqlite database file located (from base root)? Leave blank for the default app/database/production.sqlite file: ');
 				$file == '' ? $file = null : $file = $file;
-				$valid = true;
 			}
 			elseif($type == 'mysql' || $type == 'pgsql' || $type == 'sqlsrv')
 			{
@@ -74,25 +72,22 @@ class DatabaseConfigFileCommand extends Command {
 				$name = $this->ask('Your database name:');
 				$user = $this->ask('Your database user:');
 				$pass = $this->secret('Your database user password:');
-				$valid = true;
 			}
 			else
 			{
 				$this->error("Invalid database driver type.");
+				$this->abort();
 			}
 
-			if ($valid)
+			try
 			{
-				try
-				{
-					$this->filesystem->makeFile($fileName, null, $this->getTemplate($type, $host, $name, $user, $pass, $file));
-					$this->info("Config file $fileName successfully created!");
-				}
-				catch (Exception $e)
-				{
-					$this->error("An error occured creating the file: " . $e->getMessage());
-				}
-			}			
+				File::put($fileName, $this->getTemplate($type, $host, $name, $user, $pass, $file));
+				$this->info("Config file $fileName successfully created!");
+			}
+			catch (Exception $e)
+			{
+				$this->error("An error occured creating the file: " . $e->getMessage());
+			}		
 		}
 	}
 
@@ -116,11 +111,28 @@ class DatabaseConfigFileCommand extends Command {
 		return [];
 	}
 
+	/**
+	 * Abort message
+	 *
+	 */
+	protected function abort()
+	{
+		return $this->error("\n*** Aborted!. ***") . die();
+	}
+
+	/**
+	 * Returns a string template to create the config file with
+	 *
+	 * @return array
+	 */
 	protected function getTemplate($type, $host, $name, $user, $pass, $file)
 	{
+		$randKey = Str::random(32);
+
 		$template =
 		"<?php
 			return array(
+				'application.key' => '$randKey',
 				'database.type' => '$type',
 				'database.host' => '$host',
 				'database.name' => '$name',

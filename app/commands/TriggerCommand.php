@@ -38,7 +38,24 @@ class TriggerCommand extends Command {
 	 */
 	public function fire()
 	{
-		//
+		// Don't run if there are no servers
+		if(Ssms\Server::count() == 0)
+		{
+			$this->info('There are no servers to run triggers against!');
+			$this->abort();
+		}
+
+		$this->info('Running server triggers:');
+
+		$servers = Ssms\Server::all();
+
+		foreach ($servers as $servers) 
+		{
+			// IF: retries count > value : set flag 6
+			// IF: retries count < value > 0 : set flag 5
+		}
+
+
 	}
 
 	/**

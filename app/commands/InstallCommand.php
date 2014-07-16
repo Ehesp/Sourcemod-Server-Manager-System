@@ -1,9 +1,9 @@
 <?php
 
-use Ssms\FileSystem\Files;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Ssms\Support\Helpers\Environment;
 
 class InstallCommand extends Command {
 
@@ -30,7 +30,7 @@ class InstallCommand extends Command {
 	{
 		parent::__construct();
 
-		$this->filesystem = new Files();
+		$this->env = new Environment();
 	}
 
 	/**
@@ -40,9 +40,9 @@ class InstallCommand extends Command {
 	 */
 	public function fire()
 	{
-		$configFile = $this->filesystem->getEnvDbConfigFileName(App::environment());
+		$configFile = $this->env->configFileName();
 
-		if (! $this->filesystem->checkFileExists($configFile))
+		if (! File::exists($configFile))
 		{
 			$this->error("\nNo database configuration found.\nPlease create a $configFile file in your root directory with your database details.\n-> Alternativly run the `php artisan ssms:dbconfig` helper command.");
 		}
@@ -110,7 +110,6 @@ class InstallCommand extends Command {
 	 * Abort message
 	 *
 	 */
-
 	protected function abort()
 	{
 		return $this->error("\n*** Installer aborted!. ***") . die();
