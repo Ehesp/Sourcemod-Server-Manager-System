@@ -71,6 +71,7 @@ class ServerController extends BaseController {
 
 		try
 		{
+
 			$s = new Ssms\Server;
 
 			$s->name = $server['serverName'];
@@ -98,7 +99,8 @@ class ServerController extends BaseController {
 			}
 
 			$s->save();
-		}
+			$s->resetFlags();
+		} 
 		catch (Exception $e)
 		{
 			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
