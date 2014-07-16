@@ -79,5 +79,12 @@
 	@include('partials.toaster')
 
 	</div>
+	<div class="row" ng-if="!loading && !error">
+      <div class="col-xs-12">
+        <div class="toolbar">
+        	<div class="pull-right">Total Servers: {{ servers.length }}</div>
+        </div>
+      </div>
+    </div>
 </div>
 @stop
