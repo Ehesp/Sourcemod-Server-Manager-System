@@ -96,6 +96,18 @@ class Server extends Eloquent {
 	}
 
 	/**
+	* Reset the server retry count
+	*
+	*/
+	public function resetRetry()
+	{
+		$this->retries = 0;
+		$this->save();
+
+		return;
+	}
+
+	/**
 	* Sets flags on a server, if they don't already exist
 	*
 	*/

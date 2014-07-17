@@ -64,6 +64,11 @@ class RefreshCommand extends Command {
 				$this->comment('{'. $server['id'] .'} Connection failed - Retry count added!');
 				break;
 			}
+			// Can connect, reset retries
+			else
+			{
+				$db->resetRetry();
+			}
 
 			// Next, validate the RCON password in the database
 			// If it's invalid, set the RCON warning flag
