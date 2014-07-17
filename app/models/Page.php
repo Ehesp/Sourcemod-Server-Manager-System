@@ -17,6 +17,13 @@ class Page extends Eloquent {
 	protected $fillable = ['name', 'friendly_name', 'icon', 'slug'];
 
 	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
+	
+	/**
 	* Attach user table to many-to-many relationship with "Roles" table via the "page_role" pivot table.
 	*
 	*/

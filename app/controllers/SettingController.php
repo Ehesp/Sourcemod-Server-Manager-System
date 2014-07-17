@@ -68,7 +68,6 @@ class SettingController extends BaseController {
 			$update = User::find($user['id']);
 
 			$update->enabled = $user['edit']['state'];
-			$update->touch();
 			$update->save();
 
 			// Remove all roles apart from guest
@@ -204,7 +203,6 @@ class SettingController extends BaseController {
 
 				$update->nickname = $steamObject->getNickname();
 				$update->avatar = $steamObject->getMediumAvatarUrl();
-				$update->touch();
 				$update->save();
 			}
 			catch (Exception $e)
@@ -267,7 +265,6 @@ class SettingController extends BaseController {
 		{
 			$update = Option::find($option['id']);
 			$update->value = $option['value'];
-			$update->touch();
 			$update->save();
 		}
 		catch (Exception $e)
@@ -430,7 +427,6 @@ class SettingController extends BaseController {
 			$update = Page::find($page['id']);
 
 			$update->icon = $page['edit']['icon'];
-			$update->touch();
 			$update->save();
 
 			// Remove all page roles

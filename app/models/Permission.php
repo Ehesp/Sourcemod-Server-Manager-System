@@ -15,6 +15,13 @@ class Permission extends Eloquent {
 	* @var array
 	*/
 	protected $fillable = ['name', 'page_id'];
+	
+	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
 
 	/**
 	* Each permission belongs to a single page (one-to-many).

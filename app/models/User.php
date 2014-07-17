@@ -21,14 +21,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('remember_token');
+	protected $hidden = ['remember_token'];
 
 	/**
 	* The guarded table columns.
 	*
 	* @var array
 	*/
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
+
+	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
 
 	/**
 	* Attach user table to many-to-many relationship with "Roles" table via the "role_user" pivot table.

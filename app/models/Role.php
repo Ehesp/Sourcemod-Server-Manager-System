@@ -17,6 +17,13 @@ class Role extends Eloquent {
 	protected $fillable = ['name', 'friendly_name'];
 
 	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
+
+	/**
 	* Attach role table to many-to-many relationship with "users" table via the "role_user" pivot table.
 	*
 	*/

@@ -15,4 +15,11 @@ class Option extends Eloquent {
 	* @var array
 	*/
 	protected $fillable = ['name', 'friendly_name', 'value', 'options', 'description'];
+
+	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
 }
