@@ -63,10 +63,7 @@ class BaseController extends Controller {
 	 */
 	protected function isValidUrl($value)
 	{
-		if (strpos($value, 'http://') !== false || strpos($value, 'https://') !== false)
-		{
-			return true;
-		}
+		if (strpos($value, 'http://') !== false || strpos($value, 'https://') !== false) return true;
 
 		return false;
 	}
