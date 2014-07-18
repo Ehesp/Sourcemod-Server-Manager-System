@@ -2,6 +2,10 @@ var app = angular.module('SSMS', ['ui.bootstrap', 'ngCookies', 'ngSanitize','ngA
 
 app.controller('MasterCtrl', function($scope, $cookieStore)
 {
+	/**
+	 * Sidebar Toggle & Cookie Control
+	 *
+	 */
 	var mobileView = 992;
 
 	$scope.getWidth = function() { return window.innerWidth; };
@@ -38,5 +42,14 @@ app.controller('MasterCtrl', function($scope, $cookieStore)
 	};
 
 	window.onresize = function() { $scope.$apply(); };
+
+	/**
+	 * In-Scope helpers
+	 *
+	 */
+	$scope.stringToArray = function(string, sep)
+	{
+		return string.split(sep);
+	}
 
 });
