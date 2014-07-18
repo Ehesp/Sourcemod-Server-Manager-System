@@ -90,6 +90,14 @@ Route::group(['before' => 'access'], function()
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editQuickLink']);
 			Route::post('add', ['before' => 'ajax', 'uses' => 'SettingController@addQuickLink']);
 		});
+
+		Route::group(['prefix' => 'notifications', 'before' => 'permissions:settings.notifications'], function()
+		{
+			Route::get('/', ['as' => 'settings.notifications', 'uses' => 'SettingController@getNotificationsView']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getNotifications']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editNotification']);
+			Route::post('events', ['before' => 'ajax', 'uses' => 'SettingController@getEvents']);
+		});
 	});
 
 });
