@@ -43,6 +43,7 @@ class SettingController extends BaseController {
 				return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
 			}
 			
+
 			return $this->jsonResponse(200, true, 'User has been successfully been deleted!');
 		}
 	}
@@ -86,6 +87,8 @@ class SettingController extends BaseController {
 		{
 			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
 		}
+
+		Event::fire('setting.user.update');
 
 		return $this->jsonResponse(200, true, 'User has been updated!', User::with('roles')->where('id', $user['id'])->first());
 
@@ -508,13 +511,55 @@ class SettingController extends BaseController {
 	}
 
 	/**
-	* Get the application trigger options
+	* Get the application notification options
 	*
 	* @return json
 	*/
-	public function getTriggers()
+	public function getNotifications()
 	{
-		return Trigger::all();
+		return Notification::all();
+	}
+
+	/**
+	* Get the application events with their services
+	*
+	* @return json
+	*/
+	public function getEvents()
+	{
+		return Ssms\Event::with('services')->get();
+	}
+
+	/**
+	* Edit an notification
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	public function editNotification()
+	{
+		$notification = Input::all();
+
+		if ($this->isEmpty($notification['value'])) return $this->jsonResponse(400, false, "The option value must be present!");
+
+		if ($notification['name'] == 'retries' && ! ctype_digit($notification['value'])) return $this->jsonResponse(400, false, "Please enter a valid integer number!");
+
+		if ($notification['name'] == 'retries' && intval($notification['value']) < 3) return $this->jsonResponse(400, false, "The minimum retry time is 3 minutes!");
+
+		if ($notification['name'] == 'email.addresses' && ! $this->isValidEmails($notification['value'])) return $this->jsonResponse(400, false, "An email address entered is not valid!");
+
+		try
+		{
+			$update = Notification::find($notification['id']);
+			$update->value = $notification['value'];
+			$update->save();
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'The notification has been updated!', Notification::find($notification['id']));
 	}
 
 	/**
@@ -530,7 +575,7 @@ class SettingController extends BaseController {
 			->with('page_access', $this->getPages())
 			->with('permission_control', $this->getPermissions())
 			->with('quick_links', $this->getQuickLinks())
-			->with('triggers', $this->getTriggers());
+			->with('notifications', $this->getNotifications());
 	}
 
 	/**
@@ -581,5 +626,15 @@ class SettingController extends BaseController {
 	public function getQuickLinksView()
 	{
 		return View::make('pages.settings.quick-links');
+	}
+
+	/**
+	* Return the notifications settings view
+	*
+	* @return View
+	*/
+	public function getNotificationsView()
+	{
+		return View::make('pages.settings.notifications');
 	}
 }
