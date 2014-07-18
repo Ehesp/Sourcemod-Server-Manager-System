@@ -68,4 +68,37 @@ class BaseController extends Controller {
 		return false;
 	}
 
+	/**
+	 * Return whether a given string are all valid email addresses
+	 *
+	 * @return bool
+	 */
+	protected function isValidEmails($value)
+	{
+		$value = preg_replace('/\s+/', '', $value);
+
+		if (strpos($value, ';') !== false)
+		{
+			$emails = explode(';', $value);
+
+			foreach ($emails as $email)
+			{
+				if(! $this->validateEmail($email)) return false;
+			}
+
+			return true;
+		}
+		else
+		{
+			return $this->validateEmail($value);
+		}		
+	}
+
+	private function validateEmail($email)
+	{
+		if(! filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+
+		return true;
+	}
+
 }
