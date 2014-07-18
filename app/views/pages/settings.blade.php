@@ -193,9 +193,9 @@
     <div class="col-lg-6">
       <div class="widget">
         <div class="widget-title">
-          <i class="fa fa-bolt"></i> Trigger Control
-            @if(Permissions::validate('settings.triggers'))
-              <a href="" class="pull-right">
+          <i class="fa fa-bullhorn"></i> Notification Management
+            @if(Permissions::validate('settings.notifications'))
+              <a href="[[ URL::route('settings.notifications') ]]" class="pull-right">
                 Manage
               </a>
             @endif
@@ -210,11 +210,13 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($triggers as $trigger)
-                  <tr>
-                    <td>[[ $trigger->friendly_name ]]</td>
-                    <td>[[ $trigger->value ]]</td>
-                  </tr>
+                @foreach($notifications as $notification)
+                  @if($notification->in_overview)
+                    <tr>
+                      <td>[[ $notification->friendly_name ]]</td>
+                      <td>[[ $notification->value ]]</td>
+                    </tr>
+                  @endif
                 @endforeach
               </tbody>
             </table>

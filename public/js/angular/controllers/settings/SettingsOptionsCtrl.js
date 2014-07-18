@@ -51,12 +51,4 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 			dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 		});
 	}
-
-	/**
-	* Convert a string into an array (for use in loops)
-	*/
-	$scope.stringToArray = function(string, sep)
-	{
-		return string.split(sep);
-	}
 });

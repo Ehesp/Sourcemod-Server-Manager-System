@@ -50,7 +50,7 @@
 									 		<input class="form-control" type="text" ng-model="option.value" />
 									 	</td>
 									 	<td ng-if="option.options !== null">
-									 		<select class="form-control input-sm" ng-init="option.value = option.value" ng-model="option.value" ng-options="option for option in stringToArray(option.options, '|')"></select>
+									 		<select class="form-control input-sm" ng-model="option.value" ng-options="option for option in stringToArray(option.options, '|')"></select>
 									 	</td>
 									 	<td ng-bind="option.updated_at"></td>
 									 	<td>
