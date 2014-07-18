@@ -297,8 +297,8 @@ class PermissionsTableSeeder extends Seeder {
         // Manage triggers
 
         $permission = Permission::create([
-            'name' => 'settings.triggers',
-            'description' => 'Manage application trigger options',
+            'name' => 'settings.notifications',
+            'description' => 'Manage application notifications',
             'page_id' => $settings,
         ]);
 
