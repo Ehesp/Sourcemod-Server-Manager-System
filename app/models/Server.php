@@ -28,6 +28,13 @@ class Server extends Eloquent {
 	protected $guarded = ['id'];
 
 	/**
+	* Using timestamps
+	*
+	* @var boolen
+	*/
+	public $timestamps = true;
+	
+	/**
 	* Automatically encrypts a value entered into the rcon_password field.
 	*
 	*/
