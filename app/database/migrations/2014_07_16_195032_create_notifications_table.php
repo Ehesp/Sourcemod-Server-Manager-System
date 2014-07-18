@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTriggersTable extends Migration {
+class CreateNotificationsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateTriggersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('triggers', function(Blueprint $table)
+		Schema::create('notifications', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('name');
@@ -20,6 +20,7 @@ class CreateTriggersTable extends Migration {
 			$table->string('value');
 			$table->text('options')->nullable();
 			$table->string('description');
+			$table->integer('in_overview')->default(1);
 			$table->timestamps();
 		});
 	}
@@ -31,7 +32,7 @@ class CreateTriggersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('triggers');
+		Schema::drop('notifications');
 	}
 
 }
