@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('friendly_name');
-			$table->string('value');
+			$table->text('value');
 			$table->text('options')->nullable();
 			$table->string('description');
 			$table->integer('in_overview')->default(1);

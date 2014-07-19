@@ -559,7 +559,7 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'The notification has been updated!', $update);
+		return $this->jsonResponse(200, true, 'The notification setting has been updated!', $update);
 	}
 
 	/**
