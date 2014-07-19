@@ -275,7 +275,7 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'The option has been updated!', Option::find($option['id']));
+		return $this->jsonResponse(200, true, 'The option has been updated!', $update);
 	}
 
 	/**
@@ -326,7 +326,7 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'Quick Link updated successfully!', QuickLink::find($link['id']));
+		return $this->jsonResponse(200, true, 'Quick Link updated successfully!', $update);
 	}
 
 	/**
@@ -559,7 +559,7 @@ class SettingController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'The notification has been updated!', Notification::find($notification['id']));
+		return $this->jsonResponse(200, true, 'The notification has been updated!', $update);
 	}
 
 	/**
