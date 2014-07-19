@@ -97,6 +97,7 @@ Route::group(['before' => 'access'], function()
 			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getNotifications']);
 			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editNotification']);
 			Route::post('events', ['before' => 'ajax', 'uses' => 'SettingController@getEvents']);
+			Route::post('event/edit', ['before' => 'ajax', 'uses' => 'SettingController@saveEvent']);
 		});
 	});
 

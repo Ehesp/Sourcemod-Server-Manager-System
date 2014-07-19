@@ -19,7 +19,7 @@
 			<div class="col-lg-12">
 				<div class="widget">
 					<div class="widget-title">
-						<i class="fa fa-bullhorn"></i> Manage Notifications
+						<i class="fa fa-flag"></i> Manage Notifications
 					</div>
 					<div class="widget-body no-padding">
 
@@ -68,19 +68,17 @@
 			<div class="col-lg-12">
 				<div class="widget">
 					<div class="widget-title">
-						<i class="fa fa-envelope-o"></i> Event Management
-						<input type="text" class="form-control input-sm pull-right" placeholder="Search..." ng-model="searchEvents">
-						<div class="clearfix"></div>
+						<i class="fa fa-bullhorn"></i> Event Management
 					</div>
 					<div class="widget-body no-padding">
 
-						<loading ng-if="loading.events"></loading>
+						<loading ng-if="loadingEvents"></loading>
 
-						<div class="error" ng-if="!loading.events && error.events">
+						<div class="error" ng-if="!loadingEvents && errorEvents">
 							<span ng-bind-html="message"></span>
 						</div>
 
-						<table class="table">
+						<table class="table" ng-if="!loadingEvents && !errorEvents">
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -93,8 +91,25 @@
 								<tr ng-repeat="event in events">
 									<td ng-bind="event.name"></td>
 									<td ng-bind="event.description"></td>
-									<td></td>
-									<td></td>
+									<td ng-if="!edit[event.id]">
+										<span ng-repeat="service in event.services">
+											{{ service.friendly_name }} <span ng-if="!$last">|</span>
+										</span>
+								 	</td>
+								 	<td ng-if="edit[event.id]">
+								 		<select multiple ng-multiple="true" class="form-control input-sm" ng-init="event.edit.service = selectedServices[event.id]" ng-model="event.edit.service" ng-options="s.friendly_name for s in services"></select>
+								 	</td>
+								 	<td>
+										<button ng-if="!edit[event.id]" class="btn btn-warning btn-sm pull-right" ng-click="editEvent(event)" tooltip="Edit Event">
+											<i class="fa fa-wrench"></i>
+										</button>
+										<button ng-if="edit[event.id]" class="btn btn-danger btn-sm pull-right" ng-click="editEvent(event)" tooltip="Cancel">
+											<i class="fa fa-times"></i>
+										</button>
+										<button ng-if="edit[event.id]" class="btn btn-success btn-sm pull-right" ng-click="saveEvent(event)" tooltip="Saves Changes">
+											<i class="fa" ng-class="{'fa-check': !savingEvent[event.id], 'fa-spinner fa-spin': savingEvent[event.id]}"></i>
+										</button>
+								 	</td>
 								</tr>
 							</tbody>
 						</table>

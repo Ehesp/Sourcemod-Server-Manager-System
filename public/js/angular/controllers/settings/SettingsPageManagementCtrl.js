@@ -78,7 +78,4 @@ app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, ht
 				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 			});
 	}
-
-
-
 });

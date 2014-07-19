@@ -563,6 +563,40 @@ class SettingController extends BaseController {
 	}
 
 	/**
+	* Edit an notification
+	*
+	* Takes a AJAX post request.
+	* @return json
+	*/
+	public function saveEvent()
+	{
+		$event = Input::all();
+
+		try
+		{
+			$update = Ssms\Event::find($event['id']);
+
+			// Remove all services
+			$update->services()->detach();
+
+			// Update new roles
+			foreach ($event['edit']['service'] as $service) {
+				$update->assignServices(
+					Service::where('id', $service['id'])->get()
+				);
+			}
+
+			$update->save();
+		}
+		catch (Exception $e)
+		{
+			return $this->jsonResponse(400, false, $e->getMessage());
+		}
+
+		return $this->jsonResponse(200, true, 'The event has been updated!', Ssms\Event::with('services')->find($event['id']));
+	}
+
+	/**
 	* Return the master settings overview with data
 	*
 	* @return View

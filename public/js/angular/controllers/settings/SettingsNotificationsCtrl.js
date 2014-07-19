@@ -3,14 +3,18 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 	$scope.loading = true;
 	$scope.error = false;
 
-	$scope.loading.events = true;
-	$scope.error.events = true;
+	$scope.loadingEvents = true;
+	$scope.errorEvents = false;
 	
 	$scope.notifications = {};
 	$scope.events = {};
 
+	$scope.edit = {};
+	$scope.selectedServices = {};
 	$scope.saving = {};
-	$scope.saving.events = {};
+	$scope.savingEvent = {};
+
+	$scope.services = window.services;
 
 	/**
 	* Load SSMS notifications
@@ -35,13 +39,13 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 		success(function(data)
 		{
 			$scope.events = data;
-			$scope.loading.events = false;
+			$scope.loadingEvents = false;
 		}).
 		error(function(data, status, headers, config)
 		{
-			$scope.message = errorExceptionMessage(data, status, config);
-			$scope.loading.events = false;
-			$scope.error.events = true;
+			$scope.messageEvents = errorExceptionMessage(data, status, config);
+			$scope.loadingEvents = false;
+			$scope.errorEvents = true;
 		});
 
 	/**
@@ -73,6 +77,59 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 			$scope.saving[notification.id] = false;
 			dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 		});
+	}
+
+	/**
+	* Edit event settings
+	*/ 
+	$scope.editEvent = function(event)
+	{
+		$scope.edit[event.id] = ! angular.isDefined($scope.edit[event.id]) ? true : ! $scope.edit[event.id];
+
+		$scope.selectedServices[event.id] = [];
+		angular.forEach(event.services, function(value, key)
+		{
+			if (angular.isDefined($scope.services[findWithAttr($scope.services, 'id', value.id)]))
+			{
+				$scope.selectedServices[event.id].push($scope.services[findWithAttr($scope.services, 'id', value.id)]);
+			}
+		});
+	}
+
+	/**
+	* Save event settings
+	*/ 
+	$scope.saveEvent = function(event)
+	{
+		$scope.savingEvent[event.id] = true;
+
+		http.post(window.app_path + 'settings/notifications/event/edit', JSON.stringify(event)).
+			success(function(data)
+			{
+				$scope.savingEvent[event.id] = false;
+
+				if(! data.status)
+				{
+					toaster.pop('error', 'Failed to save changes!', '', null, null, function()
+					{
+						dialogs.error('An error occured saving the event changes!', errorMessage(data.code, data.message));
+					});
+				}
+				else
+				{
+					toaster.pop('success', data.message);
+
+					// Update the event before we close the edit area
+					$scope.events[findWithAttr($scope.events, 'id', event.id)] = data.payload;
+
+					$scope.edit[event.id] = false;
+				}
+			}).
+			error(function(data, status, headers, config)
+			{
+				$scope.savingEvent[event.id] = false;
+				dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
+			});
 	}
 
 });
