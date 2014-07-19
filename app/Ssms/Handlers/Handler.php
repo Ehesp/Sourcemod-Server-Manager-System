@@ -6,7 +6,33 @@ class Handler {
 
 	public function __construct()
 	{
-		//$this->settings = Notification::all();
+		$this->notifications = Notification::get(['name', 'value']);
+		$this->events = \Ssms\Event::with('services')->get();
+	}
+
+	protected function fire($title, $message, $data)
+	{
+		//
+	}
+
+	protected function sendEmail()
+	{
+		//
+	}
+
+	protected function sendTweet()
+	{
+		//
+	}
+
+	protected function sendHipchat()
+	{
+		//
+	}
+
+	protected function sendPushbullet()
+	{
+		//
 	}
 
 }
