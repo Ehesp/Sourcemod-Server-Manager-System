@@ -22,29 +22,4 @@ class Notification extends Eloquent {
 	* @var boolen
 	*/
 	public $timestamps = true;
-
-	/**
-	* Automatically encrypts a value, based on the name
-	*
-	*/
-	public function setValueAttribute($value)
-	{
-		if ($this->name == 'twitter.key' || $this->name == 'hipchat.auth')
-		{
-			 $this->attributes['value'] = \Crypt::encrypt($value);
-		}
-	}
-
-	/**
-	* Automatically decrypts the rcon_password field when called.
-	*
-	*/
-	public function getValueAttribute($value)
-	{
-		if ($this->name == 'twitter.key' || $this->name == 'hipchat.auth')
-		{
-			 return \Crypt::decrypt($value);
-		}
-	    
-	}
 }
