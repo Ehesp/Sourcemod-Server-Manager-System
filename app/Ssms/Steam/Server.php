@@ -46,7 +46,8 @@ class Server {
 	}
 
     /**
-     * Sets the RCON password for the server instance
+     * Sets the RCON password for the server instance, if
+     * not set during construction
      *
      */
     public function setRcon($string)
@@ -115,8 +116,21 @@ class Server {
      * @throws Exception if the rcon password is incorrect
      *         
      */
-	public function validateRconPass($rcon)
-	{
-		$this->server->updatePlayers($rcon);
-	}
+    public function validateRconPass($rcon)
+    {
+        $this->server->updatePlayers($rcon);
+    }
+
+    /**
+     * Executes an RCON command on the server instance.
+     *
+     * @throws RCONNoAuthException  if the rcon command cannot be executed
+     *         
+     */
+    public function rconCommand($command)
+    {
+        $this->server->rconAuth($this->rcon);
+
+        return $this->server->rconExec($command);
+    }
 }
