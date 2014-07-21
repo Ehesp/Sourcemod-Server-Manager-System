@@ -6,8 +6,8 @@ class Handler {
 
 	public function __construct()
 	{
-		$this->notifications = Notification::get(['name', 'value']);
-		$this->events = \Ssms\Event::with('services')->get();
+		//$this->notifications = Notification::get(['name', 'value']);
+		//$this->events = \Ssms\Event::with('services')->get();
 	}
 
 	protected function fire($title, $message, $data)
