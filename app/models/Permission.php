@@ -17,11 +17,11 @@ class Permission extends Eloquent {
 	protected $fillable = ['name', 'page_id'];
 	
 	/**
-	* Using timestamps
+	* Disable timestamps
 	*
 	* @var boolen
 	*/
-	public $timestamps = true;
+	public $timestamps = false;
 
 	/**
 	* Each permission belongs to a single page (one-to-many).
@@ -38,7 +38,7 @@ class Permission extends Eloquent {
 	*/
 	public function roles()
 	{
-		return $this->belongsToMany('Role', 'permission_role')->withTimestamps();
+		return $this->belongsToMany('Role', 'permission_role')->orderBy('id', 'asc')->withTimestamps();
 	}
 
 	/**
