@@ -101,7 +101,7 @@
                         </button>
                       @endif
                       @if(Permissions::validate('settings.users.refresh'))
-                        <button class="btn btn-info btn-sm pull-right" ng-click="refreshUser(user)" tooltip="Refresh User">
+                        <button ng-if="!edit[user.id]" class="btn btn-info btn-sm pull-right" ng-click="refreshUser(user)" tooltip="Refresh User">
                           <i class="fa fa-refresh" ng-class="{'fa-spin': refreshing[user.id]}"></i>
                         </button>
                       @endif
