@@ -18,7 +18,6 @@ class CreatePermissionsTable extends Migration {
 			$table->string('name');
 			$table->string('description')->nullable();
 			$table->integer('page_id');
-			$table->timestamps();
 		});
 	}
 
