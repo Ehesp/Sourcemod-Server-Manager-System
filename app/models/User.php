@@ -62,28 +62,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	* Assign a user multiple roles by Object
-	*
-	*/
-	public function assignRoles($roles)
-	{
-		foreach ($roles as $role) {
-			$this->roles()->attach($role);
-		}
-	}
-
-	/**
-	* Remove the users role by ID or Object
-	*
-	*/
-	public function removeRoles($roles)
-	{
-		foreach ($roles as $role) {
-			$this->roles()->detach($role);
-		}
-	}
-
-	/**
 	* The 'pages' accessor
 	*
 	*/
