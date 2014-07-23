@@ -48,7 +48,7 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => isset($_ENV['database.host']) ? base_path() . '/' . isset($_ENV['database.file']) : __DIR__.'/database/production.sqlite',
+			'database' => isset($_ENV['database.file']) ? base_path() . '/' . isset($_ENV['database.file']) : __DIR__.'/../database/production.sqlite',
 			'prefix'   => '',
 		),
 
