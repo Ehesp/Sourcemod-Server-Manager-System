@@ -126,6 +126,7 @@ return array(
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Ssms\Authorization\AuthorizationServiceProvider',
         'Hipchat\Support\ServiceProvider',
+        'Barryvdh\Debugbar\ServiceProvider',
 
 	),
 

@@ -7,7 +7,8 @@
 		"laravel/framework": "4.2.*",
 		"koraktor/steam-condenser": "1.3.8",
 		"laracasts/utilities": "~1.0",
-		"hannesvdvreken/hipchat": "*"
+		"hannesvdvreken/hipchat": "*",
+		"barryvdh/laravel-debugbar": "1.x"
 	},
 	"autoload": {
 		"classmap": [
@@ -32,6 +33,7 @@
 			"bower install"
 		],
 		"post-update-cmd": [
+			"php artisan debugbar:publish",
 			"php artisan clear-compiled",
 			"php artisan optimize",
 			"bower update"
