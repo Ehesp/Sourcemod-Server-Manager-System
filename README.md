@@ -53,7 +53,7 @@ TO DO: Instructions on FTP zip upload
 
 This tool provides a simple way to setup different working environments. By default the application is set to `local` development, and thus any configuration options within `app/config/local` override the defaults within `app/config`. *Feel free to set the environment to another name such as `development` with your own config overrides in `app/config/development`. N.B. `testing` is already in use by the Laravel Framework*.
 
-To set the environment into `production` mode (if on a live webserver), you need to set a PHP environment variable named `ENV` to `production`. This can either be done via the virtual host or in the `public/.htaccess` <- TO DO: instructions on .htaccess env vars
+To set the environment into `production` mode (if on a live webserver), you need to set a PHP environment variable named `ENV` to `production`. This can either be done via the virtual host or in the `public/.htaccess`, simply add `SetEnv ENV production`.
 
 ##### Database Setup
 
