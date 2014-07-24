@@ -58,7 +58,7 @@
     </div>
     @else
     <div class="login pull-right">
-      <a href="[[ $steamLoginUrl ]]">
+      <a href="[[ SteamLogin::url(Config::get('steam.returnTo')) ]]">
         [[ HTML::image('img/steam/login-sm.png', 'Steam Login') ]]
       </a>
     </div>

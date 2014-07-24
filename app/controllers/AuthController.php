@@ -28,7 +28,7 @@ class AuthController extends BaseController {
 
 	public function validateSteamLogin()
 	{
-		$validate = Ssms\Steam\Login::validate();
+		$validate = SteamLogin::validate();
 
 		if (is_null($validate))
 		{

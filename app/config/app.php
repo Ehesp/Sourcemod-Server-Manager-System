@@ -124,9 +124,14 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
-		'Ssms\Authorization\AuthorizationServiceProvider',
+
+		'Ehesp\SteamLogin\Laravel\SteamLoginServiceProvider',
         'Hipchat\Support\ServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
+
+        // SSMS Service Providers
+
+		'Ssms\Authorization\AuthorizationServiceProvider',
 
 	),
 
@@ -194,6 +199,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+
+		'SteamLogin' => 'Ehesp\SteamLogin\Laravel\Facades\SteamLogin',
 
 		// SSMS Facades
 

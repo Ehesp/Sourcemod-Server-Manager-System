@@ -13,22 +13,6 @@
 
 App::before(function($request)
 {
-
-	if (Auth::guest())
-	{
-		/**
-		* Share the Steam login URL when the user is not logged in
-		* which can be accessed via the $steamLoginUrl variable.
-		*
-		*/
-
-		View::share('steamLoginUrl',
-			Ssms\Steam\Login::genUrl(
-				Config::get('steam.returnTo'), true
-			)
-		);
-	}
-
 	/**
 	* Share the pages the user is able to access to the views under 
 	* the $pages variable.
