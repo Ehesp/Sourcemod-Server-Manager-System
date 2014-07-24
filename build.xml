@@ -20,7 +20,7 @@
    <target name="build-parallel-clean"
        depends="clean,build-common,tools-parallel" />
 
-   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower" />
+   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower,artisan-clean" />
 
    <target name="tools-parallel" description="Run tools in parallel">
        <parallel threadCount="2">
@@ -80,6 +80,14 @@
            <arg value="update" />
        </exec>
    </target>
+
+    <target name="artisan-clean" description="Cleanup possible cache files">
+        <echo>Updating dependencies</echo>
+        <exec executable="php" failonerror="true">
+            <arg value="artisan" />
+            <arg value="cache:clear" />
+        </exec>
+    </target>
 
    <!--// Check to see it the vendor folder already exist, if so, then no reason to run //-->
    <target name="composer.check">
