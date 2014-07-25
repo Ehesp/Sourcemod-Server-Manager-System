@@ -53,19 +53,19 @@ Route::group(['before' => 'access'], function()
 		Route::group(['prefix' => 'users'], function()
 		{
 			Route::get('/', ['as' => 'settings.users', 'before' => 'permissions:settings.users', 'uses' => 'SettingController@getUsersView']);
-			Route::post('/', ['before' => 'ajax|permissions:settings.users', 'uses' => 'UserController@getUsers']);
-			Route::post('delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'UserController@deleteUser']);
-			Route::post('edit', ['before' => 'ajax|permissions:settings.users.edit', 'uses' => 'UserController@editUser']);
-			Route::post('add', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'UserController@addUser']);
-			Route::post('add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'UserController@userSearch']);
-			Route::post('refresh/{id?}', ['before' => 'ajax|permissions:settings.users.refresh', 'uses' => 'UserController@refreshUser']);
+			Route::post('/', ['before' => 'ajax|permissions:settings.users', 'uses' => 'UserController@get']);
+			Route::post('delete', ['before' => 'ajax|permissions:settings.users.delete', 'uses' => 'UserController@delete']);
+			Route::post('edit', ['before' => 'ajax|permissions:settings.users.edit', 'uses' => 'UserController@edit']);
+			Route::post('add', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'UserController@add']);
+			Route::post('add/search', ['before' => 'ajax|permissions:settings.users.add', 'uses' => 'UserController@search']);
+			Route::post('refresh/{id?}', ['before' => 'ajax|permissions:settings.users.refresh', 'uses' => 'UserController@refresh']);
 		});
 
 		Route::group(['prefix' => 'options', 'before' => 'permissions:settings.options'], function()
 		{
 			Route::get('/', ['as' => 'settings.options', 'uses' => 'SettingController@getOptionsView']);
-			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getOptions']);
-			Route::post('edit', ['before' => 'ajax', 'uses' => 'OptionController@editOption']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'OptionController@get']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'OptionController@edit']);
 		});
 
 		Route::group(['prefix' => 'page-management', 'before' => 'permissions:settings.page_management'], function()
@@ -78,17 +78,17 @@ Route::group(['before' => 'access'], function()
 		Route::group(['prefix' => 'permission-control', 'before' => 'permissions:settings.permission_control'], function()
 		{
 			Route::get('/', ['as' => 'settings.permission-control', 'uses' => 'SettingController@getPermissionControlView']);
-			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getPermissions']);
-			Route::post('edit', ['before' => 'ajax', 'uses' => 'PermissionController@editPermission']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'PermissionController@get']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'PermissionController@edit']);
 		});
 
 		Route::group(['prefix' => 'quick-links', 'before' => 'permissions:settings.permission_control'], function()
 		{
 			Route::get('/', ['as' => 'settings.quick-links', 'uses' => 'SettingController@getQuickLinksView']);
-			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getQuickLinks']);
-			Route::post('delete', ['before' => 'ajax', 'uses' => 'SettingController@deleteQuickLink']);
-			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editQuickLink']);
-			Route::post('add', ['before' => 'ajax', 'uses' => 'SettingController@addQuickLink']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'QuickLinkController@get']);
+			Route::post('delete', ['before' => 'ajax', 'uses' => 'QuickLinkController@delete']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'QuickLinkController@edit']);
+			Route::post('add', ['before' => 'ajax', 'uses' => 'QuickLinkController@add']);
 		});
 
 		Route::group(['prefix' => 'notifications', 'before' => 'permissions:settings.notifications'], function()
@@ -136,12 +136,3 @@ Route::group(['before' => 'auth'], function()
 Route::get('login', 'AuthController@validateSteamLogin');
 
 Route::get('logout', 'AuthController@logout');
-
-Route::get('t', function()
-{
-	return Page::join('page_role as pr', 'pr.page_id', '=', 'pages.id')
-	           ->join('role_user as ru', 'ru.role_id', '=', 'pr.role_id')
-	           ->where('ru.user_id', 1)
-	           ->distinct()
-	           ->get(['pages.*', 'user_id']);
-});
