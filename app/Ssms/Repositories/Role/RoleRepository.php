@@ -1,6 +1,6 @@
 <?php namespace Ssms\Repositories\Role;
 
-interface RoleRepositoryInterface {
+interface RoleRepository {
 
 	public function getBy($type, $value, $operator);
 

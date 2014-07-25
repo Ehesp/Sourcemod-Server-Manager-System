@@ -3,7 +3,7 @@
 use Ssms\Repositories\EloquentRepository;
 use Role;
 
-class EloquentRoleRepository extends EloquentRepository implements RoleRepositoryInterface {
+class EloquentRoleRepository extends EloquentRepository implements RoleRepository {
 
 	/**
 	 * @var app/models/Role

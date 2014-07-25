@@ -1,17 +1,35 @@
 <?php
 
-use Ssms\Repositories\Option\OptionRepositoryInterface;
+use Ssms\Repositories\Option\OptionRepository;
 
 class OptionController extends BaseController {
 
+	/**
+	 * @var $options OptionRepositoryInterface
+	 */
 	protected $options;
 
-	public function __construct(OptionRepositoryInterface $options)
+	public function __construct(OptionRepository $options)
 	{
 		$this->options = $options;
 	}
 
-	public function editOption()
+	/**
+	 * Return all of the options
+	 * 
+	 * @return object
+	 */
+	public function get()
+	{
+		return $this->options->getAll();
+	}
+
+	/**
+	 * Edit an option
+	 * 
+	 * @return json
+	 */
+	public function edit()
 	{
 		$data = Input::all();
 

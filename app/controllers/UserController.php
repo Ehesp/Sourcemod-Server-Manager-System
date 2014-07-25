@@ -1,26 +1,42 @@
 <?php
 
-use Ssms\Repositories\User\UserRepositoryInterface;
-use Ssms\Repositories\Role\RoleRepositoryInterface;
+use Ssms\Repositories\User\UserRepository;
+use Ssms\Repositories\Role\RoleRepository;
 
 class UserController extends BaseController {
 
+	/**
+	 * @var UserRepositoryInterface
+	 */
 	protected $users;
 
+	/**
+	 * @var RoleRepositoryInterface
+	 */
 	protected $roles;
 
-	public function __construct(UserRepositoryInterface $users, RoleRepositoryInterface $roles)
+	public function __construct(UserRepository $users, RoleRepository $roles)
 	{
 		$this->users = $users;
 		$this->roles = $roles;
 	}
-
-	public function getUsers()
+	
+	/**
+	 * Returns the users with their roles
+	 *
+	 * @return object
+	 */
+	public function get()
 	{
 		return $this->users->getWithRoles();
 	}
 
-	public function addUser()
+	/**
+	 * Adds a user to the database
+	 * 
+	 * @return json
+	 */
+	public function add()
 	{
 		$data = Input::all();
 
@@ -51,18 +67,19 @@ class UserController extends BaseController {
 			{
 				$this->users->assignRole($user, $role['id']);
 			}
+		}
 
-			$this->users->assignRole($user, $guest['id']);
-		}
-		else
-		{
-			$this->users->assignRole($user, $guest['id']);
-		}
+		$this->users->assignRole($user, $guest['id']);
 
 		return $this->jsonResponse(200, true, 'User has been successfully been added!', $this->users->getWithRoles($user['id']));
 	}
 
-	public function userSearch()
+	/**
+	 * Searches Steam for a user and returns their data if successful
+	 * 
+	 * @return json
+	 */
+	public function search()
 	{
 		$id = Input::all()[0];
 
@@ -96,8 +113,14 @@ class UserController extends BaseController {
 		]);
 	}
 
-	public function refreshUser($id = null)
+	/**
+	 * Refreshes a user, or all users, Steam data
+	 * @param type $id 
+	 * @return json
+	 */
+	public function refresh($id = null)
 	{
+		// If a specific user has been refreshed
 		if (! is_null($id))
 		{
 			$data = Input::all();
@@ -120,6 +143,7 @@ class UserController extends BaseController {
 
 			return $this->jsonResponse(200, true, 'User details refreshed!', $this->users->getWithRoles($data['id']));
 		}
+		// Refresh all users
 		else
 		{
 			$users = $this->users->getAll();
@@ -147,7 +171,12 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function deleteUser()
+	/**
+	 * Delete a user
+	 * 
+	 * @return json
+	 */
+	public function delete()
 	{
 		$id = Input::all()[0];
 
@@ -167,7 +196,12 @@ class UserController extends BaseController {
 		}
 	}
 
-	public function editUser()
+	/**
+	 * Edit a user
+	 * 
+	 * @return json
+	 */
+	public function edit()
 	{
 		$data = Input::all();
 

@@ -3,7 +3,7 @@
 use Ssms\Repositories\EloquentRepository;
 use User;
 
-class EloquentUserRepository extends EloquentRepository implements UserRepositoryInterface {
+class EloquentUserRepository extends EloquentRepository implements UserRepository {
 
 	/**
 	 * @var app/models/User

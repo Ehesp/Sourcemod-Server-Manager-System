@@ -1,6 +1,6 @@
 <?php namespace Ssms\Repositories\Permission;
 
-interface PermissionRepositoryInterface {
+interface PermissionRepository {
 
 	public function getWithRolesPage($id);
 

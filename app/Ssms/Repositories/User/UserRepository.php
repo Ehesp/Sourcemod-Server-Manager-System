@@ -1,6 +1,6 @@
 <?php namespace Ssms\Repositories\User;
 
-interface UserRepositoryInterface {
+interface UserRepository {
 
 	/**
 	 * Get the count of users 

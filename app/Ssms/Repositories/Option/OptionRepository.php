@@ -1,6 +1,6 @@
 <?php namespace Ssms\Repositories\Option;
 
-interface OptionRepositoryInterface {
+interface OptionRepository {
 
 	public function edit($id, $array);
 

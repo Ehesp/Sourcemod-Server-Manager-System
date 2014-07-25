@@ -3,7 +3,7 @@
 use Ssms\Repositories\EloquentRepository;
 use Permission;
 
-class EloquentPermissionRepository extends EloquentRepository implements PermissionRepositoryInterface {
+class EloquentPermissionRepository extends EloquentRepository implements PermissionRepository {
 
 		/**
 	 * @var app/models/Permission

@@ -3,7 +3,7 @@
 use Ssms\Repositories\EloquentRepository;
 use Option;
 
-class EloquentOptionRepository extends EloquentRepository implements OptionRepositoryInterface {
+class EloquentOptionRepository extends EloquentRepository implements OptionRepository {
 
 	/**
 	 * @var app/models/Option

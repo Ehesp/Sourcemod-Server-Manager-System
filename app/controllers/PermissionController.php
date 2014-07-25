@@ -1,21 +1,42 @@
 <?php
 
-use Ssms\Repositories\Permission\PermissionRepositoryInterface;
-use Ssms\Repositories\Role\RoleRepositoryInterface;
+use Ssms\Repositories\Permission\PermissionRepository;
+use Ssms\Repositories\Role\RoleRepository;
 
 class PermissionController extends BaseController {
 
+	/**
+	 * @var $permissions PermissionRepositoryInterface
+	 */
 	protected $permissions;
 
+	/**
+	 * @var $roles RoleRepositoryInterface
+	 */
 	protected $roles;
 
-	public function __construct(PermissionRepositoryInterface $permissions, RoleRepositoryInterface $roles)
+	public function __construct(PermissionRepository $permissions, RoleRepository $roles)
 	{
 		$this->permissions = $permissions;
 		$this->roles = $roles;
 	}
 
-	public function editPermission()
+	/**
+	 * Get the permissions with their roles and page
+	 * 
+	 * @return object
+	 */
+	public function get()
+	{
+		return $this->permissions->getWithRolesPage();
+	}
+
+	/**
+	 * Edit a permission
+	 * 
+	 * @return json
+	 */
+	public function edit()
 	{
 		$data = Input::all();
 

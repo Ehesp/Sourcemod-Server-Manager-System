@@ -1,7 +1,7 @@
 <?php
 
-use Ssms\Repositories\User\UserRepositoryInterface;
-use Ssms\Repositories\Permission\PermissionRepositoryInterface;
+use Ssms\Repositories\User\UserRepository;
+use Ssms\Repositories\Permission\PermissionRepository;
 
 class SettingController extends BaseController {
 
@@ -9,7 +9,7 @@ class SettingController extends BaseController {
 
 	protected $permissions;
 
-	public function __construct(UserRepositoryInterface $users, PermissionRepositoryInterface $permissions)
+	public function __construct(UserRepository $users, PermissionRepository $permissions)
 	{
 		$this->users = $users;
 		$this->permissions = $permissions;
@@ -26,32 +26,6 @@ class SettingController extends BaseController {
 	}
 
 	/**
-	* Edit an option
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	public function editOption()
-	{
-		$option = Input::all();
-
-		if ($this->isEmpty($option['value'])) return $this->jsonResponse(400, false, "The option value must be present!");
-
-		try
-		{
-			$update = Option::find($option['id']);
-			$update->value = $option['value'];
-			$update->save();
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'The option has been updated!', $update);
-	}
-
-	/**
 	* Get quick links
 	*
 	* @return json
@@ -61,106 +35,6 @@ class SettingController extends BaseController {
 		return QuickLink::all();
 	}
 
-	/**
-	* Edit a quick link
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	protected function editQuickLink()
-	{
-		$link = Input::all();
-
-		if ($this->isEmpty($link['edit']['name'])) return $this->jsonResponse(400, false, "The name value must be present!");
-		
-		if ($this->isEmpty($link['edit']['url'])) return $this->jsonResponse(400, false, "The url value must be present!");
-
-		if ($this->isEmpty($link['edit']['icon'])) return $this->jsonResponse(400, false, "The icon value must be present!");
-
-		// If invalid font awesome name 
-		if (! $this->isValidFontAwesome($link['edit']['icon'])) return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
-
-		// If invalid URL
-		if (strpos($link['edit']['url'], 'http://') !== false || strpos($link['edit']['url'], 'https://') !== false)
-		{}
-		else return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
-
-		try
-		{
-			$update = QuickLink::find($link['id']);
-
-			$update->name = $link['edit']['name'];
-			$update->url = $link['edit']['url'];
-			$update->icon = $link['edit']['icon'];
-			$update->save();
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'Quick Link updated successfully!', $update);
-	}
-
-	/**
-	* Delete a quick link
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	protected function deleteQuickLink()
-	{
-		$id = Input::all()[0];
-
-		try
-		{
-			QuickLink::destroy($id);
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'Quick Link has successfully been deleted!');
-	}
-
-	/**
-	* Add a quick link
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	protected function addQuickLink()
-	{
-		$link = Input::all();
-
-		if ($this->isEmpty($link['name'])) return $this->jsonResponse(400, false, "The name value must be present!");
-		
-		if ($this->isEmpty($link['url'])) return $this->jsonResponse(400, false, "The url value must be present!");
-
-		if ($this->isEmpty($link['icon'])) return $this->jsonResponse(400, false, "The icon value must be present!");
-
-		// If invalid font awesome name 
-		if (! $this->isValidFontAwesome($link['icon'])) $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
-
-		// If invalid URL
-		if (! $this->isValidUrl($link['url'])) return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
-
-		try
-		{
-			$newLink = QuickLink::create([
-				'name' => $link['name'],
-				'url' => $link['url'],
-				'icon' => $link['icon']
-			]);
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'Quick Link has successfully been added!', $newLink);
-	}
 
 	/**
 	* Get pages and their access
@@ -223,16 +97,6 @@ class SettingController extends BaseController {
 
 		return $this->jsonResponse(200, true, 'Page successfully updated!', Page::with('roles')->find($page['id']));
 
-	}
-
-	/**
-	* Get permissions and their roles
-	*
-	* @return json
-	*/
-	public function getPermissions()
-	{
-		return Permission::with('roles', 'page')->get();
 	}
 
 	/**
@@ -319,6 +183,11 @@ class SettingController extends BaseController {
 		}
 
 		return $this->jsonResponse(200, true, 'The event has been updated!', Ssms\Event::with('services')->find($event['id']));
+	}
+
+	public function getPermissions()
+	{
+		return Permission::all();
 	}
 
 	/**
