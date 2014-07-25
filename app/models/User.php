@@ -3,11 +3,11 @@
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Eloquent implements UserInterface {
 
-	use UserTrait, RemindableTrait;
+	use UserTrait;
 
 	/**
 	* The database table used by the model.
@@ -88,6 +88,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	    $hasMany->matchMany([$this], $pages, 'pages');
 
+		// If there is no collection to set the relation on, create a blank one
+		if (! isset($this->pages)) $this->setRelation('pages', []);
+
 	    return $this;
 	}
 
@@ -115,9 +118,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	           ->distinct()
 	           ->get(['permissions.*', 'user_id']);
 
-	    $hasMany = new Illuminate\Database\Eloquent\Relations\HasMany(Page::query(), $this, 'user_id', 'id');
+	    $hasMany = new HasMany(Permission::query(), $this, 'user_id', 'id');
 
 	    $hasMany->matchMany([$this], $permissions, 'permissions');
+
+		// If there is no collection to set the relation on, create a blank one
+		if (! isset($this->permissions)) $this->setRelation('permissions', []);
 
 	    return $this;
 	}
