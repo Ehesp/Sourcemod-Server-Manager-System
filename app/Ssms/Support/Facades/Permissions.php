@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Ssms\Authorization\AccessBuilder
+ * @see \Ssms\Authorization\PermissionsBuilder
  */
 class Permissions extends Facade {
 
