@@ -1,6 +1,25 @@
 <?php
 
+use Ssms\Repositories\Permission\PermissionRepository;
+use Ssms\Repositories\Role\RoleRepository;
+
 class PermissionsTableSeeder extends Seeder {
+
+    /**
+     * @var $permissions PermissionRepositoryInterface
+     */
+    protected $permissions;
+
+    /**
+     * @var $roles RoleRepositoryInterface
+     */
+    protected $roles;
+
+    public function __construct(PermissionRepository $permissions, RoleRepository $roles)
+    {
+        $this->permissions = $permissions;
+        $this->roles = $roles;
+    }
 
     public function run()
     {
