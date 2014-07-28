@@ -7,11 +7,13 @@
 	<title>@yield('page_meta_title', $siteOptions['application_title'])</title>
 
   @section('assets')
+    [[-- CSS Vendor --]]
     [[ HTML::style('assets/vendor/bootstrap-css-only/css/bootstrap.min.css') ]]
     [[ HTML::style('assets/vendor/font-awesome/css/font-awesome.min.css') ]]
     [[ HTML::style('assets/vendor/angular-dialog-service/dialogs.min.css') ]]
     [[ HTML::style('assets/vendor/AngularJS-Toaster/toaster.css') ]]
 
+    [[-- JS Vendor --]]
     [[ HTML::script('assets/vendor/angular/angular.min.js') ]]
     [[ HTML::script('assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js') ]]
     [[ HTML::script('assets/vendor/angular-cookies/angular-cookies.min.js') ]]
@@ -21,8 +23,11 @@
     [[ HTML::script('assets/vendor/angular-dialog-service/dialogs.min.js') ]]
     [[ HTML::script('assets/vendor/AngularJS-Toaster/toaster.js') ]]
     
+    [[-- Custom CSS --]]
     [[ HTML::style('css/dashboard.min.css') ]]
     [[ HTML::style('css/themes/' . $siteOptions['theme'] . '.min.css') ]]
+
+    [[-- Custom JS --]]
     [[ HTML::script('js/helpers.js') ]]
     [[ HTML::script('js/angular/bootstrap.js') ]]
     [[ HTML::script('js/angular/directives.js') ]]
