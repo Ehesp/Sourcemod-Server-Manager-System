@@ -1,6 +1,25 @@
 <?php
 
+use Ssms\Repositories\User\UserRepository;
+use Ssms\Repositories\Role\RoleRepository;
+
 class AuthController extends BaseController {
+
+	/**
+	 * @var UserRepositoryInterface
+	 */
+	protected $users;
+
+	/**
+	 * @var RoleRepositoryInterface
+	 */
+	protected $roles;
+
+	public function __construct(UserRepository $users, RoleRepository $roles)
+	{
+		$this->users = $users;
+		$this->roles = $roles;
+	}
 
 	/**
 	* Returns an array of user details with a given SteamId object
@@ -38,15 +57,16 @@ class AuthController extends BaseController {
 		{
 			$steamObject = new SteamId($validate);
 
-			if (User::count() == 0)
+			if ($this->users->count() == 0)
 			{
-				$user = User::create(
-					$this->userDetails($steamObject)
-				);
+				$user = $this->users->add($this->userDetails($steamObject));
 
-				$user->assignRoles(
-					Role::get()
-				);
+				$roles = $this->roles->getAll();
+
+				foreach ($roles as $role)
+				{
+					$this->users->assignRole($user, $role->id);
+				}
 
 				Auth::login($user);
 
@@ -56,7 +76,7 @@ class AuthController extends BaseController {
 			}
 			else
 			{
-				$user = User::where('community_id', $steamObject->getSteamId64())->first();
+				$user = $this->users->getFirst('community_id', $steamObject->getSteamId64());
 
 				if (is_null($user))
 				{
@@ -70,9 +90,7 @@ class AuthController extends BaseController {
 					}
 					else
 					{
-						User::find($user->id)->update(
-							$this->userDetails($steamObject)
-						);
+						$this->users->edit($user->id, $this->userDetails($steamObject));
 
 						Auth::login($user);
 
