@@ -15,6 +15,11 @@ class SettingController extends BaseController {
 		$this->permissions = $permissions;
 	}
 
+	public function getPages()
+	{
+		return Page::with('roles')->get();
+	}
+
 	/**
 	* Get all options
 	*
@@ -36,68 +41,6 @@ class SettingController extends BaseController {
 	}
 
 
-	/**
-	* Get pages and their access
-	*
-	* @return json
-	*/
-	public function getPages()
-	{
-		return Page::with('roles')->get();
-	}
-
-	/**
-	* Edit a page
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	protected function editPage()
-	{
-		$page = Input::all();
-
-		// If no icon given
-		if ($this->isEmpty($page['edit']['icon'])) return $this->jsonResponse(400, false, "The icon field cannot be left empty!");
-
-		// If invalid font awesome name 
-		if (! $this->isValidFontAwesome($page['edit']['icon'])) return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
-
-		// Page must have a role attached
-		if (count($page['edit']['role']) == 0) return $this->jsonResponse(400, false, "A page must have at least one role!");
-
-		// Stop user assigning User/Guest role to settings and multi_console page
-		if ($page['name'] == 'settings' || $page['name'] == 'multi_console')
-		{
-			foreach ($page['edit']['role'] as $role)
-				if ($role['name'] == 'user' || $role['name'] == 'guest') return $this->jsonResponse(400, false, "Unable to give page User or Guest privilages for security reasons!");
-		}
-
-		try
-		{
-			$update = Page::find($page['id']);
-
-			$update->icon = $page['edit']['icon'];
-			$update->save();
-
-			// Remove all page roles
-			$update->roles()->detach();
-
-			//Give page new set of chosen roles
-			foreach ($page['edit']['role'] as $role)
-			{
-				$update->assignRoles(
-					Role::where('name', $role['name'])->get()
-				);
-			}
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'Page successfully updated!', Page::with('roles')->find($page['id']));
-
-	}
 
 	/**
 	* Get the application notification options
@@ -200,8 +143,8 @@ class SettingController extends BaseController {
 		return View::make('pages.settings')
 			->with('users', $this->users->getWithRoles())
 			->with('options', $this->getOptions())
-			->with('page_access', $this->getPages())
-			->with('permission_control', $this->getPermissions())
+			->with('pages', $this->getPages())
+			->with('permissions', $this->getPermissions())
 			->with('quick_links', $this->getQuickLinks())
 			->with('notifications', $this->getNotifications());
 	}

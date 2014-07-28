@@ -107,11 +107,11 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($page_access as $access)
+                @foreach($pages as $page)
                   <tr>
-                    <td>[[ $access->friendly_name ]]</td>
-                    <td><i class="[[ $access->icon ]]"></i></td>
-                    <td>[[ $access->slug ]]</td>
+                    <td>[[ $page->friendly_name ]]</td>
+                    <td><i class="[[ $page->icon ]]"></i></td>
+                    <td>[[ $page->slug ]]</td>
                   </tr>
                 @endforeach
               </tbody>
@@ -141,7 +141,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach($permission_control as $permission)
+                @foreach($permissions as $permission)
                   <tr>
                     <td>[[ $permission->name ]]</td>
                     <td>[[ $permission->description ]]</td>
