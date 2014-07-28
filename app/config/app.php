@@ -132,6 +132,7 @@ return array(
         // SSMS Service Providers
 
 		'Ssms\Authorization\AuthorizationServiceProvider',
+		'Ssms\Repositories\StorageServiceProvider',
 
 	),
 
