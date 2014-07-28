@@ -130,7 +130,7 @@ class SettingController extends BaseController {
 
 	public function getPermissions()
 	{
-		return Permission::all();
+		return Permission::with('page')->get();
 	}
 
 	/**
