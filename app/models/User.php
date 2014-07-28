@@ -4,6 +4,7 @@ use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
 
 class User extends Eloquent implements UserInterface {
 
@@ -89,7 +90,7 @@ class User extends Eloquent implements UserInterface {
 	    $hasMany->matchMany([$this], $pages, 'pages');
 
 		// If there is no collection to set the relation on, create a blank one
-		if (! isset($this->pages)) $this->setRelation('pages', []);
+		if (! isset($this->pages)) $this->setRelation('pages', new Collection());
 
 	    return $this;
 	}
@@ -123,7 +124,7 @@ class User extends Eloquent implements UserInterface {
 	    $hasMany->matchMany([$this], $permissions, 'permissions');
 
 		// If there is no collection to set the relation on, create a blank one
-		if (! isset($this->permissions)) $this->setRelation('permissions', []);
+		if (! isset($this->permissions)) $this->setRelation('permissions', new Collection());
 
 	    return $this;
 	}
