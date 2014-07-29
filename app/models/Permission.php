@@ -40,11 +40,4 @@ class Permission extends Eloquent {
 	{
 		return $this->belongsToMany('Role', 'permission_role')->orderBy('id', 'asc')->withTimestamps();
 	}
-
-	public function assignRoles($roles)
-	{
-		foreach ($roles as $role) {
-			$this->roles()->attach($role->id);
-		}
-	}
 }

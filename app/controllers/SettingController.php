@@ -2,135 +2,51 @@
 
 use Ssms\Repositories\User\UserRepository;
 use Ssms\Repositories\Permission\PermissionRepository;
+use Ssms\Repositories\Page\PageRepository;
+use Ssms\Repositories\Option\OptionRepository;
+use Ssms\Repositories\QuickLink\QuickLinkRepository;
+use Ssms\Repositories\Notification\NotificationRepository;
 
 class SettingController extends BaseController {
 
+	/**
+	 * @var $users UserRepository
+	 */
 	protected $users;
 
+	/**
+	 * @var $permissions PermissionRepository
+	 */
 	protected $permissions;
 
-	public function __construct(UserRepository $users, PermissionRepository $permissions)
+	/**
+	 * @var $pages PageRepository
+	 */
+	protected $pages;	
+
+	/**
+	 * @var $options OptionRepository
+	 */
+	protected $options;	
+
+	/**
+	 * @var $quicklinks QuickLinkRepository
+	 */
+	protected $quicklinks;	
+
+	/**
+	 * @var $notifications NotificationRepository
+	 */
+	protected $notifications;
+
+	public function __construct(UserRepository $users, PermissionRepository $permissions, PageRepository $pages, OptionRepository $options, QuickLinkRepository $quicklinks, NotificationRepository $notifications)
 	{
 		$this->users = $users;
 		$this->permissions = $permissions;
-	}
-
-	public function getPages()
-	{
-		return Page::with('roles')->get();
-	}
-
-	/**
-	* Get all options
-	*
-	* @return json
-	*/
-	public function getOptions()
-	{
-		return Option::all();
-	}
-
-	/**
-	* Get quick links
-	*
-	* @return json
-	*/
-	protected function getQuickLinks()
-	{
-		return QuickLink::all();
-	}
-
-
-
-	/**
-	* Get the application notification options
-	*
-	* @return json
-	*/
-	public function getNotifications()
-	{
-		return Notification::all();
-	}
-
-	/**
-	* Get the application events with their services
-	*
-	* @return json
-	*/
-	public function getEvents()
-	{
-		return Ssms\Event::with('services')->get();
-	}
-
-	/**
-	* Edit an notification
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	public function editNotification()
-	{
-		$notification = Input::all();
-
-		if ($this->isEmpty($notification['value'])) return $this->jsonResponse(400, false, "The option value must be present!");
-
-		if ($notification['name'] == 'retries' && ! ctype_digit($notification['value'])) return $this->jsonResponse(400, false, "Please enter a valid integer number!");
-
-		if ($notification['name'] == 'retries' && intval($notification['value']) < 3) return $this->jsonResponse(400, false, "The minimum retry time is 3 minutes!");
-
-		if ($notification['name'] == 'email.addresses' && ! $this->isValidEmails($notification['value'])) return $this->jsonResponse(400, false, "An email address entered is not valid!");
-
-		try
-		{
-			$update = Notification::find($notification['id']);
-			$update->value = $notification['value'];
-			$update->save();
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'The notification setting has been updated!', $update);
-	}
-
-	/**
-	* Edit an notification
-	*
-	* Takes a AJAX post request.
-	* @return json
-	*/
-	public function saveEvent()
-	{
-		$event = Input::all();
-
-		try
-		{
-			$update = Ssms\Event::find($event['id']);
-
-			// Remove all services
-			$update->services()->detach();
-
-			// Update new roles
-			foreach ($event['edit']['service'] as $service) {
-				$update->assignServices(
-					Service::where('id', $service['id'])->get()
-				);
-			}
-
-			$update->save();
-		}
-		catch (Exception $e)
-		{
-			return $this->jsonResponse(400, false, $e->getMessage());
-		}
-
-		return $this->jsonResponse(200, true, 'The event has been updated!', Ssms\Event::with('services')->find($event['id']));
-	}
-
-	public function getPermissions()
-	{
-		return Permission::with('page')->get();
+		$this->pages = $pages;
+		$this->options = $options;
+		$this->quicklinks = $quicklinks;
+		$this->notifications = $notifications;
 	}
 
 	/**
@@ -142,11 +58,11 @@ class SettingController extends BaseController {
 	{
 		return View::make('pages.settings')
 			->with('users', $this->users->getWithRoles())
-			->with('options', $this->getOptions())
-			->with('pages', $this->getPages())
-			->with('permissions', $this->getPermissions())
-			->with('quick_links', $this->getQuickLinks())
-			->with('notifications', $this->getNotifications());
+			->with('options', $this->options->getAll())
+			->with('pages', $this->pages->getWithRoles())
+			->with('permissions', $this->permissions->getWithRolesPage())
+			->with('quick_links', $this->quicklinks->getAll())
+			->with('notifications', $this->notifications->getAll());
 	}
 
 	/**

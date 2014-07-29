@@ -17,6 +17,13 @@ interface UserRepository {
 	public function getAll();
 
 	/**
+	 * Get the first instance of a collection model
+	 *
+	 * @return object
+	 */
+	public function getFirst($type, $value, $operator);
+
+	/**
 	 * Get all of the users and their details with attached roles
 	 *
 	 * @return object

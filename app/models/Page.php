@@ -40,26 +40,4 @@ class Page extends Eloquent {
 	{
 		return $this->hasMany('Permission');
 	}
-
-	/**
-	* Assign a page multiple roles by object
-	*
-	*/
-	public function assignRoles($roles)
-	{
-		foreach ($roles as $role) {
-			$this->roles()->attach($role);
-		}
-	}
-
-	/**
-	* Remove the page role by Object
-	*
-	*/
-	public function removeRoles($roles)
-	{
-		foreach ($roles as $role) {
-			$this->roles()->detach($role);
-		}
-	}
 }

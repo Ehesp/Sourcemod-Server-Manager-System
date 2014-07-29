@@ -94,10 +94,10 @@ Route::group(['before' => 'access'], function()
 		Route::group(['prefix' => 'notifications', 'before' => 'permissions:settings.notifications'], function()
 		{
 			Route::get('/', ['as' => 'settings.notifications', 'uses' => 'SettingController@getNotificationsView']);
-			Route::post('/', ['before' => 'ajax', 'uses' => 'SettingController@getNotifications']);
-			Route::post('edit', ['before' => 'ajax', 'uses' => 'SettingController@editNotification']);
-			Route::post('events', ['before' => 'ajax', 'uses' => 'SettingController@getEvents']);
-			Route::post('event/edit', ['before' => 'ajax', 'uses' => 'SettingController@saveEvent']);
+			Route::post('/', ['before' => 'ajax', 'uses' => 'NotificationController@get']);
+			Route::post('edit', ['before' => 'ajax', 'uses' => 'NotificationController@edit']);
+			Route::post('events', ['before' => 'ajax', 'uses' => 'NotificationController@getEvents']);
+			Route::post('event/edit', ['before' => 'ajax', 'uses' => 'NotificationController@editEvent']);
 		});
 	});
 
@@ -136,3 +136,25 @@ Route::group(['before' => 'auth'], function()
 Route::get('login', 'AuthController@validateSteamLogin');
 
 Route::get('logout', 'AuthController@logout');
+
+use Ssms\Services\HipChat\HipChatService;
+
+Route::get('hipchat', function()
+{
+	$test = Event::fire('user.new', User::find(1));
+
+	return $test;
+
+
+	// $h = new HipChatService('722203', '69324bc075dd093ed1c57face4d161*');
+
+	// try
+	// {
+	// 	$h->send('Another test message');
+	// }
+	// catch(Exception $e)
+	// {
+	// 	// Log - Something went wrong, log and skip
+	// }
+
+});

@@ -1,25 +1,6 @@
 <?php
 
-use Ssms\Repositories\Permission\PermissionRepository;
-use Ssms\Repositories\Role\RoleRepository;
-
 class PermissionsTableSeeder extends Seeder {
-
-    /**
-     * @var $permissions PermissionRepositoryInterface
-     */
-    protected $permissions;
-
-    /**
-     * @var $roles RoleRepositoryInterface
-     */
-    protected $roles;
-
-    public function __construct(PermissionRepository $permissions, RoleRepository $roles)
-    {
-        $this->permissions = $permissions;
-        $this->roles = $roles;
-    }
 
     public function run()
     {
@@ -28,6 +9,16 @@ class PermissionsTableSeeder extends Seeder {
         $this->seedMultiConsolePermissions();
         $this->seedAdminActivityPermissions();
         $this->seedSettingsPermissions();
+    }
+
+    private function attach($permission, $roles)
+    {
+        foreach ($roles as $role)
+        {
+            $permission->roles()->attach($role['id']);
+        }
+
+        return;
     }
 
     protected function seedServerPermissions()
@@ -42,9 +33,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Edit existing server
 
@@ -54,9 +43,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Delete existing server
 
@@ -66,9 +53,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Refresh server
 
@@ -78,9 +63,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', '!=', 'guest')->get()
-        );
+        $this->attach($permission, Role::where('name', '!=', 'guest')->get());
 
         // Restart server
 
@@ -90,9 +73,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         // View server restarts
 
@@ -102,9 +83,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->orWhere('name', 'user')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->orWhere('name', 'user')->get());
 
         // Perform RCON commands
 
@@ -114,9 +93,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $servers,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         return $this;
     }
@@ -133,9 +110,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $plugins,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', '!=', 'guest')->get()
-        );
+        $this->attach($permission, Role::where('name', '!=', 'guest')->get());
 
         // Plugin updater function
 
@@ -145,9 +120,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $plugins,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         // Plugin checker function
 
@@ -157,9 +130,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $plugins,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         return $this;
 
@@ -177,9 +148,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $console,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         return $this;
 
@@ -197,9 +166,9 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $activity,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );       
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
+
+        return $this;     
     }
 
     protected function seedSettingsPermissions()
@@ -214,9 +183,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         // Add new user
 
@@ -226,9 +193,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Edit a user
 
@@ -238,9 +203,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Delete a user
 
@@ -250,9 +213,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Refresh a user(s)
 
@@ -262,9 +223,8 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
+
         // Manage SSMS options
 
         $permission = Permission::create([
@@ -273,9 +233,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Manage quick links
 
@@ -285,9 +243,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         // Manage page access control
 
@@ -297,9 +253,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Manage permmission control
 
@@ -309,9 +263,7 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
         // Manage triggers
 
@@ -321,11 +273,9 @@ class PermissionsTableSeeder extends Seeder {
             'page_id' => $settings,
         ]);
 
-        $permission->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );       
-        return $this;
+        $this->attach($permission, Role::where('name', 'super_admin')->get());
 
+        return $this;
     }
 
 }

@@ -2,6 +2,16 @@
 
 class PagesTableSeeder extends Seeder {
 
+    private function attach($page, $roles)
+    {
+        foreach ($roles as $role)
+        {
+            $page->roles()->attach($role['id']);
+        }
+
+        return;
+    }
+
     public function run()
     {
         /**
@@ -16,9 +26,7 @@ class PagesTableSeeder extends Seeder {
         	'slug' => 'dashboard',
         ]);
 
-        $page->assignRoles(
-            Role::all()
-        );
+        $this->attach($page, Role::all());
 
         /**
         * Servers
@@ -32,9 +40,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'servers',
         ]);
 
-        $page->assignRoles(
-            Role::all()
-        );
+        $this->attach($page, Role::all());
 
         /**
         * Active Plugins
@@ -48,9 +54,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'active-plugins',
         ]);
 
-        $page->assignRoles(
-            Role::where('name', '!=', 'guest')->get()
-        );
+        $this->attach($page, Role::where('name', '!=', 'guest')->get());
 
         /**
         * Multi Console
@@ -64,9 +68,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'multi-console',
         ]);
 
-        $page->assignRoles(
-            Role::where('name', 'super_admin')->get()
-        );
+        $this->attach($page, Role::where('name', 'super_admin')->get());
 
         /**
         * Admin Activity
@@ -80,9 +82,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'admin-activity',
         ]);
 
-        $page->assignRoles(
-            Role::where('name', 'super_admin')->orWhere('name', 'admin')->get()
-        );
+        $this->attach($page, Role::where('name', 'super_admin')->orWhere('name', 'admin')->get());
 
         /**
         * Game Types
@@ -96,9 +96,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'game-types',
         ]);
 
-        $page->assignRoles(
-            Role::all()
-        );
+        $this->attach($page, Role::all());
 
         /**
         * Settings
@@ -112,9 +110,7 @@ class PagesTableSeeder extends Seeder {
             'slug' => 'settings',
         ]);
 
-        $page->assignRoles(
-            Role::whereName('super_admin')->get()
-        );
+        $this->attach($page, Role::where('name', 'super_admin')->get());
     }
 
 }
