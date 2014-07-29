@@ -6,12 +6,12 @@ use Ssms\Repositories\Role\RoleRepository;
 class AuthController extends BaseController {
 
 	/**
-	 * @var UserRepositoryInterface
+	 * @var UserRepository
 	 */
 	protected $users;
 
 	/**
-	 * @var RoleRepositoryInterface
+	 * @var RoleRepository
 	 */
 	protected $roles;
 
