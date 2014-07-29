@@ -60,7 +60,7 @@ class QuickLinkController extends BaseController {
 			return $this->jsonResponse(400, false, $e->getMessage());
 		}
 
-		return $this->jsonResponse(200, true, 'Quick Link has successfully been added!', $newLink);
+		return $this->jsonResponse(200, true, 'Quick Link has successfully been added!', $add);
 	}
 
 	/**
