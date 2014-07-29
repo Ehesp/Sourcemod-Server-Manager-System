@@ -126,7 +126,6 @@ return array(
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 
 		'Ehesp\SteamLogin\Laravel\SteamLoginServiceProvider',
-        'Hipchat\Support\ServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
 
         // SSMS Service Providers
