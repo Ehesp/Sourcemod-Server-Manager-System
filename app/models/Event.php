@@ -42,12 +42,4 @@ class Event extends Eloquent {
 	{
 		return $this->belongsToMany('Service', 'event_service');
 	}
-
-	public function assignServices($services)
-	{
-		foreach ($services as $service)
-		{
-			$this->services()->attach($service);
-		}
-	}
 }
