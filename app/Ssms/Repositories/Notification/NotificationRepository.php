@@ -8,6 +8,6 @@ interface NotificationRepository {
 
 	public function getServicesState();
 
-	public function getHipChatSettings();
+	public function getTypeSettings($type);
 
 }

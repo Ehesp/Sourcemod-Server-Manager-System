@@ -2,12 +2,6 @@
 
 class EventsTableSeeder extends Seeder {
 
-    public function run()
-    {
-        $this->seedSettingActivity();
-        $this->seedServerActivity();
-    }
-
     private function attach($event, $services)
     {
         foreach ($services as $service)
@@ -18,27 +12,22 @@ class EventsTableSeeder extends Seeder {
         return;
     }
 
-    protected function seedSettingActivity()
+    public function run()
     {
         $event = Ssms\Event::create([
-            'name' => 'setting.user.add',
+            'name' => 'user.add',
             'description' => 'When a new user is added',
         ]);
 
         $this->attach($event, Service::whereName('hipchat')->get());
 
         $event = Ssms\Event::create([
-            'name' => 'setting.user.delete',
+            'name' => 'user.delete',
             'description' => 'When a user is deleted',
         ]);
 
         $this->attach($event, Service::whereName('hipchat')->get());
 
-        return $this;
-    }
-
-    protected function seedServerActivity()
-    {
         $event = Ssms\Event::create([
             'name' => 'server.up',
             'description' => 'When a server is back up after being down',
@@ -67,4 +56,5 @@ class EventsTableSeeder extends Seeder {
 
         $this->attach($event, Service::whereName('hipchat')->get());
     }
+
 }

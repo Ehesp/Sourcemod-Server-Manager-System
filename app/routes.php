@@ -141,9 +141,7 @@ use Ssms\Services\HipChat\HipChatService;
 
 Route::get('hipchat', function()
 {
-	$test = Event::fire('user.new', User::find(1));
-
-	return $test;
+	Event::fire('user.add', User::find(1));
 
 
 	// $h = new HipChatService('722203', '69324bc075dd093ed1c57face4d161*');

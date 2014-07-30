@@ -22,4 +22,10 @@ class Notification extends Eloquent {
 	* @var boolen
 	*/
 	public $timestamps = true;
+
+	public function scopeServices($query)
+    {
+        return $query->where('name', 'email.enabled')->orWhere('name', 'twitter.enabled')
+        ->orWhere('name', 'hipchat.enabled')->orWhere('name', 'pushbullet.enabled');
+    }
 }

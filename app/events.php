@@ -1,3 +1,3 @@
 <?php
 
-Event::subscribe('Ssms\Handlers\SettingEventHandler');
+Event::subscribe('Ssms\Notifications\Events\EventHandler');

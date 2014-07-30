@@ -20,8 +20,8 @@ class EloquentNotificationRepository extends EloquentRepository implements Notif
 		return $this->model->services()->get(['name', 'value']);
 	}
 
-	public function getHipChatSettings()
+	public function getTypeSettings($type)
 	{
-		return $this->model->where('name', 'hipchat.room')->orWhere('name', 'hipchat.auth')->get(['name', 'value']);
+		return $this->model->where('name', 'LIKE', "{$type}.%")->get(['name', 'value']);
 	}
 }
