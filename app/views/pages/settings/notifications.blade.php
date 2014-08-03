@@ -117,6 +117,5 @@
 				</div>
 			</div>
 		</div>
-		@include('partials.toaster')
 	</div>
 	@stop

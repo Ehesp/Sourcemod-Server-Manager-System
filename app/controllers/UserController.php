@@ -71,7 +71,7 @@ class UserController extends BaseController {
 
 		$this->users->assignRole($user, $guest['id']);
 
-		Event::fire('user.add', $user);
+		//Event::fire('user.add', $user);
 
 		return $this->jsonResponse(200, true, 'User has been successfully been added!', $this->users->getWithRoles($user['id']));
 	}

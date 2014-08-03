@@ -27,6 +27,6 @@
     "angular-cookies": "~1.2.19",
     "angular-sanitize": "~1.2.19",
     "angular-dialog-service": "~5.0.0",
-    "AngularJS-Toaster": "0.4.6"
+    "angular-toasty": "0.1.4"
   }
 }

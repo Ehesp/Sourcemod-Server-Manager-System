@@ -1,4 +1,4 @@
-app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, toaster)
+app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, toasty)
 {
 	/**
 	* Scope Variables
@@ -54,15 +54,21 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				{
 					if(! data.status)
 					{
-						toaster.pop('error', 'Deleting the user failed!', '', null, null, function()
-						{
-							dialogs.error('An error occured while deleting the user', errorMessage(data.code, data.message));
+						toasty.pop.error({
+							title: 'Deleting the user failed!',
+							msg: 'Click to more info.',
+							showClose: false,
+							clickToClose: true,
+							timeout: 7000,
+							onClick: function(toasty) {
+								dialogs.error('An error occured while deleting the user!', errorMessage(data.code, data.message));
+							}
 						});
 					}
 					else
 					{
 						$rootScope.users.splice(findWithAttr($rootScope.users, 'id', user.id), 1);
-						toaster.pop('success', data.message);	
+						toasty.pop.success({title: data.message, clickToClose: true});
 					}
 				}).
 				error(function(data, status, headers, config)
@@ -113,18 +119,22 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 
 				if(! data.status)
 				{
-					toaster.pop('error', 'Failed to save changes!', '', null, null, function()
-					{
-						dialogs.error('An error occured saving the user changes!', errorMessage(data.code, data.message));
+					toasty.pop.error({
+						title: 'Failed to save changes!',
+						msg: 'Click to more info.',
+						showClose: false,
+						clickToClose: true,
+						timeout: 7000,
+						onClick: function(toasty) {
+							dialogs.error('An error occured saving the user changes!', errorMessage(data.code, data.message));
+						}
 					});
 				}
 				else
 				{
-					toaster.pop('success', data.message);
-
+					toasty.pop.success({title: data.message, clickToClose: true});
 					// Update the user before we close the edit area
 					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
-
 					$scope.edit[user.id] = false;
 				}
 			}).
@@ -147,14 +157,20 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 			{
 				if(! data.status)
 				{
-					toaster.pop('error', 'Failed to refresh user!', '', null, null, function()
-					{
-						dialogs.error('An error occured while refreshing the users details!', errorMessage(data.code, data.message));
+					toasty.pop.error({
+						title: 'Failed to refresh user!',
+						msg: 'Click to more info.',
+						showClose: false,
+						clickToClose: true,
+						timeout: 7000,
+						onClick: function(toasty) {
+							dialogs.error('An error occured while refreshing the users details!', errorMessage(data.code, data.message));
+						}
 					});
 				}
 				else
 				{
-					toaster.pop('success', data.message);
+					toasty.pop.success({title: data.message, clickToClose: true});
 					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
 					$scope.refreshing[user.id] = false;
 				}
@@ -180,14 +196,20 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 
 				if(! data.status)
 				{
-					toaster.pop('error', 'An error occured while refreshing the users!', '', null, null, function()
-					{
-						dialogs.error('An error occured while refreshing the application users!', errorMessage(data.code, data.message));
+					toasty.pop.error({
+						title: 'An error occured while refreshing the users!',
+						msg: 'Click to more info.',
+						showClose: false,
+						clickToClose: true,
+						timeout: 7000,
+						onClick: function(toasty) {
+							dialogs.error('An error occured while refreshing the application users!', errorMessage(data.code, data.message));
+						}
 					});
 				}
 				else
 				{
-					toaster.pop('success', data.message);
+					toasty.pop.success({title: data.message, clickToClose: true});
 					$rootScope.users = data.payload;
 				}
 			}).
@@ -203,7 +225,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 * New user dialog controller
 */ 
 
-.controller('newUserDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
+.controller('newUserDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toasty)
 {
 	// Scope defaults / reset defaults
 	function reset()
@@ -298,7 +320,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				}
 				else
 				{
-					toaster.pop('success', 'User added!');
+					toasty.pop.success({title: 'User added!', clickToClose: true});
 					$rootScope.users.push(data.payload);
 					reset();
 				}

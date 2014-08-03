@@ -75,9 +75,6 @@
 				</div>
 			</div>
 		</div>
-
-	@include('partials.toaster')
-
 	</div>
 	<div class="row" ng-if="!loading && !error">
       <div class="col-xs-12">

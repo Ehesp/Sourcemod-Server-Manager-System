@@ -1,4 +1,4 @@
-app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toaster)
+app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toasty)
 {
 	$scope.loading = true;
 	$scope.error = false;
@@ -34,15 +34,21 @@ app.controller('SettingsOptionsCtrl', function($scope, $http, dialogs, http, toa
 			$scope.saving[option.id] = false;
 			if (! data.status)
 			{
-				toaster.pop('error', 'An error occured saving the option!', '', null, null, function()
-				{
-					dialogs.error('An error occured while saving the option!', errorMessage(data.code, data.message));
-				});				
+				toasty.pop.error({
+					title: 'An error occured saving the option!',
+					msg: 'Click to more info.',
+					showClose: false,
+					clickToClose: true,
+					timeout: 7000,
+					onClick: function(toasty) {
+						dialogs.error('An error occured while saving the option!', errorMessage(data.code, data.message));
+					}
+				});		
 			}
 			else
 			{
-				toaster.pop('success', data.message);
 				$scope.options[findWithAttr($scope.options, 'id', option.id)] = data.payload;
+				toasty.pop.success({title: data.message, clickToClose: true});
 			}
 		}).
 		error(function(data, status, headers, config)

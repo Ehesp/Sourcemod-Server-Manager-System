@@ -1,1 +1,0 @@
-<toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'tap-to-dismiss': true}"></toaster-container>

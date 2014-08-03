@@ -1,4 +1,4 @@
-app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, toaster)
+app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, toasty)
 {
 	$scope.loading = true;
 	$scope.links = {};
@@ -45,18 +45,22 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 
 				if(! data.status)
 				{
-					toaster.pop('error', 'Failed to save changes!', '', null, null, function()
-					{
-						dialogs.error('An error occured saving the link changes!', errorMessage(data.code, data.message));
+					toasty.pop.error({
+						title: 'Failed to save changes!',
+						msg: 'Click to more info.',
+						showClose: false,
+						clickToClose: true,
+						timeout: 7000,
+						onClick: function(toasty) {
+							dialogs.error('An error occured saving the link changes!', errorMessage(data.code, data.message));
+						}
 					});
 				}
 				else
 				{
-					toaster.pop('success', data.message);
-
+					toasty.pop.success({title: data.message, clickToClose: true});
 					// Update the user before we close the edit area
 					$scope.links[findWithAttr($scope.links, 'id', link.id)] = data.payload;
-
 					$scope.edit[link.id] = false;
 				}
 			}).
@@ -82,15 +86,21 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 				{
 					if(! data.status)
 					{
-						toaster.pop('error', 'Deleting the quick link failed!', '', null, null, function()
-						{
-							dialogs.error('An error occured while deleting the quick link', errorMessage(data.code, data.message));
+						toasty.pop.error({
+							title: 'Deleting the quick link failed!',
+							msg: 'Click to more info.',
+							showClose: false,
+							clickToClose: true,
+							timeout: 7000,
+							onClick: function(toasty) {
+								dialogs.error('An error occured while deleting the quick link!', errorMessage(data.code, data.message));
+							}
 						});
 					}
 					else
 					{
 						$scope.links.splice(findWithAttr($scope.links, 'id', link.id), 1);
-						toaster.pop('success', data.message);	
+						toasty.pop.success({title: data.message, clickToClose: true});
 					}
 				}).
 				error(function(data, status, headers, config)
@@ -118,15 +128,21 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 
 						if(! data.status)
 						{
-							toaster.pop('error', 'Adding the quick link failed!', '', null, null, function()
-							{
-								dialogs.error('An error occured while adding the quick link', errorMessage(data.code, data.message));
+							toasty.pop.error({
+								title: 'Adding the quick link failed!',
+								msg: 'Click to more info.',
+								showClose: false,
+								clickToClose: true,
+								timeout: 7000,
+								onClick: function(toasty) {
+									dialogs.error('An error occured while adding the quick link!', errorMessage(data.code, data.message));
+								}
 							});
 						}
 						else
 						{
 							$scope.links.push(data.payload);
-							toaster.pop('success', data.message);
+							toasty.pop.success({title: data.message, clickToClose: true});
 						}
 					}).
 					error(function(data, status, headers, config)

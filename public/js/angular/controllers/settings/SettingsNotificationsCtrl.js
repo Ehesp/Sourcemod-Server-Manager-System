@@ -1,4 +1,4 @@
-app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, http, toaster)
+app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, http, toasty)
 {
 	$scope.loading = true;
 	$scope.error = false;
@@ -61,14 +61,20 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 			$scope.saving[notification.id] = false;
 			if (! data.status)
 			{
-				toaster.pop('error', 'An error occured saving the notification!', '', null, null, function()
-				{
-					dialogs.error('An error occured while saving the notification!', errorMessage(data.code, data.message));
-				});				
+				toasty.pop.error({
+					title: 'An error occured saving the notification!',
+					msg: 'Click to more info.',
+					showClose: false,
+					clickToClose: true,
+					timeout: 7000,
+					onClick: function(toasty) {
+						dialogs.error('An error occured while saving the notification!', errorMessage(data.code, data.message));
+					}
+				});		
 			}
 			else
 			{
-				toaster.pop('success', data.message);
+				toasty.pop.success({title: data.message, clickToClose: true});
 				$scope.notifications[findWithAttr($scope.notifications, 'id', notification.id)] = data.payload;
 			}
 		}).
@@ -110,18 +116,22 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 
 				if(! data.status)
 				{
-					toaster.pop('error', 'Failed to save changes!', '', null, null, function()
-					{
-						dialogs.error('An error occured saving the event changes!', errorMessage(data.code, data.message));
+					toasty.pop.error({
+						title: 'Failed to save changes!',
+						msg: 'Click to more info.',
+						showClose: false,
+						clickToClose: true,
+						timeout: 7000,
+						onClick: function(toasty) {
+							dialogs.error('An error occured saving the event changes!', errorMessage(data.code, data.message));
+						}
 					});
 				}
 				else
 				{
-					toaster.pop('success', data.message);
-
+					toasty.pop.success({title: data.message, clickToClose: true});
 					// Update the event before we close the edit area
 					$scope.events[findWithAttr($scope.events, 'id', event.id)] = data.payload;
-
 					$scope.edit[event.id] = false;
 				}
 			}).

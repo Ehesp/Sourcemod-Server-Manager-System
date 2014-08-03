@@ -1,4 +1,4 @@
-app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaster)
+app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toasty)
 {
 	var refreshTime = 60;
 
@@ -48,7 +48,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	}
 })
 
-.controller('viewPlayersCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
+.controller('viewPlayersCtrl', function($scope, $rootScope, $modalInstance, data, http, toasty)
 {
 	$scope.loading = true;
 	$scope.error = false;
@@ -76,7 +76,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 	};
 })
 
-.controller('newServerDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toaster)
+.controller('newServerDialogCtrl', function($scope, $rootScope, $modalInstance, data, http, toasty)
 {
 	function reset()
 	{
@@ -200,7 +200,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toaste
 					}
 					else
 					{
-						toaster.pop('success', data.message);
+						toasty.pop.success({title: data.message, clickToClose: true});
 						$rootScope.servers.push(data.payload);
 						reset();
 					}
