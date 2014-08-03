@@ -63,7 +63,7 @@ To keep your sensitive details out of the application (incase you push your own 
 
 > In production, the file is named `.env.php`.
 
-There are two ways to configure this file; the advised way by running the `php artisan ssms:dbconfig` command, or manually creating the file yourself with the following content:
+There are two ways to configure this file; the advised way by running the `php artisan ssms:config` command, or manually creating the file yourself with the following content:
 
 ~~~
 <?php
