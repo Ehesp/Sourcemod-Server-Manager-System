@@ -200,7 +200,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toasty
 					}
 					else
 					{
-						toasty.pop.success({title: data.message, clickToClose: true});
+						toasty.pop.success({title: data.message});
 						$rootScope.servers.push(data.payload);
 						reset();
 					}

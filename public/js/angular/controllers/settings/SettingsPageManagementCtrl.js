@@ -60,8 +60,6 @@ app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, ht
 					toasty.pop.error({
 						title: 'Failed to save changes!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured saving the page changes!', errorMessage(data.code, data.message));
@@ -70,7 +68,7 @@ app.controller('SettingsPageManagementCtrl', function($scope, $http, dialogs, ht
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					// Update the user before we close the edit area
 					$scope.pages[findWithAttr($scope.pages, 'id', page.id)] = data.payload;
 					$scope.edit[page.id] = false;

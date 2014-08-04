@@ -61,8 +61,6 @@ app.controller('SettingsPermissionControlCtrl', function($scope, $http, dialogs,
 					toasty.pop.error({
 						title: 'Failed to save changes!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured saving the permission changes!', errorMessage(data.code, data.message));
@@ -71,7 +69,7 @@ app.controller('SettingsPermissionControlCtrl', function($scope, $http, dialogs,
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					// Update the permission before we close the edit area
 					$scope.permissions[findWithAttr($scope.permissions, 'id', permission.id)] = data.payload;
 					$scope.edit[permission.id] = false;

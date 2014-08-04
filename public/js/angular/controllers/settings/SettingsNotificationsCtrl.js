@@ -64,8 +64,6 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 				toasty.pop.error({
 					title: 'An error occured saving the notification!',
 					msg: 'Click to more info.',
-					showClose: false,
-					clickToClose: true,
 					timeout: 7000,
 					onClick: function(toasty) {
 						dialogs.error('An error occured while saving the notification!', errorMessage(data.code, data.message));
@@ -74,7 +72,7 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 			}
 			else
 			{
-				toasty.pop.success({title: data.message, clickToClose: true});
+				toasty.pop.success({title: data.message});
 				$scope.notifications[findWithAttr($scope.notifications, 'id', notification.id)] = data.payload;
 			}
 		}).
@@ -119,8 +117,6 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 					toasty.pop.error({
 						title: 'Failed to save changes!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured saving the event changes!', errorMessage(data.code, data.message));
@@ -129,7 +125,7 @@ app.controller('SettingsNotificationsCtrl', function($scope, $http, dialogs, htt
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					// Update the event before we close the edit area
 					$scope.events[findWithAttr($scope.events, 'id', event.id)] = data.payload;
 					$scope.edit[event.id] = false;

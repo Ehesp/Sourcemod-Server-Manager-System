@@ -57,8 +57,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 						toasty.pop.error({
 							title: 'Deleting the user failed!',
 							msg: 'Click to more info.',
-							showClose: false,
-							clickToClose: true,
 							timeout: 7000,
 							onClick: function(toasty) {
 								dialogs.error('An error occured while deleting the user!', errorMessage(data.code, data.message));
@@ -68,7 +66,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 					else
 					{
 						$rootScope.users.splice(findWithAttr($rootScope.users, 'id', user.id), 1);
-						toasty.pop.success({title: data.message, clickToClose: true});
+						toasty.pop.success({title: data.message});
 					}
 				}).
 				error(function(data, status, headers, config)
@@ -122,8 +120,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 					toasty.pop.error({
 						title: 'Failed to save changes!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured saving the user changes!', errorMessage(data.code, data.message));
@@ -132,7 +128,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					// Update the user before we close the edit area
 					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
 					$scope.edit[user.id] = false;
@@ -160,8 +156,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 					toasty.pop.error({
 						title: 'Failed to refresh user!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured while refreshing the users details!', errorMessage(data.code, data.message));
@@ -170,7 +164,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					$rootScope.users[findWithAttr($rootScope.users, 'id', user.id)] = data.payload;
 					$scope.refreshing[user.id] = false;
 				}
@@ -199,8 +193,6 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 					toasty.pop.error({
 						title: 'An error occured while refreshing the users!',
 						msg: 'Click to more info.',
-						showClose: false,
-						clickToClose: true,
 						timeout: 7000,
 						onClick: function(toasty) {
 							dialogs.error('An error occured while refreshing the application users!', errorMessage(data.code, data.message));
@@ -209,7 +201,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				}
 				else
 				{
-					toasty.pop.success({title: data.message, clickToClose: true});
+					toasty.pop.success({title: data.message});
 					$rootScope.users = data.payload;
 				}
 			}).
@@ -320,7 +312,7 @@ app.controller('SettingsUsersCtrl', function($scope, $rootScope, dialogs, http, 
 				}
 				else
 				{
-					toasty.pop.success({title: 'User added!', clickToClose: true});
+					toasty.pop.success({title: 'User added!'});
 					$rootScope.users.push(data.payload);
 					reset();
 				}
