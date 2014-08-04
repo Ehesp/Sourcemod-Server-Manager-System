@@ -42,6 +42,22 @@
 									</tr>
 								</thead>
 								<tbody>
+									<tr>
+										<td>
+											<input class="form-control input-sm" type="text" ng-change="validate(newlink)" ng-model="newlink.name" placeholder="Google" />
+										</td>
+										<td>
+											<input class="form-control input-sm" type="text" ng-change="validate(newlink)" ng-model="newlink.url" placeholder="http://google.com" />
+										</td>
+										<td>
+											<input class="form-control input-sm" type="text" ng-change="validate(newlink)" ng-model="newlink.icon" placeholder="fa fa-google" />
+										</td>
+										<td>
+											<button ng-disabled="disabled" class="btn btn-success btn-sm pull-right" ng-click="addLink(newlink)" tooltip="Add Link">
+												<i class="fa" ng-class="{'fa-plus': !adding, 'fa-spinner fa-spin': adding}"></i>
+											</button>
+										</td>
+									</tr>
 									 <tr ng-repeat="link in links | filter:searchQuickLinks">
 										<td ng-if="!edit[link.id]" ng-bind="link.name"></td>
 										<td ng-if="edit[link.id]">
@@ -71,22 +87,6 @@
 												<i class="fa" ng-class="{'fa-check': !saving[link.id], 'fa-spinner fa-spin': saving[link.id]}"></i>
 											</button>
 									 	</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-control input-sm" type="text" ng-model="newlink.name" placeholder="Google" />
-										</td>
-										<td>
-											<input class="form-control input-sm" type="text" ng-model="newlink.url" placeholder="http://google.com" />
-										</td>
-										<td>
-											<input class="form-control input-sm" type="text" ng-model="newlink.icon" placeholder="fa fa-google" />
-										</td>
-										<td>
-											<button class="btn btn-success btn-sm pull-right" ng-click="addLink(newlink)" tooltip="Add Link">
-												<i class="fa" ng-class="{'fa-plus': !adding, 'fa-spinner fa-spin': adding}"></i>
-											</button>
-										</td>
 									</tr>
 								</tbody>
 							</table>

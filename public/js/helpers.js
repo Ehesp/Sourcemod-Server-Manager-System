@@ -72,3 +72,11 @@ function validateTime(time)
 
 	return regexp.test(time);
 }
+
+// Checks whether a given value is set
+function isEmpty(value)
+{
+	if (value == null || typeof value === "undefined" || value == '') return true;
+
+	return false;
+}

@@ -39,11 +39,11 @@ class QuickLinkController extends BaseController {
 
 		if ($this->isEmpty($data['icon'])) return $this->jsonResponse(400, false, "The icon value must be present!");
 
-		// If invalid font awesome name 
-		if (! $this->isValidFontAwesome($data['icon'])) $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
-
 		// If invalid URL
 		if (! $this->isValidUrl($data['url'])) return $this->jsonResponse(400, false, "The URL must be valid, starting with 'http://' or 'https://'!");
+
+		// If invalid font awesome name 
+		if (! $this->isValidFontAwesome($data['icon'])) return $this->jsonResponse(400, false, "The icon name supplied is not a valid Font Awesome icon!");
 
 		try
 		{

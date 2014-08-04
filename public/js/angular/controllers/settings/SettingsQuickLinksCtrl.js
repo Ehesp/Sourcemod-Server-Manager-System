@@ -4,8 +4,10 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 	$scope.links = {};
 	$scope.edit = {};
 	$scope.saving = {};
+	$scope.disabled = true;
 	$scope.adding = false;
 	$scope.error = false;
+
 
 	/**
 	* Load SSMS quick links
@@ -108,6 +110,18 @@ app.controller('SettingsQuickLinksCtrl', function($scope, $http, dialogs, http, 
 					dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
 				});
 		});
+	}
+
+	$scope.validate = function(newlink)
+	{
+		if (! isEmpty(newlink.name) && ! isEmpty(newlink.url) && ! isEmpty(newlink.icon))
+		{
+			$scope.disabled = false;
+		}
+		else
+		{
+			$scope.disabled = true;
+		}
 	}
 
 	/**
