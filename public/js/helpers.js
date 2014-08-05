@@ -68,7 +68,7 @@ function validateHost(host)
 // Validates a HH:MM:SS timestamp
 function validateTime(time)
 {
-	var regexp = /([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]/g;
+	var regexp = /^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$/;
 
 	return regexp.test(time);
 }
