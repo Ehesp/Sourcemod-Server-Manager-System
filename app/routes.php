@@ -32,9 +32,10 @@ Route::group(['before' => 'access'], function()
 		Route::get('/', ['as' => 'servers', 'uses' => 'ServerController@getView']);
         Route::get('/json', 'ServerController@getServersJson');
 		Route::post('/', ['before' => 'ajax', 'uses' => 'ServerController@getServers']);
-		Route::post('add', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@addServer']);
+		Route::post('add', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@add']);
 		Route::post('add/search', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@searchServer']);
 		Route::post('add/validate', ['before' => 'ajax|permissions:servers.add', 'uses' => 'ServerController@validateServerPassword']);
+		Route::post('delete', ['before' => 'ajax|permissions:servers.delete', 'uses' => 'ServerController@delete']);
 		Route::post('players/{id}', ['before' => 'ajax', 'uses' => 'ServerController@getServerPlayers']);
 	});
 

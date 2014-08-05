@@ -46,6 +46,40 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toasty
 	{
 		dialogs.create(window.app_path + 'templates/servers.view_players', 'viewPlayersCtrl', id);
 	}
+
+	$scope.deleteServer = function(server)
+	{
+		// Trigger dialog
+		var d = dialogs.confirm('Delete Server - ' + server.name, 'Are you sure you want to delete the server?');
+
+		// On dialog "confirm"
+		d.result.then(function(c) {
+			http.post(window.app_path + 'servers/delete', server.id).
+				success(function(data)
+				{
+					if(! data.status)
+					{
+						toasty.pop.error({
+							title: 'Deleting the server failed!',
+							msg: 'Click to more info.',
+							timeout: 7000,
+							onClick: function(toasty) {
+								dialogs.error('An error occured while deleting the server!', errorMessage(data.code, data.message));
+							}
+						});
+					}
+					else
+					{
+						$rootScope.servers.splice(findWithAttr($rootScope.servers, 'id', server.id), 1);
+						toasty.pop.success({title: data.message});
+					}
+				}).
+				error(function(data, status, headers, config)
+				{
+					dialogs.error('A fatal error occured!', errorExceptionMessage(data, status, config));
+				});
+		});
+	}
 })
 
 .controller('viewPlayersCtrl', function($scope, $rootScope, $modalInstance, data, http, toasty)
@@ -57,6 +91,7 @@ app.controller('ServersCtrl', function($scope, $rootScope, dialogs, http, toasty
 	http.post(window.app_path + 'servers/players/' + data).
 		success(function(data)
 		{
+			console.log(data);
 			$scope.players = data;
 			$scope.loading = false;
 		}).

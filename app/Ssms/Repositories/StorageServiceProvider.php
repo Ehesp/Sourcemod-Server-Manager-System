@@ -15,6 +15,7 @@ class StorageServiceProvider extends ServiceProvider {
 		$this->app->bind('Ssms\Repositories\Notification\NotificationRepository', 'Ssms\Repositories\Notification\EloquentNotificationRepository');
 		$this->app->bind('Ssms\Repositories\Event\EventRepository', 'Ssms\Repositories\Event\EloquentEventRepository');
 		$this->app->bind('Ssms\Repositories\Service\ServiceRepository', 'Ssms\Repositories\Service\EloquentServiceRepository');
+		$this->app->bind('Ssms\Repositories\Server\ServerRepository', 'Ssms\Repositories\Server\EloquentServerRepository');
 	}
 
 }

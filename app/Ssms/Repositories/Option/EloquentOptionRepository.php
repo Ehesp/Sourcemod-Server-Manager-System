@@ -14,4 +14,9 @@ class EloquentOptionRepository extends EloquentRepository implements OptionRepos
 	{
 		$this->model = $model;
 	}
+
+	public function companionScript()
+	{
+		return $this->model->whereName('companion_script')->get(['name', 'value']);
+	}
 }

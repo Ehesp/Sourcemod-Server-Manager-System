@@ -7,8 +7,10 @@ abstract class EloquentRepository {
 	 *
 	 * @return object
 	 */
-	public function getAll()
+	public function getAll($select = null)
 	{
+		if (! is_null($select)) return $this->model->get($select);
+
 		return $this->model->get();
 	}
 

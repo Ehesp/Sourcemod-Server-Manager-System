@@ -1,8 +1,20 @@
 <?php
 
+use Ssms\Repositories\Server\ServerRepository;
+use Ssms\Repositories\Option\OptionRepository;
 use Ssms\Steam\Server;
 
 class ServerController extends BaseController {
+
+	protected $servers;
+
+	protected $options;
+
+	public function __construct(ServerRepository $servers, OptionRepository $options)
+	{
+		$this->servers = $servers;
+		$this->options = $options;
+	}
 
 	/**
 	* Get all servers
@@ -11,7 +23,7 @@ class ServerController extends BaseController {
 	*/
 	public function getServers()
 	{
-		return Ssms\Server::all();
+		return $this->servers->getAll();
 	}
 	
 	/**
@@ -46,7 +58,7 @@ class ServerController extends BaseController {
 
 		$payload = [
 			'server' => $s->info(),
-			'options' => Option::whereName('companion_script')->get(['name', 'value'])
+			'options' => $this->options->companionScript(),
 		];
 
 		return $this->jsonResponse(200, true, 'Server has been found!', $payload);
@@ -58,55 +70,53 @@ class ServerController extends BaseController {
 	* Takes a AJAX post request with JSON parameters
 	* @return json
 	*/
-	public function addServer()
+	public function add()
 	{
-		$server = Input::all();
+		$data = Input::all();
 
-		$duplicate = Ssms\Server::where('ip', $server['ip'])->where('port', $server['port'])->first();
+		$duplicate = $this->servers->hasDuplicate($data['ip'], $data['port']);
 
 		if (! is_null($duplicate))
 		{
-			return $this->jsonResponse(400, false, 'Sever ' . $server['ip'] . ':' . $server['port'] . ' already exists!');
+			return $this->jsonResponse(400, false, 'Sever ' . $data['ip'] . ':' . $data['port'] . ' already exists!');
 		}
 
 		try
 		{
+			$server = [
+				'name' => $data['serverName'],
+				'client_appid' => $data['appId'],
+				'ip' => $data['ip'],
+				'port' => $data['port'],
+				'tags' => $data['serverTags'],
+				'rcon_password' => $data['rcon'],
+				'multi_console' => $data['multiConsole'],
+				'operating_system' => $data['operatingSystem'],
+				'version' => $data['gameVersion'],
+				'network' => $data['networkVersion'],
+				'current_map' => $data['mapName'],
+				'current_players' => $data['numberOfPlayers'],
+				'current_bots' => $data['botNumber'],
+				'max_players' => $data['maxPlayers'],
+				'auto_update' => $data['autoUpdate'],
+				'hidden' => $data['hidden'],
+				'daily_restart' => $data['dailyRestart'],
+			];
 
-			$s = new Ssms\Server;
-
-			$s->name = $server['serverName'];
-			$s->client_appid = $server['appId'];
-			$s->ip = $server['ip'];
-			$s->port = $server['port'];
-			$s->tags = $server['serverTags'];
-			$s->rcon_password = $server['rcon'];
-			$s->multi_console = $server['multiConsole'];
-			$s->operating_system = $server['operatingSystem'];
-			$s->version = $server['gameVersion'];
-			$s->network = $server['networkVersion'];
-			$s->current_map = $server['mapName'];
-			$s->current_players = $server['numberOfPlayers'];
-			$s->current_bots = $server['botNumber'];
-			$s->max_players = $server['maxPlayers'];
-			$s->auto_update = $server['autoUpdate'];
-			$s->hidden = $server['hidden'];
-			$s->daily_restart = $server['dailyRestart'];
-			
-			if ($server['dailyRestart'] == 1)
+			if ($data['dailyRestart'] == 1)
 			{
-				$s->daily_restart_time = $server['restartTime'];
-				$s->daily_restart_commands = $server['restartCommands'];
+				$server['daily_restart_time'] = $data['restartTime'];
+				$server['daily_restart_commands'] = $data['restartCommands'];
 			}
 
-			$s->save();
-			$s->resetFlags();
+			$server = $this->servers->add($server);
 		} 
 		catch (Exception $e)
 		{
 			return $this->jsonResponse(400, false, $e->getMessage(), null, $e->getCode());
 		}
 
-		return $this->jsonResponse(200, true, 'Server successfully added!', $s);
+		return $this->jsonResponse(200, true, 'Server successfully added!', $server);
 	}
 
 	/**
@@ -141,12 +151,22 @@ class ServerController extends BaseController {
 	*/
 	public function getServerPlayers($id)
 	{
-		$server = Ssms\Server::where('id', $id)->first(['ip', 'port', 'rcon_password']);
+		$server = $this->servers->getServerDetails($id);
 
 		$s = new Server($server['ip'], $server['port'], $server['rcon_password']);
 
 		return $s->players();
 	}
+
+	public function delete()
+	{
+		$id = Input::all()[0];
+
+		$this->servers->delete($id);
+
+		return $this->jsonResponse(200, true, 'Server has been deleted!');
+	}
+
 	/**
 	* Return the servers page view
 	*
@@ -156,10 +176,4 @@ class ServerController extends BaseController {
 	{
 		return View::make('pages.servers');
 	}
-
-    public function getServersJson()
-    {
-        return Ssms\Server::All();
-    }
-
 }

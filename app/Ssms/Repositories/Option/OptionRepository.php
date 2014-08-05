@@ -6,4 +6,6 @@ interface OptionRepository {
 
 	public function edit($id, $array);
 
+	public function companionScript();
+
 }
