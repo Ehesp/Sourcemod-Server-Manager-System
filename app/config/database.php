@@ -48,16 +48,16 @@ return array(
 
 		'sqlite' => array(
 			'driver'   => 'sqlite',
-			'database' => isset($_ENV['database.file']) ? base_path() . '/' . isset($_ENV['database.file']) : __DIR__.'/../database/production.sqlite',
+			'database' => isset($_ENV['database_file']) ? base_path() . '/' . isset($_ENV['database_file']) : __DIR__.'/../database/production.sqlite',
 			'prefix'   => '',
 		),
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
-			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
-			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
-			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
+			'host'      => isset($_ENV['database_host']) ? $_ENV['database_host'] : 'localhost',
+			'database'  => isset($_ENV['database_name']) ? $_ENV['database_name'] : 'database',
+			'username'  => isset($_ENV['database_user']) ? $_ENV['database_user'] : 'user',
+			'password'  => isset($_ENV['database_password']) ? $_ENV['database_password'] : 'password',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -65,10 +65,10 @@ return array(
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
-			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
-			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
-			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
+			'host'      => isset($_ENV['database_host']) ? $_ENV['database_host'] : 'localhost',
+			'database'  => isset($_ENV['database_name']) ? $_ENV['database_name'] : 'database',
+			'username'  => isset($_ENV['database_user']) ? $_ENV['database_user'] : 'user',
+			'password'  => isset($_ENV['database_password']) ? $_ENV['database_password'] : 'password',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
@@ -76,10 +76,10 @@ return array(
 
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
-			'host'      => isset($_ENV['database.host']) ? $_ENV['database.host'] : 'localhost',
-			'database'  => isset($_ENV['database.name']) ? $_ENV['database.name'] : 'database',
-			'username'  => isset($_ENV['database.user']) ? $_ENV['database.user'] : 'user',
-			'password'  => isset($_ENV['database.password']) ? $_ENV['database.password'] : 'password',
+			'host'      => isset($_ENV['database_host']) ? $_ENV['database_host'] : 'localhost',
+			'database'  => isset($_ENV['database_name']) ? $_ENV['database_name'] : 'database',
+			'username'  => isset($_ENV['database_user']) ? $_ENV['database_user'] : 'user',
+			'password'  => isset($_ENV['database_password']) ? $_ENV['database_password'] : 'password',
 			'prefix'   => '',
 		),
 
