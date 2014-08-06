@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => isset($_ENV['database.type']) ? $_ENV['database.type'] : 'mysql',
+	'default' => isset($_ENV['database_type']) ? $_ENV['database_type'] : 'mysql',
 
 	/*
 	|--------------------------------------------------------------------------
