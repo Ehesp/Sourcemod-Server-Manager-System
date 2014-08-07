@@ -1,4 +1,4 @@
-## Sourcemod Server Management System
+## [WIP] Sourcemod Server Management System
 
 The Sourcemod Server Management System is a PHP based web application designed to ease the never-ending battle of managing your Sourcemod servers on either Windows or Linux based machines.  SSMS authenticates using your Steam account and provides full access control to all of your users.
 
