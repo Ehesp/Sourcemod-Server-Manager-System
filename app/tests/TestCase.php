@@ -16,7 +16,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		/*
 		* Use the array driver during the unit testing
 		*/
-		Config::set('cache.driver', 'array');
+		$app['config']->set('cache.driver', 'array');
 
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
