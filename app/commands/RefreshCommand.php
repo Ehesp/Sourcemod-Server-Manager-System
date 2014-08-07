@@ -4,6 +4,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Ssms\Steam\Server;
+use Ssms\Repositories\Server\ServerRepository;
 
 class RefreshCommand extends Command {
 
@@ -21,6 +22,8 @@ class RefreshCommand extends Command {
 	 */
 	protected $description = 'Refreshes the servers and fires trigger checks';
 
+	protected $servers;
+
 	/**
 	 * Create a new command instance.
 	 *
@@ -29,6 +32,7 @@ class RefreshCommand extends Command {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->servers = $app('Ssms\Repositories\Server\ServerRepository');
 	}
 
 	/**
@@ -39,7 +43,7 @@ class RefreshCommand extends Command {
 	public function fire()
 	{
 		// Don't run if there are no servers
-		if(Ssms\Server::count() == 0)
+		if($this->servers->count() == 0)
 		{
 			$this->info('There are no servers to refresh!');
 			$this->abort();
@@ -48,13 +52,13 @@ class RefreshCommand extends Command {
 		$this->info('Running server refrehes:');
 
 		// Get all the server infomtation
-		$servers = Ssms\Server::get(['id', 'ip', 'port', 'rcon_password']);
+		$servers = $this->servers->getAll(['id', 'ip', 'port', 'rcon_password']);
 
 		// Loop through the servers
 		foreach ($servers as $server)
 		{
 			// Grab the server model
-			$db = Ssms\Server::find($server['id']);
+			$db = $this->servers->getFirst('id', $server['id']);
 
 			// First, see if we're able to connect to the server
 			// If not, add "1" onto the retries field via the model method.
@@ -62,7 +66,6 @@ class RefreshCommand extends Command {
 			{
 				$db->addRetry();
 				$this->comment('{'. $server['id'] .'} Connection failed - Retry count added!');
-				break;
 			}
 			// Can connect, reset retries
 			else
