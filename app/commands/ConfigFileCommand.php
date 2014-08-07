@@ -132,12 +132,12 @@ class ConfigFileCommand extends Command {
 		$template =
 		"<?php
 			return array(
-				'application.key' => '$randKey',
-				'database.type' => '$type',
-				'database.host' => '$host',
-				'database.name' => '$name',
-				'database.user' => '$user',
-				'database.password' => '$pass',";
+				'application_key' => '$randKey',
+				'database_type' => '$type',
+				'database_host' => '$host',
+				'database_name' => '$name',
+				'database_user' => '$user',
+				'database_password' => '$pass',";
 
 		! is_null($file) ? $template .= "\n'database.file' => '$file',\n" : '';
 
