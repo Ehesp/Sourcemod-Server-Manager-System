@@ -94,6 +94,7 @@
         <exec executable="php" failonerror="true">
             <arg value="artisan" />
             <arg value="migrate:reset" />
+            <arg value="--env=testing" />
         </exec>
     </target>
 
@@ -102,6 +103,7 @@
         <exec executable="php" failonerror="true">
             <arg value="artisan" />
             <arg value="migrate" />
+            <arg value="--env=testing" />
         </exec>
     </target>
 
@@ -110,6 +112,7 @@
         <exec executable="php" failonerror="true">
             <arg value="artisan" />
             <arg value="db:seed" />
+            <arg value="--env=testing" />
         </exec>
     </target>
 
