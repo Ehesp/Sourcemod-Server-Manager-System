@@ -20,7 +20,7 @@
    <target name="build-parallel-clean"
        depends="clean,build-common,tools-parallel" />
 
-   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower,phpunit,artisan-clean" />
+   <target name="build-common" depends="lint,prepare,storage-permissions,composer,bower,artisan-migrate-reset,artisan-migrate,artisan-db-seed,phpunit,artisan-clean" />
 
    <target name="tools-parallel" description="Run tools in parallel">
        <parallel threadCount="2">
@@ -82,10 +82,34 @@
    </target>
 
     <target name="artisan-clean" description="Cleanup possible cache files">
-        <echo>Updating dependencies</echo>
+        <echo>Cleanup artisan cache</echo>
         <exec executable="php" failonerror="true">
             <arg value="artisan" />
             <arg value="cache:clear" />
+        </exec>
+    </target>
+
+    <target name="artisan-migrate-reset" description="Reset migration for testing">
+        <echo>Resetting migration</echo>
+        <exec executable="php" failonerror="true">
+            <arg value="artisan" />
+            <arg value="migrate:reset" />
+        </exec>
+    </target>
+
+    <target name="artisan-migrate" description="Migrate database layout">
+        <echo>Migrating database layout</echo>
+        <exec executable="php" failonerror="true">
+            <arg value="artisan" />
+            <arg value="migrate" />
+        </exec>
+    </target>
+
+    <target name="artisan-db-seed" description="Seeding database">
+        <echo>Seeding database</echo>
+        <exec executable="php" failonerror="true">
+            <arg value="artisan" />
+            <arg value="db:seed" />
         </exec>
     </target>
 
