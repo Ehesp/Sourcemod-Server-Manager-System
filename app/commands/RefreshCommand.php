@@ -32,7 +32,7 @@ class RefreshCommand extends Command {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->servers = app('Ssms\Repositories\Server\ServerRepository');
+		$this->servers = \App::make('Ssms\Repositories\Server\ServerRepository');
 	}
 
 	/**
